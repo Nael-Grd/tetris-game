@@ -1,6 +1,6 @@
 #ifndef __board_h__
 #define __board_h__
-// #include "tetromino.h"
+#include "tetromino.h"
 
 typedef void *board;
 
