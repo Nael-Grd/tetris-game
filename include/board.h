@@ -28,8 +28,8 @@ tetromino *list_tetrominos_in_bag(board b);
 
 /**
  * Signature add_tetromino_to_bag
- * @param b Le board auquel ajouter le tétrominos dans le sac.
- * @param t Le tétrominos à ajouter.
+ * @param b Le board auquel ajouter le tétromino dans le sac.
+ * @param t Le tétromino à ajouter.
  */
 void add_tetromino_to_bag(board b, tetromino t);
 
@@ -45,7 +45,7 @@ void remove_tetromino_from_bag(board b, tetromino t);
  * @param b Le board sur lequel vérifier la possibilité de placer le tétromino.
  * @param r La ligne de référence.
  * @param c La colonne de référence.
- * @param t Le tétraminos à placer.
+ * @param t Le tétrominos à placer.
  * @return 1 si le tétromino peut être placé, 0 sinon.
  */
 int check_place_tetromino(board b, int r, int c, tetromino t);
@@ -55,7 +55,7 @@ int check_place_tetromino(board b, int r, int c, tetromino t);
  * @param b Le board sur lequel placer le tétromino.
  * @param r La ligne de référence.
  * @param c La colonne de référence.
- * @param t Le tétraminos à placer.
+ * @param t Le tétromino à placer.
  * @return 1 si le tétromino a été placé avec succès, 0 sinon.
  */
 int place_tetromino(board b, int r, int c, tetromino t);
