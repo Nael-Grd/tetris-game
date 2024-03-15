@@ -21,7 +21,7 @@ int choose_action();
 
  @return void (aucune valeur de retour)
  */
-void display_board(Board board);
+void display_board(board board);
 
 
 /**
@@ -30,7 +30,7 @@ void display_board(Board board);
  * @param board - Le tableau représentant la grille de jeu.
  * @return tetromino* - Pointeur vers le tétrmino sélectionné, ou NULL si aucun tétrmino n'est sélectionné.
  */
-tetromino select_tetromino_on_grid(board* board);
+tetromino select_tetromino_on_grid(board board);
 
 /**
  * @brief Demande à la joueuse de sélectionner un tétrmino du sac.
@@ -38,7 +38,7 @@ tetromino select_tetromino_on_grid(board* board);
  * @param board - Le tableau représentant la grille de jeu.
  * @return tetromino* - Pointeur vers le tétrmino sélectionné, ou NULL si aucun tétrmino n'est sélectionné.
  */
-tetromino select_tetromino_in_bag(board* board);
+tetromino select_tetromino_in_bag(board board);
 
 /**
  * @brief Demande à la joueuse de sélectionner une ligne et une colonne où placer un tétrmino dans la grille.
@@ -48,14 +48,14 @@ tetromino select_tetromino_in_bag(board* board);
  * @param pc - Pointeur vers un entier qui sera mis à jour avec le numéro de colonne choisi.
  *             Si aucune coordonnée n'est choisie, ces pointeurs devraient être NULL.
  */
-void ask_place_tetromino(board* board, int* pr, int* pc, tetromino* tetromino);
+void ask_place_tetromino(board board, int* pr, int* pc, tetromino* tetromino);
 
 /**
  * @brief Affiche un message de fin de jeu avec les informations associées.
  * 
  * @param board - Le tableau représentant la grille de jeu.
  */
-void display_end_game(board* board);
+void display_end_game(board board);
 
 /**
  * @brief Affiche un message donné en entrée.
