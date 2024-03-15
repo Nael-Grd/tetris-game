@@ -1,7 +1,12 @@
 #ifndef __TETROMINO__
 #define __TETROMINO__
 
-typedef struct tetromino* tetromino;
+/*the s_t structure includes:
+  an integer table "forme"
+  an integer "type"
+  an integer "points"
+  an integer "id"*/
+typedef s_t* tetromino;
 
 /*@requires nothing
   @assigns nothing
