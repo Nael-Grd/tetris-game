@@ -1,4 +1,4 @@
-#ifndef INTERFACE_H  
+#ifndef INTERFACE_H  // Garde pour éviter les inclusions multiples
 #define INTERFACE_H
 // Inclusion du fichier board.h pour utiliser le type de données 'board' et 'tetromino'
 #include "board.h"  
@@ -30,7 +30,7 @@ void display_board(Board board);
  * @param board - Le tableau représentant la grille de jeu.
  * @return tetromino* - Pointeur vers le tétrmino sélectionné, ou NULL si aucun tétrmino n'est sélectionné.
  */
-tetromino* select_tetromino_on_grid(board* board);
+tetromino select_tetromino_on_grid(board* board);
 
 /**
  * @brief Demande à la joueuse de sélectionner un tétrmino du sac.
@@ -38,7 +38,7 @@ tetromino* select_tetromino_on_grid(board* board);
  * @param board - Le tableau représentant la grille de jeu.
  * @return tetromino* - Pointeur vers le tétrmino sélectionné, ou NULL si aucun tétrmino n'est sélectionné.
  */
-tetromino* select_tetromino_in_bag(board* board);
+tetromino select_tetromino_in_bag(board* board);
 
 /**
  * @brief Demande à la joueuse de sélectionner une ligne et une colonne où placer un tétrmino dans la grille.
