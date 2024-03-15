@@ -1,4 +1,4 @@
-#ifndef INTERFACE_H  // Garde pour éviter les inclusions multiples
+#ifndef INTERFACE_H  
 #define INTERFACE_H
 // Inclusion du fichier board.h pour utiliser le type de données 'board' et 'tetromino'
 #include "board.h"  
@@ -12,6 +12,17 @@
  *                - 2 pour déplacer un tétrmino présent sur la grille
  */
 int choose_action();    
+
+/* Affiche toutes les informations du jeu (plateau, sac, score, etc.).
+ 
+ @brief Affiche toutes les informations du jeu.
+
+ @param board Le tableau contenant les informations du jeu à afficher.
+
+ @return void (aucune valeur de retour)
+ */
+void display_board(Board board);
+
 
 /**
  * @brief Demande à la joueuse de sélectionner un tétrmino sur la grille.
