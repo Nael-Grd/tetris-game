@@ -1,5 +1,6 @@
 µ#include "interface.h"
 #include <stdio.h>
+//la fonction choose_action
 
 int choose_action() {
     int action;
@@ -7,7 +8,7 @@ int choose_action() {
     scanf("%d", &action);
     return action;
 }
-
+//la fonction display_board
 void display_board(board board) {
     // Affichage du plateau de jeu
     printf("Plateau de jeu :\n");
@@ -30,6 +31,7 @@ void display_board(board board) {
     printf("\nScore actuel : %d\n", get_score(board));
 }
 
+//la fonction  select_tetromino_on_grid
 Tetromino select_tetromino_on_grid(board board) {
     // Demande à la joueuse de sélectionner un tétrmino sur la grille
     printf("Veuillez choisir un tétrmino de la grille\n");
@@ -49,7 +51,7 @@ Tetromino select_tetromino_on_grid(board board) {
     tetrimino tet = get_tetromino(board, r, c);
     return tet;
 }
-
+//la fonction select_tetromino_in_bag
 Tetromino select_tetromino_in_bag(board board) {
     // Demande à la joueuse de sélectionner un tétrmino dans le sac
     printf("Veuillez choisir un tétrmino dans le sac\n");
@@ -70,7 +72,7 @@ Tetromino select_tetromino_in_bag(board board) {
     }
     return NULL;
 }
-
+//la fonction ask_place_tetromino
 void ask_place_tetromino(board board, int* r, int* c, Tetromino tetromino) {
     // Demande à la joueuse de sélectionner une ligne et une colonne où placer le tétrmino dans la grille
     printf("Veuillez sélectionner une ligne et une colonne où placer le tétrmino dans la grille\n");
@@ -94,12 +96,12 @@ void ask_place_tetromino(board board, int* r, int* c, Tetromino tetromino) {
     return p ;
     return NULL;
 }
-
+// la fonction display_end_game 
 void display_end_game(board board) {
     // Affiche un message de fin de jeu avec les informations associées
     printf("Fin du jeu\n");
 }
-
+// la fonction display_message
 void display_message(char* message) {
     // Affiche le message donné en entrée
     printf("%s\n", message);
