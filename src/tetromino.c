@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct s_t {
+struct s_t {
     int* forme;
     int type;
     int points;
     int id;
-} s_t;
+};
 
 int identifiant=0;
 
