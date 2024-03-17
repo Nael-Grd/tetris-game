@@ -1,4 +1,4 @@
-#include "tetromino.h"
+#include "../include/tetromino.h"
 #include <stdlib.h>
 
 typedef struct s_t {
