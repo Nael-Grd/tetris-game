@@ -1,4 +1,4 @@
-µ#include "interface.h"
+#include "../include/interface.h"
 #include <stdio.h>
 //la fonction choose_action
 
