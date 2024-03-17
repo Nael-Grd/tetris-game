@@ -15,13 +15,12 @@ tetromino create_tetromino(int t, int o, int p){
         printf("erreur: paramètres pour création de tetromino non valides");
         exit(1);
     }
-    tetromino tet;
+    tetromino tet=malloc(sizeof(tetromino));
     tet->type=t;
     tet->id=identifiant;
     identifiant++;
     tet->points=p;
     tet->forme=calloc(8,sizeof(int));
-    for (int i=0; i<4;i++) tet->forme[i]=calloc(4,sizeof(int));
     switch(t){
         case 0:{
             if(o%2==0){
