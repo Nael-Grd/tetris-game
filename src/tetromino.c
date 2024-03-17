@@ -34,12 +34,14 @@ tetromino create_tetromino(int t, int o, int p){
                 }
             }
         }
+        break;
         case 1:{
             tet->forme[2]=-1;
             tet->forme[5]=-1;
             tet->forme[6]=-1;
             tet->forme[7]=-1;
         }
+        break;
         case 2:{
             if(o%4==0){
                 tet->forme[2]=-1;tet->forme[3]=-1;
@@ -62,6 +64,7 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[6]=-2;
             }
         }
+        break;
         case 3:{
             if(o%4==0){
                 tet->forme[2]=-1;
@@ -84,6 +87,7 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[6]=-2;
             }
         }
+        break;
         case 4:{
             if(o%4==0){
                 tet->forme[2]=-1;
@@ -106,6 +110,7 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[6]=1;tet->forme[7]=-2;
             }
         }
+        break;
         case 5:{
             if(o%2==0){
                 tet->forme[3]=1;
@@ -118,6 +123,7 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[6]=-2;tet->forme[7]=-1;
             }
         }
+        break;
         case 6:{
             if(o%2==0){
                 tet->forme[3]=1;
@@ -130,18 +136,14 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[6]=-2;tet->forme[7]=1;
             }
         }
+        break;
     }
     return tet;    
 }
 tetromino create_random_tetromino(){
-    int p=-1,t=-1;
-    int o=rand(); 
-    while(p<1 || p>3){
-        p=rand();
-    }
-    while(t<0||t>6){
-        t=rand();
-    }
+    int p=(rand()%3)+1;  
+    int t=rand()%7; 
+    int o=rand()%4;
     return create_tetromino(t,o,p);
 }
 
