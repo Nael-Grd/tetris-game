@@ -34,7 +34,7 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
     newBoard->scoreActuel = 0;
 
     // Allouer la mémoire pour le sac de tétrominos
-    newBoard->sac = (tetromino *)malloc(tailleSac * sizeof(tetromino));
+    newBoard->sac = (tetromino *)malloc(tailleSac * sizeof(Tetromino));
 
     // Allouer la mémoire pour la grille du plateau de jeu
     newBoard->grille = (int **)malloc(nbLignes * sizeof(int *));
@@ -87,7 +87,7 @@ tetromino *list_tetrominos_in_bag(board b)
  * @param t Le tétraminos à ajouter au sac.
  */
 
-void add_tetromino_to_bag(board b, tetromino t)
+void add_tetromino_to_bag(board b, Tetromino t)
 {
     if (b->tailleSac > 0) // # si on a encore de place sinon hahaahah
     {
@@ -110,7 +110,7 @@ void add_tetromino_to_bag(board b, tetromino t)
  * @param t Le tétraminos à retirer du sac.
  */
 
-void remove_tetromino_from_bag(board b, tetromino t)
+void remove_tetromino_from_bag(board b, Tetromino t)
 {
     int index = -1;
     for (int i = 0; i < b->tailleSac; i++)
@@ -132,7 +132,7 @@ void remove_tetromino_from_bag(board b, tetromino t)
 
         b->tailleSac--;
 
-        b->sac = (tetromino *)realloc(b->sac, b->tailleSac * sizeof(tetromino));
+        b->sac = (Tetromino *)realloc(b->sac, b->tailleSac * sizeof(Tetromino));
     }
     else
     {
@@ -151,30 +151,25 @@ void remove_tetromino_from_bag(board b, tetromino t)
 
 int check_place_tetromino(board b, int r, int c, tetromino t)
 {
-    // Récupérer les coordonnées des cellules du tétraminos
+    // Récupérer les coordonnées des cellules du tétromino
     int *cells = get_cells(t);
-    int nb_points = get_nb_points(t);
-
+    int nb_points = get_nb_points(t); // Vérifier si la cellule est hors de la grille
+    if (r < 0 || r >= b->nbLignes || c < 0 || c >= b->nbColonnes)
+    {
+        return 0; // La cellule est hors de la grille
+    }             // Vérifier si le tétromino peut être placé sans se chevaucher
     for (int i = 0; i < 2 * nb_points; i += 2)
     {
-        int cell_r = r + cells[i];     // Coordonnée Y de la cellule du tétraminos
-        int cell_c = c + cells[i + 1]; // Coordonnée X de la cellule du tétraminos
-
-        // Vérifier si la cellule est hors de la grille
-        if (cell_r < 0 || cell_r >= b->nbLignes || cell_c < 0 || cell_c >= b->nbColonnes)
-        {
-            return 0; // La cellule est hors de la grille
-        }
-
-        // Vérifier si la cellule est déjà occupée
+        int cell_r = r + cells[i];     // Coordonnée Y de la cellule du tétromino
+        int cell_c = c + cells[i + 1]; // Coordonnée X de la cellule du tétromino
         if (b->grille[cell_r][cell_c] != 0)
         {
-            return 0; // La cellule est occupée
+            return 0; // La cellule est déjà occupée
         }
     }
-
-    return 1; // Le tétraminos peut être placé
+    return 1;
 }
+
 /**
  * Fonction `place_tetromino`
  * @param b Le plateau de jeu sur lequel placer le tétraminos.
@@ -184,21 +179,18 @@ int check_place_tetromino(board b, int r, int c, tetromino t)
  * @return 1 si le tétraminos a été placé avec succès, 0 sinon.
  */
 
-int place_tetromino(board b, int r, int c, tetromino t)
+int place_tetromino(board b, int r, int c, Tetromino t)
 {
     if (check_place_tetromino(b, r, c, t))
     {
         int *cells = get_cells(t);
         int nb_points = get_nb_points(t);
-
         for (int i = 0; i < 2 * nb_points; i += 2)
         {
             b->grille[r + cells[i]][c + cells[i + 1]] = get_id(t); // Utiliser l'ID du tétraminos pour marquer sa présence
         }
-
         return 1; // Tétraminos placé avec succès
     }
-
     return 0; // Impossible de placer le tétraminos
 }
 
@@ -210,7 +202,7 @@ int place_tetromino(board b, int r, int c, tetromino t)
  * @param t Le tétraminos à retirer.
  */
 
-void remove_tetromino(board b, int *r, int *c, tetromino t)
+void remove_tetromino(board b, int *r, int *c, Tetromino t)
 {
     for (int i = 0; i < b->nbLignes; i++)
     {
@@ -237,20 +229,20 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
 
 tetromino get_tetromino(board b, int r, int c)
 {
-    if (r < 0 || r >= b->nbLignes || c < 0 || c >= b->nbColonnes)
+    if (r < 0 || r >= b->n || c < 0 || c >= b->m)
     {
         return NULL; // Coordonnées hors limites
     }
 
     // Vérifier si la case est vide
-    if (b->grille[r][c] == 0)
+    if (b->grid[r][c] == 0)
     {
         return NULL;
     }
 
     // Récupérer le tétraminos à la case indiquée
-    int indexTetromino = b->grille[r][c] - 1; // On décrémente car les indices commencent à 0
-    return (b->sac[indexTetromino]);
+    int indexTetromino = b->grid[r][c] - 1; // On décrémente car les indices commencent à 0
+    return b->bag->tetriminos[indexTetromino];
 }
 
 /**
