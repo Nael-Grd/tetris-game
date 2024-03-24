@@ -2,7 +2,7 @@
 #include "../include/board.h"
 #include <stdio.h>
 
-// SObliger de redefinir la structure BoardStruct ici pour pouvoir acceder aux information de celle-ci
+// Obliger de redefinir la structure BoardStruct ici pour pouvoir acceder aux information de celle-ci
 struct BoardStruct
 {
     int nbLignes;    // Nombre de lignes du plateau
