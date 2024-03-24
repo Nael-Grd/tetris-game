@@ -229,20 +229,20 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
 
 tetromino get_tetromino(board b, int r, int c)
 {
-    if (r < 0 || r >= b->n || c < 0 || c >= b->m)
+    if (r < 0 || r >= b->nbLignes || c < 0 || c >= b->nbColonnes)
     {
         return NULL; // Coordonnées hors limites
     }
 
     // Vérifier si la case est vide
-    if (b->grid[r][c] == 0)
+    if (b->grille[r][c] == 0)
     {
         return NULL;
     }
 
     // Récupérer le tétraminos à la case indiquée
-    int indexTetromino = b->grid[r][c] - 1; // On décrémente car les indices commencent à 0
-    return b->bag->tetriminos[indexTetromino];
+    int indexTetromino = b->grille[r][c] - 1; // On décrémente car les indices commencent à 0
+    return b->sac->tetriminos[indexTetromino];
 }
 
 /**
