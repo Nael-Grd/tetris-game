@@ -14,7 +14,7 @@ void display_board(board board) {
     printf("Plateau de jeu :\n");
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            printf("%4d ", board.grille[i][j]);
+            printf("%4d ", board->grille[i][j]);
         }
         printf("\n");
     }
@@ -32,7 +32,7 @@ void display_board(board board) {
 }
 
 //la fonction  select_tetromino_on_grid
-Tetromino select_tetromino_on_grid(board board) {
+tetromino select_tetromino_on_grid(board board) {
     // Demande à la joueuse de sélectionner un tétrmino sur la grille
     printf("Veuillez choisir un tétrmino de la grille\n");
     printf("Veuillez saisir un entier naturel\n");
@@ -52,7 +52,7 @@ Tetromino select_tetromino_on_grid(board board) {
     return tet;
 }
 //la fonction select_tetromino_in_bag
-Tetromino select_tetromino_in_bag(board board) {
+tetromino select_tetromino_in_bag(board board) {
     // Demande à la joueuse de sélectionner un tétrmino dans le sac
     printf("Veuillez choisir un tétrmino dans le sac\n");
     printf("Veuillez saisir un entier naturel\n");
@@ -73,7 +73,7 @@ Tetromino select_tetromino_in_bag(board board) {
     return NULL;
 }
 //la fonction ask_place_tetromino
-void ask_place_tetromino(board board, int* r, int* c, Tetromino tetromino) {
+void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
     // Demande à la joueuse de sélectionner une ligne et une colonne où placer le tétrmino dans la grille
     printf("Veuillez sélectionner une ligne et une colonne où placer le tétrmino dans la grille\n");
 
