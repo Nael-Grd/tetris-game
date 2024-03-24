@@ -16,7 +16,7 @@ tetromino create_tetromino(int t, int o, int p){
         printf("erreur: paramètres pour création de tetromino non valides");
         exit(1);
     }
-    tetromino tet=malloc(sizeof(tetromino));
+    tetromino tet=malloc(sizeof(struct s_t));
     tet->type=t;
     tet->id=identifiant;
     identifiant++;
