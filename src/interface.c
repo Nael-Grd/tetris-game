@@ -34,10 +34,10 @@ void display_board(board board) {
     }
 
     // Affichage du sac de tétriminos
-    printf("\nSac de tétriminos :\n");
+    printf("\nSac de tétrominos :\n");
     tetromino *tetrominos = list_tetrominos_in_bag(board);
     for (int i = 0; i < 5; i++) {
-        printf("Tétrimino %d : Type %d, Points %d\n", i+1, get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
+        printf("Tétromino %d : Type %d, Points %d\n", i+1, get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
     }
     printf("\n");
 
@@ -68,7 +68,7 @@ tetromino select_tetromino_on_grid(board board) {
 //la fonction select_tetromino_in_bag
 tetromino select_tetromino_in_bag(board board) {
     // Demande à la joueuse de sélectionner un tétrmino dans le sac
-    printf("Veuillez choisir un tétrmino dans le sac\n");
+    printf("Veuillez choisir un tétromino dans le sac\n");
     printf("Veuillez saisir un entier naturel\n");
     int c = -1;
     scanf("%d", &c);
@@ -77,7 +77,7 @@ tetromino select_tetromino_in_bag(board board) {
         scanf("%d", &c);
     }
 
-    // Retourne le tétrmino sélectionné, ou NULL si aucun tétrmino n'est sélectionné
+    // Retourne le tétromino sélectionné, ou NULL si aucun tétromino n'est sélectionné
     tetromino *tet;
     tet = list_tetrominos_in_bag(board);
     for (int i = 0; i < 5; i++) {
@@ -89,7 +89,7 @@ tetromino select_tetromino_in_bag(board board) {
 //la fonction ask_place_tetromino
 void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
     // Demande à la joueuse de sélectionner une ligne et une colonne où placer le tétrmino dans la grille
-    printf("Veuillez sélectionner une ligne et une colonne où placer le tétrmino dans la grille\n");
+    printf("Veuillez sélectionner une ligne et une colonne où placer le tétromino sur la grille\n");
 
     // Les valeurs choisies sont stockées dans les pointeurs r et c
     printf("Veuillez choisir une valeur de colonne [entier] : \n");
