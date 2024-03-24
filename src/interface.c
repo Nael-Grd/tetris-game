@@ -23,30 +23,30 @@ int choose_action() {
     return action;
 }
 //la fonction display_board
-void display_board(board my_board) {
+void display_board(board board) {
     // Affichage du plateau de jeu
     printf("Plateau de jeu :\n");
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            printf("%4d ", my_board->grille[i][j]);
+            printf("%4d ", board->grille[i][j]);
         }
         printf("\n");
     }
 
     // Affichage du sac de tétriminos
     printf("\nSac de tétriminos :\n");
-    tetromino *tetrominos = list_tetrominos_in_bag(my_board);
+    tetromino *tetrominos = list_tetrominos_in_bag(board);
     for (int i = 0; i < 5; i++) {
         printf("Tétrimino %d : Type %d, Points %d\n", i+1, get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
     }
     printf("\n");
 
     // Affichage du score actuel
-    printf("\nScore actuel : %d\n", get_score(my_board));
+    printf("\nScore actuel : %d\n", get_score(board));
 }
 
 //la fonction  select_tetromino_on_grid
-tetromino select_tetromino_on_grid(board my_board) {
+tetromino select_tetromino_on_grid(board board) {
     // Demande à la joueuse de sélectionner un tétromino sur la grille
     printf("Veuillez choisir un tétromino de la grille\n");
     printf("Veuillez saisir un entier naturel\n");
@@ -62,7 +62,7 @@ tetromino select_tetromino_on_grid(board my_board) {
         printf("Veuillez ressaisir un entier positif\n");
         scanf("%d", &r);
     }
-    tetromino tet = get_tetromino(my_board, r, c);
+    tetromino tet = get_tetromino(board, r, c);
     return tet;
 }
 //la fonction select_tetromino_in_bag
