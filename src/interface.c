@@ -1,7 +1,21 @@
 #include "../include/interface.h"
+#include "../include/board.h"
 #include <stdio.h>
-//la fonction choose_action
 
+// SObliger de redefinir la structure BoardStruct ici pour pouvoir acceder aux information de celle-ci
+struct BoardStruct
+{
+    int nbLignes;    // Nombre de lignes du plateau
+    int nbColonnes;  // Nombre de colonnes du plateau
+    int tailleSac;   // Taille du sac de tétrominos
+    tetromino *sac;  // Sac de tétrominos
+    int **grille;    // Grille du plateau de jeu
+    int scoreActuel; // Score actuel
+};
+
+
+
+//la fonction choose_action
 int choose_action() {
     int action;
     printf("Voulez-vous arrêter le jeu ? Si oui, saisissez (0). Si vous voulez placer un tétrmino, saisissez (1). Si vous voulez placer un tétrmino, saisissez (2) ? \n");
@@ -9,32 +23,32 @@ int choose_action() {
     return action;
 }
 //la fonction display_board
-void display_board(board board) {
+void display_board(board my_board) {
     // Affichage du plateau de jeu
     printf("Plateau de jeu :\n");
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            printf("%4d ", board.grille[i][j]);
+            printf("%4d ", my_board->grille[i][j]);
         }
         printf("\n");
     }
 
     // Affichage du sac de tétriminos
     printf("\nSac de tétriminos :\n");
-    tetromino *tetrominos = list_tetrominos_in_bag(board);
+    tetromino *tetrominos = list_tetrominos_in_bag(my_board);
     for (int i = 0; i < 5; i++) {
-        printf("Tétrimino %d : Type %d, Points %d\n", i+1, get_type(&tetrominos[i]), get_nb_points(&tetrominos[i]));
+        printf("Tétrimino %d : Type %d, Points %d\n", i+1, get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
     }
     printf("\n");
 
     // Affichage du score actuel
-    printf("\nScore actuel : %d\n", get_score(board));
+    printf("\nScore actuel : %d\n", get_score(my_board));
 }
 
 //la fonction  select_tetromino_on_grid
-Tetromino select_tetromino_on_grid(board board) {
-    // Demande à la joueuse de sélectionner un tétrmino sur la grille
-    printf("Veuillez choisir un tétrmino de la grille\n");
+tetromino select_tetromino_on_grid(board my_board) {
+    // Demande à la joueuse de sélectionner un tétromino sur la grille
+    printf("Veuillez choisir un tétromino de la grille\n");
     printf("Veuillez saisir un entier naturel\n");
     int c = -1;
     int r = -1;
@@ -48,11 +62,11 @@ Tetromino select_tetromino_on_grid(board board) {
         printf("Veuillez ressaisir un entier positif\n");
         scanf("%d", &r);
     }
-    tetrimino tet = get_tetromino(board, r, c);
+    tetromino tet = get_tetromino(my_board, r, c);
     return tet;
 }
 //la fonction select_tetromino_in_bag
-Tetromino select_tetromino_in_bag(board board) {
+tetromino select_tetromino_in_bag(board board) {
     // Demande à la joueuse de sélectionner un tétrmino dans le sac
     printf("Veuillez choisir un tétrmino dans le sac\n");
     printf("Veuillez saisir un entier naturel\n");
@@ -73,7 +87,7 @@ Tetromino select_tetromino_in_bag(board board) {
     return NULL;
 }
 //la fonction ask_place_tetromino
-void ask_place_tetromino(board board, int* r, int* c, Tetromino tetromino) {
+void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
     // Demande à la joueuse de sélectionner une ligne et une colonne où placer le tétrmino dans la grille
     printf("Veuillez sélectionner une ligne et une colonne où placer le tétrmino dans la grille\n");
 
@@ -93,8 +107,7 @@ void ask_place_tetromino(board board, int* r, int* c, Tetromino tetromino) {
     }
 
     int p = place_tetromino(board, *r, *c, tetromino);
-    return p ;
-    return NULL;
+    
 }
 // la fonction display_end_game 
 void display_end_game(board board) {
