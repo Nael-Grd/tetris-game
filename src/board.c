@@ -242,7 +242,7 @@ tetromino get_tetromino(board b, int r, int c)
 
     // Récupérer le tétraminos à la case indiquée
     int indexTetromino = b->grille[r][c] - 1; // On décrémente car les indices commencent à 0
-    return b->sac->tetriminos[indexTetromino];
+    return b->sac[indexTetromino];
 }
 
 /**
