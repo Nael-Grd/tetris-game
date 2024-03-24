@@ -34,7 +34,7 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
     newBoard->scoreActuel = 0;
 
     // Allouer la mémoire pour le sac de tétrominos
-    newBoard->sac = (tetromino *)malloc(tailleSac * sizeof(Tetromino));
+    newBoard->sac = (tetromino *)malloc(tailleSac * sizeof(tetromino));
 
     // Allouer la mémoire pour la grille du plateau de jeu
     newBoard->grille = (int **)malloc(nbLignes * sizeof(int *));
@@ -87,7 +87,7 @@ tetromino *list_tetrominos_in_bag(board b)
  * @param t Le tétraminos à ajouter au sac.
  */
 
-void add_tetromino_to_bag(board b, Tetromino t)
+void add_tetromino_to_bag(board b, tetromino t)
 {
     if (b->tailleSac > 0) // # si on a encore de place sinon hahaahah
     {
@@ -110,7 +110,7 @@ void add_tetromino_to_bag(board b, Tetromino t)
  * @param t Le tétraminos à retirer du sac.
  */
 
-void remove_tetromino_from_bag(board b, Tetromino t)
+void remove_tetromino_from_bag(board b, tetromino t)
 {
     int index = -1;
     for (int i = 0; i < b->tailleSac; i++)
@@ -132,7 +132,7 @@ void remove_tetromino_from_bag(board b, Tetromino t)
 
         b->tailleSac--;
 
-        b->sac = (Tetromino *)realloc(b->sac, b->tailleSac * sizeof(Tetromino));
+        b->sac = (tetromino *)realloc(b->sac, b->tailleSac * sizeof(tetromino));
     }
     else
     {
@@ -179,7 +179,7 @@ int check_place_tetromino(board b, int r, int c, tetromino t)
  * @return 1 si le tétraminos a été placé avec succès, 0 sinon.
  */
 
-int place_tetromino(board b, int r, int c, Tetromino t)
+int place_tetromino(board b, int r, int c, tetromino t)
 {
     if (check_place_tetromino(b, r, c, t))
     {
@@ -202,7 +202,7 @@ int place_tetromino(board b, int r, int c, Tetromino t)
  * @param t Le tétraminos à retirer.
  */
 
-void remove_tetromino(board b, int *r, int *c, Tetromino t)
+void remove_tetromino(board b, int *r, int *c, tetromino t)
 {
     for (int i = 0; i < b->nbLignes; i++)
     {
