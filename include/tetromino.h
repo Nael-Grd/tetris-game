@@ -6,7 +6,7 @@
   an integer "type"
   an integer "points"
   an integer "id"*/
-typedef s_t* tetromino;
+typedef struct s_t* tetromino;
 
 /*@requires nothing
   @assigns nothing

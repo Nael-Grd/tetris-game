@@ -2,7 +2,7 @@
 #define __board_h__
 #include "tetromino.h"
 
-typedef BoardStruct *board;
+typedef struct BoardStruct *board;
 
 /**
  * Signature create_board
