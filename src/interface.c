@@ -2,17 +2,6 @@
 #include "../include/board.h"
 #include <stdio.h>
 
-// Obliger de redefinir la structure BoardStruct ici pour pouvoir acceder aux information de celle-ci
-struct BoardStruct
-{
-    int nbLignes;    // Nombre de lignes du plateau
-    int nbColonnes;  // Nombre de colonnes du plateau
-    int tailleSac;   // Taille du sac de tétrominos
-    tetromino *sac;  // Sac de tétrominos
-    int **grille;    // Grille du plateau de jeu
-    int scoreActuel; // Score actuel
-};
-
 
 
 //la fonction choose_action
@@ -106,7 +95,7 @@ void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
         scanf("%d", r);
     }
 
-    int p = place_tetromino(board, *r, *c, tetromino);
+    place_tetromino(board, *r, *c, tetromino);
     
 }
 // la fonction display_end_game 
@@ -118,4 +107,5 @@ void display_end_game(board board) {
 void display_message(char* message) {
     // Affiche le message donné en entrée
     printf("%s\n", message);
+    display_board(board);
 }
