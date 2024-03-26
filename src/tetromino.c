@@ -1,6 +1,7 @@
 #include "../include/tetromino.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct s_t {
     int* forme;
@@ -142,9 +143,9 @@ tetromino create_tetromino(int t, int o, int p){
     return tet;    
 }
 tetromino create_random_tetromino(){
-    int p=(rand()%3)+1;  
-    int t=rand()%7; 
-    int o=rand()%4;
+    int p=(srand(time(NULL))%3)+1;  
+    int t=srand(time(NULL))%7; 
+    int o=srand(time(NULL))%4;
     return create_tetromino(t,o,p);
 }
 
