@@ -33,7 +33,7 @@ int main() {
                         break;
                     }
                     else {
-                        display_message("Le tetromino n'a pas pu etre placé");
+                        display_message("Le tétromino n'a pas pu etre placé");
                         add_tetromino_to_bag(my_board, tet1);       //sinon on le remet dans le sac
                     }
                 }
