@@ -143,9 +143,9 @@ tetromino create_tetromino(int t, int o, int p){
     return tet;    
 }
 tetromino create_random_tetromino(){
-    int p=(srand(time(NULL))%3)+1;  
-    int t=srand(time(NULL))%7; 
-    int o=srand(time(NULL))%4;
+    int p=((int)srand(time(NULL))%3)+1;  
+    int t=(int)srand(time(NULL))%7; 
+    int o=(int)srand(time(NULL))%4;
     return create_tetromino(t,o,p);
 }
 
