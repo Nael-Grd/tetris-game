@@ -48,7 +48,7 @@ tetromino select_tetromino_in_bag(board board);
  * @param pc - Pointeur vers un entier qui sera mis à jour avec le numéro de colonne choisi.
  *             Si aucune coordonnée n'est choisie, ces pointeurs devraient être NULL.
  */
-void ask_place_tetromino(board board, int* pr, int* pc, tetromino* tetromino);
+void ask_place_tetromino(board board, int* pr, int* pc, tetromino tetromino);
 
 /**
  * @brief Affiche un message de fin de jeu avec les informations associées.
