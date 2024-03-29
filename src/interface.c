@@ -35,7 +35,7 @@ void display_board(board my_board) {
     // Affichage du sac de tétriminos
     printf("\nSac de tétriminos :\n");
     tetromino *tetrominos = list_tetrominos_in_bag(my_board);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         printf("Tétrimino %d : Type %d, Points %d\n", i+1, get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
     }
     printf("\n");
