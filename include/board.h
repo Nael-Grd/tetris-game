@@ -85,4 +85,39 @@ tetromino get_tetromino(board b, int r, int c);
  */
 int get_score(board b);
 
+/**
+ * Signature get_nbLignes
+ * @param b Le plateau de jeu.
+ * @return Nombre de lignes du plateau.
+ */
+int get_nbLignes(board b);
+
+/**
+ * Signature nbColonnes
+ * @param b Le plateau de jeu.
+ * @return Nombre de colonnes du plateau.
+ */
+int nbColonnes(board b);
+
+/**
+ * Signature tailleSac
+ * @param b Le plateau de jeu.
+ * @return Taille du sac de tétrominos.
+ */
+int tailleSac(board b);
+
+/**
+ * Signature sac
+ * @param b Le plateau de jeu.
+ * @return Sac de tétrominos.
+ */
+tetromino *sac(board b);
+
+/**
+ * Signature grille
+ * @param b Le plateau de jeu.
+ * @return Grille du plateau de jeu.
+ */
+int **grille(board b);
+
 #endif
