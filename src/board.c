@@ -14,6 +14,7 @@ struct BoardStruct
     int nbLignes;    // Nombre de lignes du plateau
     int nbColonnes;  // Nombre de colonnes du plateau
     int tailleSac;   // Taille du sac de tétrominos
+    tetromino *bd;   // Copie de tetromino dans le board 
     tetromino *sac;  // Sac de tétrominos
     int **grille;    // Grille du plateau de jeu
     int scoreActuel; // Score actuel
@@ -56,6 +57,18 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
         exit(MEMORY_ERROR);
     }
 
+    newBoard->bd = malloc(tailleSac * sizeof(tetromino));
+    if (newBoard->bd == NULL)
+    {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        exit(MEMORY_ERROR);
+    }
+    // Initialiser la copie bd à NULL
+    for (int i = 0; i < tailleSac; i++)
+    {
+        newBoard->bd[i] = NULL;
+    }
+
     // Allouer et initialiser la mémoire pour la grille du plateau de jeu
     newBoard->grille = calloc(nbLignes, sizeof(int *));
     if (newBoard->grille == NULL)
@@ -72,7 +85,6 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
             exit(MEMORY_ERROR);
         }
     }
-
     return newBoard;
 }
 
@@ -87,6 +99,12 @@ void free_board(board b)
     {
         return; // Si le pointeur est NULL, il n'y a rien à libérer
     }
+
+    for (int i = 0; i < b->tailleSac; i++)
+    {
+        free_tetromino(b->bd[i]);
+    }
+    free(b->bd);
 
     // Libérer la mémoire allouée pour le sac de tetrominos
     for (int i =0; i < b->tailleSac; i++)
@@ -247,6 +265,15 @@ int place_tetromino(board b, int r, int c, tetromino t)
             b->grille[r + cells[i]][c + cells[i + 1]] = get_id(t); // Utiliser l'ID du tetrominos pour marquer sa présence
         }
         b->scoreActuel += nb_points; 
+
+        for (int j=0; j < b->nbLignes * b->nbColonnes ; i++)
+        {
+            if (b->bd[j] == NULL)
+            {
+                b->bd[j] = t; // Ajout de tetromino dans bd $
+                break;  
+            }
+        }
         return 1; // tétrominos placé avec succès    
     }
     return 0; // Impossible de placer le tétrominos
@@ -272,21 +299,23 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
     {
         for (int j = 0; j < b->nbColonnes; j++)
         {
-            if (b->grille[i][j] == get_id(t))
+            if (b->grille[i][j] == get_id(t) && i < *r)
             {
+                *r = i;
                 b->grille[i][j] = 0; // Remettre à 0 pour marquer la case comme vide
+                if (j < *c) {
+                    *c = j;
+                }
             }
         }
     }
-
-    // Réinitialiser les valeurs de référence
-    if (r != NULL)
+    if (*r != b->nbLignes)
     {
-        *r = -1;
-    }
-    if (c != NULL)
-    {
-        *c = -1;
+        for ( int j=0; j < b->nbLignes * b->nbColonnes; j++)
+        {
+            if (get_id(b->bd[j]) == get_id(t))
+                b->bd[j] = NULL; // Enlever du bd 
+        }
     }
 }
 
@@ -297,27 +326,25 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
  * @param c La colonne de référence.
  * @return Le tétrominos trouvé ou NULL s'il n'y en a pas.
  */
+
 tetromino get_tetromino(board b, int r, int c)
 {
     if (r < 0 || r >= b->nbLignes || c < 0 || c >= b->nbColonnes)
     {
         return NULL; // Coordonnées hors limites
     }
-
     // Vérifier si la case est vide
     if (b->grille[r][c] == 0)
     {
         return NULL;
     }
-
     int tetrominoID = b->grille[r][c]; 
-
     // Recherche du tétrominos correspondant dans le sac
     for (int i = 0; i < b->tailleSac; i++)
     {
-        if (get_id(b->sac[i]) == tetrominoID)
+        if (get_id(b->bd[i]) == tetrominoID)
         {
-            return b->sac[i];
+            return b->bd[i];
         }
     }
     printf("Tétromino non trouvé dans le sac.\n");
@@ -329,6 +356,7 @@ tetromino get_tetromino(board b, int r, int c)
  * @param b Le plateau de jeu pour lequel récupérer le score.
  * @return Le score actuel du plateau.
  */
+
 int get_score(board b)
 {
     if (b == NULL)
@@ -339,11 +367,14 @@ int get_score(board b)
     return b->scoreActuel;
 }
 
+/* AJOUT DE CES FONCTIONS SUIVANT LA DEMANDE DE ALI DAOUDI */
+
 /**
  * Fonction `get_nbLignes`
  * @param b Le plateau de jeu.
  * @return Nombre de lignes du plateau.
- */
+*/
+
 int get_nbLignes(board b)
 {
     if (b == NULL)
@@ -358,7 +389,8 @@ int get_nbLignes(board b)
  * Fonction `nbColonnes`
  * @param b Le plateau de jeu.
  * @return Nombre de colonnes du plateau.
- */
+*/
+
 int nbColonnes(board b)
 {
     if (b == NULL)
@@ -373,7 +405,8 @@ int nbColonnes(board b)
  * Fonction `tailleSac`
  * @param b Le plateau de jeu.
  * @return Taille du sac de tétrominos.
- */
+*/
+
 int tailleSac(board b)
 {
     if (b == NULL)
@@ -388,7 +421,8 @@ int tailleSac(board b)
  * Fonction `sac`
  * @param b Le plateau de jeu.
  * @return Sac de tétrominos.
- */
+*/
+
 tetromino * sac(board b)
 {
     if (b == NULL)
@@ -404,7 +438,8 @@ tetromino * sac(board b)
  * @param b Le plateau de jeu.
  * @return Grille du plateau de jeu.
 */
-int **grille(board b)
+
+int ** grille(board b)
 {
     // Vérifier si le pointeur de plateau est nul
     if (b == NULL)
@@ -412,13 +447,11 @@ int **grille(board b)
         printf("Erreur : Le plateau de jeu est NULL !");
         return NULL;
     }
-
     // Vérifier si le pointeur de grille est nul
     if (b->grille == NULL)
     {
         printf("Erreur : La grille du plateau de jeu est NULL !");
         return NULL;
     }
-
     return b->grille;
 }
