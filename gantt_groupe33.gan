@@ -1,18 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Le gantt du groupe 33" company="" webLink="http://" view-date="2024-02-26" view-index="0" gantt-divider-location="351" resource-divider-location="300" version="3.3.3300" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Le gantt du groupe 33" company="" webLink="http://" view-date="2024-02-05" view-index="0" gantt-divider-location="351" resource-divider-location="300" version="2.8.10" locale="fr_FR">
     <description><![CDATA[GanttProject ayant pour but de superviser le projet mathématique et informatique du groupe 33.
 Ali
 Haytham
 Ilyas
 Naël]]></description>
-    <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="200" order="0"/>
-        <field id="tpd4" name="Date de début" width="75" order="1"/>
-        <field id="tpd5" name="Date de fin" width="75" order="2"/>
-        <field id="tpd15" name="Notes" width="20" order="3"/>
-        <option id="filter.completedTasks" value="false"/>
-        <option id="filter.dueTodayTasks" value="false"/>
-        <option id="filter.overdueTasks" value="false"/>
-        <option id="filter.inProgressTodayTasks" value="false"/>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="189" order="0"/>
+        <field id="tpd4" name="Date de début" width="72" order="1"/>
+        <field id="tpd5" name="Date de fin" width="71" order="2"/>
         <option id="color.recent"><![CDATA[#003333 #333333 #ffcccc #666600 #66ccff #3399ff #6666ff #3300ff #3333ff #0000ff]]></option>
     </view>
     <view id="resource-table">
@@ -43,72 +38,72 @@ Naël]]></description>
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" uid="ae7a8482bd664833a52f92a770573b43" name="Lot_a" color="#009999" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
+        <task id="0" name="Lot_a" color="#009999" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
             <depend id="3" type="2" difference="0" hardness="Strong"/>
-            <task id="11" uid="8f4d20f52949418b8a6040991542af29" name="1 - Git, Gantt" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-06" thirdDate-constraint="0" expand="true"/>
-            <task id="9" uid="99d17e30a1b14d6e8de54239627e5c3c" name="2 - board.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-26" thirdDate-constraint="0" expand="true">
+            <task id="11" name="1 - Git, Gantt" color="#8cb6ce" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="9" name="2 - board.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-26" thirdDate-constraint="0" expand="true">
                 <depend id="16" type="2" difference="0" hardness="Strong"/>
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="10" uid="cee7d746fc7944509bb2ed57e04bc92e" name="3 - tetromino.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
+            <task id="10" name="3 - tetromino.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
                 <depend id="14" type="2" difference="0" hardness="Strong"/>
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="12" uid="e08469baca1b42049b9e24abbeddcd75" name="4 - interface.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-01" thirdDate-constraint="0" expand="true">
+            <task id="12" name="4 - interface.h" meeting="false" start="2024-03-06" duration="6" complete="0" thirdDate="2024-03-01" thirdDate-constraint="0" expand="true">
                 <depend id="13" type="2" difference="0" hardness="Strong"/>
                 <depend id="17" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="1" uid="862dde35963144eb994a308050697a75" name="Lot_b" color="#00cc33" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
+        <task id="1" name="Lot_b" color="#00cc33" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
             <depend id="4" type="2" difference="0" hardness="Strong"/>
-            <task id="17" uid="964c547f0c4c4f57851bdd9e640730d0" name="1 - main.c" color="#00ff33" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="16" uid="5516f9e67a2d438683711a677ef95dd7" name="2 - board.c" color="#33ff00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="14" uid="37c77daecb2b4bae972ff491f21a1012" name="3 - tetromino.c" color="#00cc00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="13" uid="7297788317c643fd8129394970b9ab0c" name="4 - interface.c" color="#66ff00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="17" name="1 - main.c" color="#00ff33" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="16" name="2 - board.c" color="#33ff00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="14" name="3 - tetromino.c" color="#00cc00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="13" name="4 - interface.c" color="#66ff00" meeting="false" start="2024-03-14" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="2" uid="f58ee69e178446d282e9b14845deeadb" name="Lot_c" color="#330033" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
+        <task id="2" name="Lot_c" color="#330033" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
             <depend id="5" type="2" difference="0" hardness="Strong"/>
-            <task id="21" uid="0f909c8355894e88b92462a0ee0ed13f" name="1 - Initialisation branche git, G_n" color="#333300" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="20" uid="ce460548b8b84fcfb1dbb0218dceeea3" name="2 - Implementation du jeu" color="#000000" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="19" uid="f0db0fd880d245d1b51d42c07cf38371" name="3 - Score moyen empirique" color="#003300" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="18" uid="f3a81d0a4b0e4cb09109c30ba15f7b77" name="4 - Graphe score moyen" color="#003333" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="21" name="1 - Initialisation branche git, G_n" color="#333300" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="20" name="2 - Implementation du jeu" color="#000000" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="19" name="3 - Score moyen empirique" color="#003300" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="18" name="4 - Graphe score moyen" color="#003333" meeting="false" start="2024-03-26" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="3" uid="c2e6b5cadc2a42c2b71e1d5dbad6bbab" name="Lot_d" color="#ff0033" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
+        <task id="3" name="Lot_d" color="#ff0033" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
             <depend id="6" type="2" difference="0" hardness="Strong"/>
-            <task id="23" uid="4938600010924c838cff1aa7b33cfcab" name="1 - Developpement" color="#ff0033" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="22" uid="dc84f9b2f2d24f4997d8113104c71174" name="2 - Evaluation, rapport d'evaluation" color="#ff0000" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="23" name="1 - Developpement" color="#ff0033" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="22" name="2 - Evaluation, rapport d'evaluation" color="#ff0000" meeting="false" start="2024-04-02" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="4" uid="e2cdcb8619cd4aaaa6439ae0d0b47191" name="Lot_e" color="#ffff33" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="false">
-            <task id="27" uid="7d31471e5bd74de7acf42b88c09e166f" name="1 - Réorganisation et tests" color="#ffff33" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="26" uid="93e37a9c5acd465a9e2998fddbe6a58c" name="2 - Orientation et constantes" color="#ffff66" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="25" uid="197e6952fce34f1f93f2050570c482fd" name="3 - Reserve" color="#ffff99" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
-            <task id="24" uid="c67e4ce9bb5d45dca78e5b702d8b651b" name="4 - Cartes" color="#ffffcc" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+        <task id="4" name="Lot_e" color="#ffff33" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-03-11" thirdDate-constraint="0" expand="true">
+            <task id="27" name="1 - Réorganisation et tests" color="#ffff33" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="26" name="2 - Orientation et constantes" color="#ffff66" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="25" name="3 - Reserve" color="#ffff99" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
+            <task id="24" name="4 - Cartes" color="#ffffcc" meeting="false" start="2024-04-08" duration="6" complete="0" thirdDate="2024-02-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="5" uid="8fdebcca3ce34d8e87b36379672d9cea" name="Lot_f" color="#0000ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-04" thirdDate-constraint="0" expand="false">
-            <task id="35" uid="ae48a9e0024c4fce98ed9bb0066fe9d0" name="1 - Loi de Y_1 et de L_1" color="#66ccff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="34" uid="286be90caef247dea890ec663808ea0c" name="2 - Matrices de transition" color="#3399ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="33" uid="d3bcf59d4cdb4d119359d8b97365af15" name="3 - Score moyen étape k+1" color="#6666ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="32" uid="f9005b2638564865b7c5455bfdae50aa" name="4 - Evolution des probabilités" color="#6666ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="31" uid="62787e72815049b08d9fc7c5e61121fb" name="5 - Score total moyen" color="#3300ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="30" uid="7ccadeda8ce8416a8857b9e473fbae4d" name="6 - Implémentation du jeu" color="#3333ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="29" uid="c02ff2114a8e408cb0a6d04e5eca404a" name="7 - Score moyen empirique" color="#3333ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
-            <task id="28" uid="f236d2dd3efd46b9bc690a7e9cae9767" name="8 - Graphe score moyen" color="#0000ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+        <task id="5" name="Lot_f" color="#0000ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-04" thirdDate-constraint="0" expand="true">
+            <task id="35" name="1 - Loi de Y_1 et de L_1" color="#66ccff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="34" name="2 - Matrices de transition" color="#3399ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="33" name="3 - Score moyen étape k+1" color="#6666ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="32" name="4 - Evolution des probabilités" color="#6666ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="31" name="5 - Score total moyen" color="#3300ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="30" name="6 - Implémentation du jeu" color="#3333ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="29" name="7 - Score moyen empirique" color="#3333ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
+            <task id="28" name="8 - Graphe score moyen" color="#0000ff" meeting="false" start="2024-04-12" duration="6" complete="0" thirdDate="2024-03-14" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="6" uid="8f222459ec674599b6411bc667f0cda8" name="Lot_g" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-03-04" thirdDate-constraint="0" expand="false">
-            <task id="36" uid="a9bb5a110aa14e7eb4f633d7660955ea" name="2 - Rapport de Reproductibilité" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-04-15" thirdDate-constraint="0" expand="true"/>
-            <task id="37" uid="2be4414e52494e9e9fd7be53a357115a" name="1 - Reproduction" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-04-15" thirdDate-constraint="0" expand="true"/>
+        <task id="6" name="Lot_g" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-03-04" thirdDate-constraint="0" expand="true">
+            <task id="36" name="2 - Rapport de Reproductibilité" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-04-15" thirdDate-constraint="0" expand="true"/>
+            <task id="37" name="1 - Reproduction" color="#666600" meeting="false" start="2024-04-17" duration="6" complete="0" thirdDate="2024-04-15" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="7" uid="2a31e1288d74492cb147be6b8911f430" name="Lot_h" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-03-12" thirdDate-constraint="0" expand="false">
-            <task id="40" uid="9c7bc93d32d04a9fbd0a85b47095f307" name="1 -  Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="42" uid="fe7f2d2a1c5f4ef3a7b50a3d03aa0221" name="2 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="39" uid="366c3d5cfef548c8a5d7b375aaf0f2ea" name="3 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="38" uid="7150b21327fc48d69bd9dbe27ad4d75f" name="4 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+        <task id="7" name="Lot_h" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-03-12" thirdDate-constraint="0" expand="true">
+            <task id="40" name="1 -  Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="42" name="2 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="39" name="3 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="38" name="4 - Libre" color="#ffcccc" meeting="false" start="2024-04-23" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="8" uid="19761965ab49462b885cbb677457b189" name="Lot_i" color="#000000" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-03-12" thirdDate-constraint="0" expand="false">
-            <task id="46" uid="72f8b9cff5fc40df88286885a15da739" name="1 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="45" uid="2b1f8e6c7b234a6aadaea7c0bb451c67" name="2 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="44" uid="26ef60d707554f3a87c8c532f02361d9" name="3 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
-            <task id="43" uid="86d114b7c40c44b6bdbf74b877ed4ed8" name="4 - Libre" color="#333333" meeting="false" start="2024-04-29" duration="5" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+        <task id="8" name="Lot_i" color="#000000" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-03-12" thirdDate-constraint="0" expand="false">
+            <task id="46" name="1 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="45" name="2 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="44" name="3 - Libre" color="#003333" meeting="false" start="2024-04-29" duration="6" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
+            <task id="43" name="4 - Libre" color="#333333" meeting="false" start="2024-04-29" duration="5" complete="0" thirdDate="2024-04-22" thirdDate-constraint="0" expand="true"/>
         </task>
     </tasks>
     <resources>
@@ -119,9 +114,29 @@ Naël]]></description>
     </resources>
     <allocations>
         <allocation task-id="12" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="32" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="28" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="10" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="20" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="25" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="37" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="33" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="29" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="9" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="19" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="22" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="26" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="30" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="11" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="27" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
