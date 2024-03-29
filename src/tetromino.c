@@ -35,21 +35,21 @@ tetromino create_tetromino(int t, int o, int p){
         case 0:{
             if(o%2==0){
                 for (int j=1; j<4;j++){
-                    tet->forme[2*j+1]=tet->forme[2*j-1]-1;
+                    tet->forme[2*j]=tet->forme[2*j-2]-1;
                 }
             }
             else{
                 for (int j=1; j<4;j++){
-                    tet->forme[2*j+2]=tet->forme[2*j]+1;
+                    tet->forme[2*j+1]=tet->forme[2*j-1]+1;
                 }
             }
         }
         break;
         case 1:{
             tet->forme[2]=-1;
-            tet->forme[5]=-1;
+            tet->forme[5]=1;
             tet->forme[6]=-1;
-            tet->forme[7]=-1;
+            tet->forme[7]=1;
         }
         break;
         case 2:{
@@ -76,17 +76,17 @@ tetromino create_tetromino(int t, int o, int p){
         }
         break;
         case 3:{
-            if(o%4==0){
+            if(o%4==1){
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-1;tet->forme[7]=2;
             }
-            else if(o%4==1){
+            else if(o%4==2){
                 tet->forme[2]=-1;
                 tet->forme[4]=-2;
                 tet->forme[6]=-2;tet->forme[7]=-1;
             }
-            else if(o%4==2){
+            else if(o%4==3){
                 tet->forme[3]=1;
                 tet->forme[5]=2;
                 tet->forme[7]=2;tet->forme[6]=-1;
@@ -99,25 +99,25 @@ tetromino create_tetromino(int t, int o, int p){
         }
         break;
         case 4:{
-            if(o%4==0){
+            if(o%4==3){
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=-1;
                 tet->forme[6]=-1;tet->forme[7]=-2;
             }
-            else if(o%4==1){
+            else if(o%4==0){
                 tet->forme[3]=1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-2;tet->forme[7]=1;
             }
-            else if(o%4==2){
+            else if(o%4==1){
                 tet->forme[2]=-1;
                 tet->forme[5]=1;
                 tet->forme[7]=2;
             }
             else{
-                tet->forme[3]=-1;
-                tet->forme[5]=-2;
-                tet->forme[6]=1;tet->forme[7]=-2;
+                tet->forme[2]=-1;
+                tet->forme[4]=-2;
+                tet->forme[7]=1;tet->forme[6]=-2;
             }
         }
         break;
