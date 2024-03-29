@@ -23,7 +23,7 @@ struct BoardStruct
  * Fonction `create_board`
  * @param nbLignes Le nombre de lignes du plateau.
  * @param nbColonnes Le nombre de colonnes du plateau.
- * @param tailleSac La taille initiale du sac de tétraminos.
+ * @param tailleSac La taille initiale du sac de tetrominos.
  * @return Le plateau de jeu nouvellement créé.
  */
 board create_board(int nbLignes, int nbColonnes, int tailleSac)
@@ -87,7 +87,11 @@ void free_board(board b)
         return; // Si le pointeur est NULL, il n'y a rien à libérer
     }
 
-    // Libérer la mémoire allouée pour le sac de tétraminos
+    // Libérer la mémoire allouée pour le sac de tetrominos
+    for (int i =0; i < b->tailleSac; i++)
+    {
+        free_tetromino(b->sac[i]); // appelle la fonction free_tetromino
+    }
     free(b->sac);
     // Libérer la mémoire allouée pour chaque ligne de la grille
     for (int i = 0; i < b->nbLignes; i++)
@@ -102,8 +106,8 @@ void free_board(board b)
 
 /**
  * Fonction `list_tetrominos_in_bag`
- * @param b Le plateau de jeu contenant le sac de tétraminos.
- * @return Un pointeur vers le sac de tétraminos, ou NULL si le plateau est NULL.
+ * @param b Le plateau de jeu contenant le sac de tétrominos.
+ * @return Un pointeur vers le sac de tétrominos, ou NULL si le plateau est NULL.
  */
 
 tetromino *list_tetrominos_in_bag(board b)
@@ -118,8 +122,8 @@ tetromino *list_tetrominos_in_bag(board b)
 
 /**
  * Fonction `add_tetromino_to_bag`
- * @param b Le plateau de jeu dans lequel ajouter le tétraminos au sac.
- * @param t Le tétraminos à ajouter au sac.
+ * @param b Le plateau de jeu dans lequel ajouter le tétrominos au sac.
+ * @param t Le tétrominos à ajouter au sac.
  */
 
 void add_tetromino_to_bag(board b, tetromino t)
@@ -141,8 +145,8 @@ void add_tetromino_to_bag(board b, tetromino t)
 
 /**
  * Fonction `remove_tetromino_from_bag`
- * @param b Le plateau de jeu dans lequel retirer le tétraminos du sac.
- * @param t Le tétraminos à retirer du sac.
+ * @param b Le plateau de jeu dans lequel retirer le tétrominos du sac.
+ * @param t Le tétrominos à retirer du sac.
  */
 void remove_tetromino_from_bag(board b, tetromino t)
 {
@@ -191,11 +195,11 @@ void remove_tetromino_from_bag(board b, tetromino t)
 
 /**
  * Fonction `check_place_tetromino`
- * @param b Le plateau de jeu sur lequel vérifier la possibilité de placer le tétraminos.
+ * @param b Le plateau de jeu sur lequel vérifier la possibilité de placer le tétrominos.
  * @param r La ligne de référence pour le placement.
  * @param c La colonne de référence pour le placement.
- * @param t Le tétraminos à placer.
- * @return 1 si le tétraminos peut être placé, 0 sinon.
+ * @param t Le tétrominos à placer.
+ * @return 1 si le tétrominos peut être placé, 0 sinon.
  */
 int check_place_tetromino(board b, int r, int c, tetromino t)
 {
@@ -205,15 +209,13 @@ int check_place_tetromino(board b, int r, int c, tetromino t)
         return PLACEMENT_IMPOSSIBLE; // La cellule est hors de la grille
     }
 
-    // Récupérer les coordonnées des cellules du tétraminos
+    // Récupérer les coordonnées des cellules du tétrominos
     int *cells = get_cells(t);
-    int nb_points = get_nb_points(t);
-
-    // Vérifier si le tétraminos peut être placé sans se chevaucher
-    for (int i = 0; i < 2 * nb_points; i += 2)
+    // Vérifier si le tétrominos peut être placé sans se chevaucher
+    for (int i = 0; i < 8; i += 2)
     {
-        int cell_r = r + cells[i];     // Coordonnée Y de la cellule du tétraminos
-        int cell_c = c + cells[i + 1]; // Coordonnée X de la cellule du tétraminos
+        int cell_r = r + cells[i];     // Coordonnée Y de la cellule du tétrominos
+        int cell_c = c + cells[i + 1]; // Coordonnée X de la cellule du tétrominos
 
         // Vérifier si la cellule est déjà occupée
         if (b->grille[cell_r][cell_c] != 0)
@@ -226,11 +228,11 @@ int check_place_tetromino(board b, int r, int c, tetromino t)
 
 /**
  * Fonction `place_tetromino`
- * @param b Le plateau de jeu sur lequel placer le tétraminos.
+ * @param b Le plateau de jeu sur lequel placer le tétrominos.
  * @param r La ligne de référence pour le placement.
  * @param c La colonne de référence pour le placement.
- * @param t Le tétraminos à placer.
- * @return 1 si le tétraminos a été placé avec succès, 0 sinon.
+ * @param t Le tétrominos à placer.
+ * @return 1 si le tétrominos a été placé avec succès, 0 sinon.
  */
 
 int place_tetromino(board b, int r, int c, tetromino t)
@@ -239,21 +241,22 @@ int place_tetromino(board b, int r, int c, tetromino t)
     {
         int *cells = get_cells(t);
         int nb_points = get_nb_points(t);
-        for (int i = 0; i < 2 * nb_points; i += 2)
+        for (int i = 0; i < 8; i += 2)
         {
-            b->grille[r + cells[i]][c + cells[i + 1]] = get_id(t); // Utiliser l'ID du tétraminos pour marquer sa présence
+            b->grille[r + cells[i]][c + cells[i + 1]] = get_id(t); // Utiliser l'ID du tetrominos pour marquer sa présence
         }
-        return 1; // Tétraminos placé avec succès
+        b->scoreActuel += nb_points; 
+        return 1; // tétrominos placé avec succès    
     }
-    return 0; // Impossible de placer le tétraminos
+    return 0; // Impossible de placer le tétrominos
 }
 
 /**
  * Fonction `remove_tetromino`
- * @param b Le plateau de jeu sur lequel retirer le tétraminos.
+ * @param b Le plateau de jeu sur lequel retirer le tétrominos.
  * @param r La ligne de référence pour le retrait.
  * @param c La colonne de référence pour le retrait.
- * @param t Le tétraminos à retirer.
+ * @param t Le tétrominos à retirer.
  */
 
 void remove_tetromino(board b, int *r, int *c, tetromino t)
@@ -288,10 +291,10 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
 
 /**
  * Fonction `get_tetromino`
- * @param b Le board sur lequel chercher le tétraminos.
+ * @param b Le board sur lequel chercher le tétrominos.
  * @param r La ligne de référence.
  * @param c La colonne de référence.
- * @return Le tétraminos trouvé ou NULL s'il n'y en a pas.
+ * @return Le tétrominos trouvé ou NULL s'il n'y en a pas.
  */
 tetromino get_tetromino(board b, int r, int c)
 {
@@ -308,7 +311,7 @@ tetromino get_tetromino(board b, int r, int c)
 
     int tetrominoID = b->grille[r][c]; 
 
-    // Recherche du tétraminos correspondant dans le sac
+    // Recherche du tétrominos correspondant dans le sac
     for (int i = 0; i < b->tailleSac; i++)
     {
         if (get_id(b->sac[i]) == tetrominoID)

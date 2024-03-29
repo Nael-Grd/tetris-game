@@ -10,7 +10,7 @@ struct s_t {
     int id;
 };
 
-int identifiant=0;
+int identifiant=1;
 
 tetromino create_tetromino(int t, int o, int p){
     if(t<0 || t>6 || p<1 || p>3){
@@ -18,11 +18,19 @@ tetromino create_tetromino(int t, int o, int p){
         exit(1);
     }
     tetromino tet=malloc(sizeof(struct s_t));
+    if(tet==NULL){
+        printf("allocation du tetromino échouée\n");
+        exit(2);
+    }
     tet->type=t;
     tet->id=identifiant;
     identifiant++;
     tet->points=p;
     tet->forme=calloc(8,sizeof(int));
+    if(tet==NULL){
+        printf("allocation du tableau du tetromino échouée\n");
+        exit(3);
+    }
     switch(t){
         case 0:{
             if(o%2==0){
@@ -150,22 +158,40 @@ tetromino create_random_tetromino(){
 }
 
 void free_tetromino(tetromino tet){
-    free(tet->forme);
-    free(tet);
+    if(tet!=NULL){
+        free(tet->forme);
+        free(tet);
+    }
 }
 
 int get_type(tetromino tet){
+    if(tet==NULL){
+        printf("pas possible de récupérer le type d'un tetromino null\n");
+        exit(4);
+    }
     return tet->type;
 }
 
 int get_nb_points(tetromino tet){
+    if(tet==NULL){
+        printf("pas possible de récupérer lees points d'un tetromino null\n");
+        exit(5);
+    }
     return tet->points;
 }
 
 int get_id(tetromino tet){
+    if(tet==NULL){
+        printf("pas possible de récupérer l'id d'un tetromino null\n");
+        exit(6);
+    }
     return tet->id;
 }
 
 int* get_cells(tetromino tet){
+    if(tet==NULL){
+        printf("pas possible de récupérer les cells d'un tetromino null\n");
+        exit(7);
+    }
     return tet->forme;
 }
