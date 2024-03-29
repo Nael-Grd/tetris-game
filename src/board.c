@@ -19,6 +19,7 @@ struct BoardStruct
     int scoreActuel; // Score actuel
 };
 
+
 /**
  * Fonction `create_board`
  * @param nbLignes Le nombre de lignes du plateau.
@@ -211,7 +212,7 @@ int check_place_tetromino(board b, int r, int c, tetromino t)
 
     // Récupérer les coordonnées des cellules du tétrominos
     int *cells = get_cells(t);
-    // Vérifier si le tétrominos peut être placé sans se chevaucher
+    // Vérifier si le tétrominos peut être placé 
     for (int i = 0; i < 8; i += 2)
     {
         int cell_r = r + cells[i];     // Coordonnée Y de la cellule du tétrominos
@@ -328,8 +329,96 @@ tetromino get_tetromino(board b, int r, int c)
  * @param b Le plateau de jeu pour lequel récupérer le score.
  * @return Le score actuel du plateau.
  */
-
 int get_score(board b)
 {
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return -1; // Valeur de score invalide pour indiquer une erreur
+    }
     return b->scoreActuel;
+}
+
+/**
+ * Fonction `get_nbLignes`
+ * @param b Le plateau de jeu.
+ * @return Nombre de lignes du plateau.
+ */
+int get_nbLignes(board b)
+{
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return -1; // Valeur de nombre de lignes invalide pour indiquer une erreur
+    }
+    return b->nbLignes;
+}
+
+/**
+ * Fonction `nbColonnes`
+ * @param b Le plateau de jeu.
+ * @return Nombre de colonnes du plateau.
+ */
+int nbColonnes(board b)
+{
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return -1; // Valeur de nombre de colonnes invalide pour indiquer une erreur
+    }
+    return b->nbColonnes;
+}
+
+/**
+ * Fonction `tailleSac`
+ * @param b Le plateau de jeu.
+ * @return Taille du sac de tétrominos.
+ */
+int tailleSac(board b)
+{
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return -1; // Valeur de taille du sac invalide pour indiquer une erreur
+    }
+    return b->tailleSac;
+}
+
+/**
+ * Fonction `sac`
+ * @param b Le plateau de jeu.
+ * @return Sac de tétrominos.
+ */
+tetromino * sac(board b)
+{
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return NULL;
+    }
+    return b->sac;
+}
+
+/**
+ * Fonction `grille`
+ * @param b Le plateau de jeu.
+ * @return Grille du plateau de jeu.
+*/
+int **grille(board b)
+{
+    // Vérifier si le pointeur de plateau est nul
+    if (b == NULL)
+    {
+        printf("Erreur : Le plateau de jeu est NULL !");
+        return NULL;
+    }
+
+    // Vérifier si le pointeur de grille est nul
+    if (b->grille == NULL)
+    {
+        printf("Erreur : La grille du plateau de jeu est NULL !");
+        return NULL;
+    }
+
+    return b->grille;
 }
