@@ -69,8 +69,8 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[7]=2;
             }
             else{
-                tet->forme[2]=-1;tet->forme[3]=-1;
-                tet->forme[4]=1;
+                tet->forme[2]=-1;tet->forme[3]=1;
+                tet->forme[4]=-1;
                 tet->forme[6]=-2;
             }
         }
