@@ -4,10 +4,19 @@
 #include <time.h>
 
 struct s_t {
-    int* forme;
-    int type;
-    int points;
-    int id;
+    int* forme; /* un tableau de 8 valeurs. chaque 2 valeurs sont 
+            les coordonnées (y descendant, x ascendant) d'une case du tetromino*/
+    int type; /* les types indiquent la forme du tetromino:
+                0->I
+                1->O
+                2->T
+                3->L
+                4->J
+                5->S
+                6->Z*/
+    int points; /* ce sont les points que placer le tetromino 
+            ajoute au score */
+    int id; // l'identifiant unique de chaque tetromino
 };
 
 int identifiant=1;
@@ -32,115 +41,117 @@ tetromino create_tetromino(int t, int o, int p){
         exit(3);
     }
     switch(t){
-        case 0:{
-            if(o%2==0){
+        /* ce n'est pas possible d'utiliser une boucle pr remplir le tableau "forme" 
+        donc on fait un traitement cas par cas*/
+        case 0:{ // I
+            if(o%2==0){ // debout
                 for (int j=1; j<4;j++){
                     tet->forme[2*j]=tet->forme[2*j-2]-1;
                 }
             }
-            else{
+            else{ // allongé
                 for (int j=1; j<4;j++){
                     tet->forme[2*j+1]=tet->forme[2*j-1]+1;
                 }
             }
         }
         break;
-        case 1:{
+        case 1:{// O
             tet->forme[2]=-1;
             tet->forme[5]=1;
             tet->forme[6]=-1;
             tet->forme[7]=1;
         }
         break;
-        case 2:{
-            if(o%4==0){
+        case 2:{ // T
+            if(o%4==0){ // debout 
                 tet->forme[2]=-1;tet->forme[3]=-1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-1;tet->forme[7]=1;
             }
-            else if(o%4==1){
+            else if(o%4==1){ // tourné à 90 degrés
                 tet->forme[2]=-1;tet->forme[3]=-1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-2;
             }
-            else if(o%4==2){
+            else if(o%4==2){ // tourné à 180 degrés
                 tet->forme[3]=1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[7]=2;
             }
-            else{
+            else{ // tourné à 270 degrés
                 tet->forme[2]=-1;tet->forme[3]=1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-2;
             }
         }
         break;
-        case 3:{
-            if(o%4==1){
+        case 3:{ // L
+            if(o%4==1){ // tourné à 90 degrés
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-1;tet->forme[7]=2;
             }
-            else if(o%4==2){
+            else if(o%4==2){ // tourné à 180 degrés
                 tet->forme[2]=-1;
                 tet->forme[4]=-2;
                 tet->forme[6]=-2;tet->forme[7]=-1;
             }
-            else if(o%4==3){
+            else if(o%4==3){ // tourné à 270 degrés
                 tet->forme[3]=1;
                 tet->forme[5]=2;
                 tet->forme[7]=2;tet->forme[6]=-1;
             }
-            else{
+            else{ // debout
                 tet->forme[3]=1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-2;
             }
         }
         break;
-        case 4:{
-            if(o%4==3){
+        case 4:{ // J
+            if(o%4==3){ // tourné à 270 degrés
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=-1;
                 tet->forme[6]=-1;tet->forme[7]=-2;
             }
-            else if(o%4==0){
+            else if(o%4==0){ // debout
                 tet->forme[3]=1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-2;tet->forme[7]=1;
             }
-            else if(o%4==1){
+            else if(o%4==1){ // tourné à 90 degrés
                 tet->forme[2]=-1;
                 tet->forme[5]=1;
                 tet->forme[7]=2;
             }
-            else{
+            else{ // tourné à 180 degrés
                 tet->forme[2]=-1;
                 tet->forme[4]=-2;
                 tet->forme[7]=1;tet->forme[6]=-2;
             }
         }
         break;
-        case 5:{
-            if(o%2==0){
+        case 5:{ // S
+            if(o%2==0){ // debout
                 tet->forme[3]=1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-1;tet->forme[7]=2;
             }
-            else if(o%2==1){
+            else if(o%2==1){ // tourné
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=-1;
                 tet->forme[6]=-2;tet->forme[7]=-1;
             }
         }
         break;
-        case 6:{
-            if(o%2==0){
+        case 6:{ // Z
+            if(o%2==0){ // debout
                 tet->forme[3]=1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-1;tet->forme[7]=-1;
             }
-            else if(o%2==1){
+            else if(o%2==1){ // tourné
                 tet->forme[2]=-1;
                 tet->forme[4]=-1;tet->forme[5]=1;
                 tet->forme[6]=-2;tet->forme[7]=1;
@@ -150,16 +161,16 @@ tetromino create_tetromino(int t, int o, int p){
     }
     return tet;    
 }
-tetromino create_random_tetromino(){
-    int p=(rand()%3)+1;  
-    int t=rand()%7; 
-    int o=rand()%4;
+tetromino create_random_tetromino(){ // on utilise la fonction rand() mais on suspecte qu'il y a mieux...
+    int p=(rand()%3)+1; // nb de points aléatoire entre 1 et 3
+    int t=rand()%7;  // type aléatoire entre 0 et 6
+    int o=rand()%4; // orientation aléatoire entre 0 et 3
     return create_tetromino(t,o,p);
 }
 
-void free_tetromino(tetromino tet){
+void free_tetromino(tetromino tet){ // puisque on alloue le tetromino et forme dynamiquement on les libère
     if(tet!=NULL){
-        free(tet->forme);
+        if(tet->forme!=NULL) free(tet->forme);
         free(tet);
     }
 }
@@ -174,7 +185,7 @@ int get_type(tetromino tet){
 
 int get_nb_points(tetromino tet){
     if(tet==NULL){
-        printf("pas possible de récupérer lees points d'un tetromino null\n");
+        printf("pas possible de récupérer les points d'un tetromino null\n");
         exit(5);
     }
     return tet->points;
