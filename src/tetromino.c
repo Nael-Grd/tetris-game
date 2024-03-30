@@ -92,7 +92,7 @@ tetromino create_tetromino(int t, int o, int p){
                 tet->forme[7]=2;tet->forme[6]=-1;
             }
             else{
-                tet->forme[3]=-1;
+                tet->forme[3]=1;
                 tet->forme[4]=-1;
                 tet->forme[6]=-2;
             }
