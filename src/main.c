@@ -25,6 +25,7 @@ int main() {
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
                 if (tet1 != NULL) {
+                    display_tetromino(tet1);                              //on affiche le  tetromino
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     int pr; int pc;
                     ask_place_tetromino(my_board, &pr, &pc, tet1);     //placer le tetro
