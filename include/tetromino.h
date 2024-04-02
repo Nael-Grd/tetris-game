@@ -45,6 +45,11 @@ int get_nb_points(tetromino tet);
   said tet*/
 int* get_cells(tetromino tet);
 
+/*@requires a tetromino t
+  @assigns nothing
+  @ensures displaying said tetromino*/
+void display_tetromino(tetromino t);
+
 
 
 
