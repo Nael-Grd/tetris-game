@@ -1,7 +1,6 @@
 #include "../include/tetromino.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 struct s_t {
     int* forme; /* un tableau de 8 valeurs. chaque 2 valeurs sont 
@@ -175,7 +174,7 @@ void free_tetromino(tetromino tet){ // puisque on alloue le tetromino et forme d
     }
 }
 
-int get_type(tetromino tet){
+int get_type(tetromino tet){ // ceci renvoi le composant "type" (un entier qui indique le type) de la structure tetromino
     if(tet==NULL){
         printf("pas possible de récupérer le type d'un tetromino null\n");
         exit(4);
@@ -183,7 +182,8 @@ int get_type(tetromino tet){
     return tet->type;
 }
 
-int get_nb_points(tetromino tet){
+int get_nb_points(tetromino tet){ /* ceci renvoi le composant "points" (un entier qui indique les points) 
+                                    de la structure tetromino*/
     if(tet==NULL){
         printf("pas possible de récupérer les points d'un tetromino null\n");
         exit(5);
@@ -191,7 +191,7 @@ int get_nb_points(tetromino tet){
     return tet->points;
 }
 
-int get_id(tetromino tet){
+int get_id(tetromino tet){ // ceci renvoi l'id du tetromino
     if(tet==NULL){
         printf("pas possible de récupérer l'id d'un tetromino null\n");
         exit(6);
@@ -199,10 +199,54 @@ int get_id(tetromino tet){
     return tet->id;
 }
 
-int* get_cells(tetromino tet){
+int* get_cells(tetromino tet){ // ceci renvoi le tableau des coordonnées des composants du tetromino
     if(tet==NULL){
         printf("pas possible de récupérer les cells d'un tetromino null\n");
         exit(7);
     }
     return tet->forme;
+}
+
+void display_tetromino(tetromino t){ // ceci affiche le tetromino
+    int taille=6;
+    // créer la mini grille qui est de 6 lignes et 6 colonnes
+    char** mini_grille=malloc(taille*sizeof(char*));
+    if(mini_grille==NULL){
+        printf("erreur d'allocation de la mini grille\n");
+        exit(8);
+    }
+    for (int i=0;i<taille;i++){
+        mini_grille[i]=malloc(taille*sizeof(char));
+        if(mini_grille[i]==NULL){
+            printf("erreur d'allocation de la mini grille %d\n",i);
+            exit(9+i);
+        }
+    }
+    for(int h=0; h<taille;h++){
+        for(int k=0; k<taille; k++){
+            mini_grille[h][k]='-';
+        }
+    }
+    // la remplir par le tetromino: on commence par la case à la 5eme ligne et la 3ème colonne
+    int* cells=get_cells(t);
+    int l=4;
+    int c=2;
+    for (int j=0;j<8;j+=2){
+        if(cells[j]==0 && cells[j+1]==0){
+            mini_grille[l+cells[j]][c+cells[j+1]]='X';
+        }
+        else{
+            mini_grille[l+cells[j]][c+cells[j+1]]='O';
+        }
+    }
+    for (int m=0;m<taille;m++){
+        for(int n=0;n<taille;n++){
+            printf("%c ",mini_grille[m][n]);
+        }
+        printf("\n");
+    }
+    for(int z=0;z<taille;z++){
+        free(mini_grille[z]);
+    }
+    free(mini_grille);
 }
