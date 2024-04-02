@@ -266,7 +266,7 @@ int place_tetromino(board b, int r, int c, tetromino t)
         }
         b->scoreActuel += nb_points; 
 
-        for (int j=0; j < b->nbLignes * b->nbColonnes ; i++)
+        for (int j=0; j < b->nbLignes * b->nbColonnes ; j++)
         {
             if (b->bd[j] == NULL)
             {
