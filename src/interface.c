@@ -5,12 +5,18 @@
 // Fonction pour choisir l'action
 int choose_action() {
     int action;
-    printf("Voulez-vous arrêter le jeu ? Si oui, saisissez (0). Pour prendre un tétris dans le sac et le placer, saisissez (1). Si vous voulez déplacer un tétris présent sur la grille, saisissez (2) : \n");
     char input[100];
-    fgets(input, sizeof(input), stdin);
-    sscanf(input, "%d", &action);
-    return action;
+    while (1) {
+        printf("Voulez-vous arrêter le jeu ? Si oui, saisissez (0). Pour prendre un tétris dans le sac et le placer, saisissez (1). Si vous voulez déplacer un tétris présent sur la grille, saisissez (2) : \n");
+        fgets(input, sizeof(input), stdin);
+        if (sscanf(input, "%d", &action) == 1) {
+            return action;
+        } else {
+            printf("Entrée invalide. Veuillez saisir un entier.\n");
+        }
+    }
 }
+
 
 // Fonction pour afficher le plateau de jeu
 void display_board(board my_board) {
@@ -43,58 +49,63 @@ void display_board(board my_board) {
 
 // Fonction pour sélectionner un tétris sur la grille
 tetromino select_tetromino_on_grid(board my_board) {
-    // Demande à l'utilisateur de sélectionner un tétris sur la grille
-    printf("Veuillez choisir un tétris de la grille. Veuillez saisir un entier naturel pour le numéro de la colonne suivi par le numéro de ligne : \n");
     char input[100];
     int c = -1, r = -1;
-    fgets(input, sizeof(input), stdin);
-    sscanf(input, "%d %d", &c, &r);
-    while (c < 0 || r < 0) {
-        printf("Veuillez ressaisir des entiers positifs\n");
+    while (1) {
+        printf("Veuillez choisir un tétris de la grille. Veuillez saisir un entier naturel pour le numéro de la colonne suivi par le numéro de ligne : \n");
         fgets(input, sizeof(input), stdin);
-        sscanf(input, "%d %d", &c, &r);
+        if (sscanf(input, "%d %d", &c, &r) == 2 && c >= 0 && r >= 0) {
+            tetromino tet = get_tetromino(my_board, r, c);
+            if (tet != NULL) {
+                return tet;
+            } else {
+                printf("Aucun tétris trouvé à cet emplacement. Veuillez réessayer.\n");
+            }
+        } else {
+            printf("Entrée invalide. Veuillez saisir deux entiers positifs séparés par un espace.\n");
+        }
     }
-    tetromino tet = get_tetromino(my_board, r, c);
-    return tet;
 }
-
 // Fonction pour sélectionner un tétris dans le sac
 tetromino select_tetromino_in_bag(board board) {
-    // Demande à l'utilisateur de sélectionner un tétris dans le sac
-    printf("Veuillez choisir un tétris dans le sac. Veuillez saisir un entier naturel pour l'identifiant : \n");
     char input[100];
     int c = -1;
-    fgets(input, sizeof(input), stdin);
-    sscanf(input, "%d", &c);
-    while (c < 0) {
-        printf("Veuillez ressaisir un entier positif\n");
-        fgets(input, sizeof(input), stdin);
-        sscanf(input, "%d", &c);
-    }
-
-    // Retourne le tétris sélectionné, ou NULL si aucun tétris n'est sélectionné
     tetromino *tet;
-    tet = list_tetrominos_in_bag(board);
     int taille = tailleSac(board);
-    for (int i = 0; i < taille; i++) {
-        if (get_id(tet[i]) == c)
-            return tet[i];
+    while (1) {
+        printf("Veuillez choisir un tétris dans le sac. Veuillez saisir un entier naturel pour l'identifiant : \n");
+        fgets(input, sizeof(input), stdin);
+        if (sscanf(input, "%d", &c) == 1 && c >= 0) {
+            tet = list_tetrominos_in_bag(board);
+            for (int i = 0; i < taille; i++) {
+                if (get_id(tet[i]) == c) {
+                    return tet[i];
+                }
+            }
+            printf("Tétris avec cet identifiant non trouvé dans le sac. Veuillez réessayer.\n");
+        } else {
+            printf("Entrée invalide. Veuillez saisir un entier positif.\n");
+        }
     }
-    return NULL;
 }
+
 
 // Fonction pour demander à l'utilisateur de placer un tétris sur la grille
 void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
-    // Demande à l'utilisateur de sélectionner une ligne et une colonne où placer le tétris dans la grille
-    printf("Veuillez sélectionner une ligne et une colonne où placer le tétris dans la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
-
-    // Les valeurs choisies sont stockées dans les pointeurs r et c
-    *r = -1;
-    *c = -1;
     char input[100];
-    fgets(input, sizeof(input), stdin);
-    sscanf(input, "%d %d", c, r);
-    place_tetromino(board, *r, *c, tetromino);
+    while (1) {
+        printf("Veuillez sélectionner une ligne et une colonne où placer le tétris dans la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
+        fgets(input, sizeof(input), stdin);
+        if (sscanf(input, "%d %d", c, r) == 2 && *c >= 0 && *r >= 0) {
+            if (place_tetromino(board, *r, *c, tetromino)) {
+                return;
+            } else {
+                printf("Emplacement déjà occupé. Veuillez sélectionner un autre emplacement.\n");
+            }
+        } else {
+            printf("Entrée invalide. Veuillez saisir deux entiers positifs séparés par un espace.\n");
+        }
+    }
 }
 
 // Fonction pour afficher la fin du jeu
