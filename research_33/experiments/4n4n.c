@@ -21,11 +21,11 @@ int main(){
         en_cours=1;
         int tailleSac=4;
         while(en_cours){
-            tetromino* sacs=list_tetrominos_in_bag(b);
             while(tailleSac>0){
                 add_tetromino_to_bag(b,create_tetromino(rand()%2==1? 5:6,0,rand()%3+1));
                 tailleSac--;
             }
+            tetromino* sacs=list_tetrominos_in_bag(b);
             int indice=deepest_fit(b);
             printf("%d \n", indice);
             if (indice==-1) en_cours=0;
