@@ -9,7 +9,7 @@ int** plus_bas(tetromino t, board b, int* L){
     int l=get_nbLignes(b); int c=nbColonnes(b);
     board aux=create_board(l,c,1); // initialisation d'un board auxiliaire
     // parcours du board
-    *L=0;
+    *L=-1;
     for (int i=0; i<l;i++){ 
         for (int j=0; j<c; j++){
             if(check_place_tetromino(b,i,j,t) && i>*L){ 
@@ -106,6 +106,7 @@ int piece_min(board b, int* C, int* L, int* taille){  //
 int deepest_fit(board b) {
     int C; int L; int taille;
     int indice=piece_min(b,&C,&L,&taille);   //est fait l'appel a plus_petit pour modifier L et C
+    if(L==-1) return L;   //cas aucun tetromino n'est placable
     int moitie=nbColonnes(b)/2;
     tetromino* le_sac=list_tetrominos_in_bag(b);
     if(C<moitie){
