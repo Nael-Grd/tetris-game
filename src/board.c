@@ -15,6 +15,7 @@ struct BoardStruct
     int nbColonnes;  // Nombre de colonnes du plateau
     int tailleSac;   // Taille du sac de tétromino
     tetromino *bd;   // Copie de tetromino dans le board
+    tetromino reserve[1]; //lot E.3: sac de tétrominos réservés
     tetromino *sac;  // Sac de tétromino
     int **grille;    // Grille du plateau de jeu
     int scoreActuel; // Score actuel
@@ -399,4 +400,57 @@ int **grille(board b)
         return NULL;
     }
     return b->grille;
+}
+
+/**
+ * Tâche E3
+ * Fonction 'reserve_tetromino'
+ * @param b le plateau.
+ * @param t le tetromino concerné.
+ * @return 1 si réservé, 0 sinon.
+*/
+
+int reserve_tetromino(board b,tetromino t){
+    if(b->reserve[0]==NULL){
+        int c=0,h=0;
+        remove_tetromino(b,&c,&h,t);
+        b->reserve[0]=t;
+        b->scoreActuel-=get_score(t);
+        return 1;
+    }
+    else{
+        printf("réserve pleine!\n");
+        return 0;
+    }
+}
+
+/**
+ * Tâche E3
+ * Fonction 'remove_tetromino'
+ * @param b le plateau.
+ * @return le tetromino réservé.
+*/
+
+tetromino remove_tetromino_from_reserve(board b){
+    if(b->reserve[0]==NULL){
+        printf("réserve vide!\n");
+        return NULL;
+    }
+    tetromino t=b->reserve[0];
+    free(b->reserve[0]);
+    return t;
+}
+
+/**
+ * Tâche E3
+ * Fonction 'list_reserve'
+ * @param b le plateau.
+ * @return la réserve.
+*/
+
+tetromino* list_reserve(board b){
+    if(b->reserve[0]==NULL){
+        return NULL;
+    }
+    return b->reserve;
 }
