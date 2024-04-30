@@ -415,7 +415,7 @@ int reserve_tetromino(board b,tetromino t){
         int c=0,h=0;
         remove_tetromino(b,&c,&h,t);
         b->reserve[0]=t;
-        b->scoreActuel-=get_score(t);
+        b->scoreActuel-=get_nb_points(t);
         return 1;
     }
     else{

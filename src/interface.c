@@ -52,7 +52,7 @@ void display_board(board my_board) {
     }
     else{
         printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve[0]), get_type(reserve[0]), get_nb_points(reserve[0]));
-        display_tetrominos(reserve[0]);
+        display_tetromino(reserve[0]);
     }
 
     // Affichage du score actuel
