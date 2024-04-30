@@ -1,6 +1,7 @@
 #include "../include/tetromino.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct s_t {
     int* forme; /* un tableau de 8 valeurs. chaque 2 valeurs sont 
@@ -161,6 +162,7 @@ tetromino create_tetromino(int t, int o, int p){
     return tet;    
 }
 tetromino create_random_tetromino(){ // on utilise la fonction rand() mais on suspecte qu'il y a mieux...
+    srand(time(NULL));
     int p=(rand()%3)+1; // nb de points aléatoire entre 1 et 3
     int t=rand()%7;  // type aléatoire entre 0 et 6
     int o=rand()%4; // orientation aléatoire entre 0 et 3
