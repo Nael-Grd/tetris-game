@@ -294,6 +294,7 @@ tetromino get_tetromino(board b, int r, int c)
             return b->bd[i];
         }
     }
+    return NULL; 
 }
 
 /**
@@ -312,7 +313,29 @@ int get_score(board b)
     return b->scoreActuel;
 }
 
+
+
+
+
+
+
+
+
+
 /* AJOUT DE CES FONCTIONS SUIVANT LA DEMANDE DE ALI DAOUDI */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Fonction `get_nbLignes`
