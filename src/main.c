@@ -28,7 +28,8 @@ int main() {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     int pr; int pc;
                     ask_place_tetromino(my_board, &pr, &pc, tet1);     //placer le tetro
-                    if (place_tetromino(my_board, pr, pc, tet1) == 1) {
+                    if (check_place_tetromino(my_board, pr, pc, tet1)==1) {
+                        place_tetromino(my_board, pr, pc, tet1);
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
                         int act; char in[100];
@@ -37,17 +38,16 @@ int main() {
                             printf("voulez-vous mettre le tetromino dans la réserve? Oui(1) ou non(2)\n");
                             fgets(in,sizeof(in),stdin);
                             if(sscanf(in,"%d",&act)==1 && (act==1 || act==2)) truc =0;
-                            else printf("Entrée invalide. Veuillez saisir 1 ou 2");
+                            else printf("Entrée invalide. Veuillez saisir 1 ou 2\n");
                         }
                         if(act==1){
-                            if(reserve_tetromino(my_board,tet1)==0){
-                                printf("tetromino placé sans être réservé\n");
+                            if(reserve_tetromino(my_board,tet1)==1){
+                                printf("bien réservé\n");
                             }
                         }
-                        break;
                     }
                     else {
-                        display_message("Le tétromino n'a pas pu etre placé");
+                        display_message("Lfffgfhfh\n");
                         add_tetromino_to_bag(my_board, tet1);       //sinon on le remet dans le sac
                     }
                 }
@@ -69,6 +69,7 @@ int main() {
                 break;
             case 3: //Tâche E3: ajouté l'option de la réserve.
                 tetromino tet3=remove_tetromino_from_reserve(my_board);
+                printf("récup tet3\n");
                 if(tet3!=NULL){
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);

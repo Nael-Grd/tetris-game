@@ -265,7 +265,7 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
     {
         for (int j = 0; j < b->nbLignes * b->nbColonnes; j++)
         {
-            if (get_id(b->bd[j]) == get_id(t))
+            if (b->bd[j]!=NULL && get_id(b->bd[j]) == get_id(t))
                 b->bd[j] = NULL; // Enlever du bd
         }
     }

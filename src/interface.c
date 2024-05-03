@@ -45,7 +45,7 @@ void display_board(board my_board) {
     printf("\n");
 
     //tâche E2: affichage de la réserve
-    printf("\nRéxerve :\n");
+    printf("\nRéserve :\n");
     tetromino* reserve=list_reserve(my_board);
     if(reserve==NULL){
         printf("la réserve est vide.\n");
@@ -109,7 +109,7 @@ void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
         printf("Veuillez sélectionner une ligne et une colonne où placer le tetromino dans la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
         fgets(input, sizeof(input), stdin);
         if (sscanf(input, "%d %d", c, r) == 2 && *c >= 0 && *r >= 0) {
-            if (place_tetromino(board, *r, *c, tetromino)) {
+            if (check_place_tetromino(board, *r, *c, tetromino)) {
                 return;
             } else {
                 printf("Emplacement déjà occupé. Veuillez sélectionner un autre emplacement.\n");
