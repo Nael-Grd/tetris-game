@@ -431,14 +431,12 @@ int reserve_tetromino(board b,tetromino t){
  * @return le tetromino réservé.
 */
 
-tetromino remove_tetromino_from_reserve(board b){
+void remove_tetromino_from_reserve(board b){
     if(b->reserve[0]==NULL){
         printf("réserve vide!\n");
-        return NULL;
+        return;
     }
-    tetromino t=b->reserve[0];
-    free(b->reserve[0]);
-    return t;
+    b->reserve[0]=NULL;
 }
 
 /**
@@ -448,9 +446,6 @@ tetromino remove_tetromino_from_reserve(board b){
  * @return la réserve.
 */
 
-tetromino* list_reserve(board b){
-    if(b->reserve[0]==NULL){
-        return NULL;
-    }
-    return b->reserve;
+tetromino list_reserve(board b){
+    return b->reserve[0];
 }

@@ -47,7 +47,7 @@ int main() {
                         }
                     }
                     else {
-                        display_message("Lfffgfhfh\n");
+                        display_message("tetromino pas placé\n");
                         add_tetromino_to_bag(my_board, tet1);       //sinon on le remet dans le sac
                     }
                 }
@@ -68,12 +68,13 @@ int main() {
                 }
                 break;
             case 3: //Tâche E3: ajouté l'option de la réserve.
-                tetromino tet3=remove_tetromino_from_reserve(my_board);
+                tetromino tet3=list_reserve(my_board);
                 printf("récup tet3\n");
                 if(tet3!=NULL){
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
                     if (place_tetromino(my_board, pr, pc, tet3) == 1) {
+                        remove_tetromino_from_reserve(my_board);
                         break;                        //si on l'a placé fin du tour
                     }
                     else {

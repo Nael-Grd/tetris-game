@@ -46,13 +46,13 @@ void display_board(board my_board) {
 
     //tâche E2: affichage de la réserve
     printf("\nRéserve :\n");
-    tetromino* reserve=list_reserve(my_board);
+    tetromino reserve=list_reserve(my_board);
     if(reserve==NULL){
         printf("la réserve est vide.\n");
     }
     else{
-        printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve[0]), get_type(reserve[0]), get_nb_points(reserve[0]));
-        display_tetromino(reserve[0]);
+        printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve), get_type(reserve), get_nb_points(reserve));
+        display_tetromino(reserve);
     }
 
     // Affichage du score actuel
