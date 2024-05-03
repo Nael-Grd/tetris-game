@@ -120,4 +120,32 @@ tetromino *sac(board b);
  */
 int **grille(board b);
 
+/**
+ * Tâche E3
+ * Fonction 'reserve_tetromino'
+ * @param b le plateau.
+ * @param t le tetromino concerné.
+ * @return 1 si réservé, 0 sinon.
+*/
+
+int reserve_tetromino(board b,tetromino t);
+
+/**
+ * Tâche E3
+ * Fonction 'remove_tetromino'
+ * @param b le plateau.
+ * @return le tetromino réservé.
+*/
+
+tetromino remove_tetromino_from_reserve(board b);
+
+/**
+ * Tâche E3
+ * Fonction 'list_reserve'
+ * @param b le plateau.
+ * @return la réserve.
+*/
+
+tetromino* list_reserve(board b);
+
 #endif
