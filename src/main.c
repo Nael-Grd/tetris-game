@@ -14,6 +14,10 @@ int main() {
     }
 
     /* Boucle du jeu  */
+
+    int vider_reserve=-1;
+    int reserve_pleine=0;
+
     int end = 0;
     while (end == 0) {
         display_board(my_board);      //on affiche le plateau
@@ -30,19 +34,29 @@ int main() {
                     ask_place_tetromino(my_board, &pr, &pc, tet1);     //placer le tetro
                     if (check_place_tetromino(my_board, pr, pc, tet1)==1) {
                         place_tetromino(my_board, pr, pc, tet1);
+                        if(vider_reserve!=-1)vider_reserve++;
+                        if(vider_reserve==2){
+                            free_tetromino(list_reserve(my_board));
+                            vider_reserve=-1;
+                            remove_tetromino_from_reserve(my_board);
+                        }
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
-                        int act; char in[100];
-                        int truc=1;
-                        while(truc){
-                            printf("voulez-vous mettre le tetromino dans la réserve? Oui(1) ou non(2)\n");
-                            fgets(in,sizeof(in),stdin);
-                            if(sscanf(in,"%d",&act)==1 && (act==1 || act==2)) truc =0;
-                            else printf("Entrée invalide. Veuillez saisir 1 ou 2\n");
-                        }
-                        if(act==1){
-                            if(reserve_tetromino(my_board,tet1)==1){
-                                printf("bien réservé\n");
+                        if(!reserve_pleine){
+                            int act; char in[100];
+                            int truc=1;
+                            while(truc){
+                                printf("voulez-vous mettre le tetromino dans la réserve? Oui(1) ou non(2)\n");
+                                fgets(in,sizeof(in),stdin);
+                                if(sscanf(in,"%d",&act)==1 && (act==1 || act==2)) truc =0;
+                                else printf("Entrée invalide. Veuillez saisir 1 ou 2\n");
+                            }
+                            if(act==1){
+                                if(reserve_tetromino(my_board,tet1)==1){
+                                    printf("bien réservé\n");
+                                    vider_reserve=0;
+                                    reserve_pleine=1;
+                                }
                             }
                         }
                     }
@@ -75,6 +89,8 @@ int main() {
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
                     if (place_tetromino(my_board, pr, pc, tet3) == 1) {
                         remove_tetromino_from_reserve(my_board);
+                        reserve_pleine=0;
+                        vider_reserve=-1;
                         break;                        //si on l'a placé fin du tour
                     }
                     else {

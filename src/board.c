@@ -428,7 +428,7 @@ int reserve_tetromino(board b,tetromino t){
  * Tâche E3
  * Fonction 'remove_tetromino'
  * @param b le plateau.
- * @return le tetromino réservé.
+ * @return rien.
 */
 
 void remove_tetromino_from_reserve(board b){
@@ -443,7 +443,7 @@ void remove_tetromino_from_reserve(board b){
  * Tâche E3
  * Fonction 'list_reserve'
  * @param b le plateau.
- * @return la réserve.
+ * @return le tetromino réservé.
 */
 
 tetromino list_reserve(board b){
