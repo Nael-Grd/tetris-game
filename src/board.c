@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "../include/board.h"
 #include "../include/tetromino.h"
+#include "../include/carte.h"
+
+
 
 #define MEMORY_ERROR 1
 #define INVALID_PARAMETERS_ERROR 2
