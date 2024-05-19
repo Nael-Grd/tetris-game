@@ -151,3 +151,95 @@ void ask_use_card(board* b) {
     }
 }
 /*FIN de la Partie d'adaptation de la Tache:E4 pour interface .c faite par "ALI DAOUDI"*/
+
+
+
+/* @note: Tache E.2 */ 
+
+/**
+ * @brief Demande au joueur où placer le tétrimino.
+ * 
+ * @param b Le plateau de jeu.
+ * @param row La ligne choisie.
+ * @param col La colonne choisie.
+ * @param t Le tétrimino à placer.
+ * @param state L'état actuel du jeu.
+ */
+void ask_place_tetromino(board b, int *row, int *col, tetromino t, int state) {
+    printf("Entrez la ligne et la colonne où vous voulez placer le tétrimino (format: ligne colonne): ");
+    scanf("%d %d", row, col);
+
+    while (!is_valid_placement(b, *row, *col, t)) {
+        printf("Placement invalide. Essayez de nouveau (format: ligne colonne): ");
+        scanf("%d %d", row, col);
+    }
+}
+
+/**
+ * @brief Demande au joueur s'il souhaite tourner le tétrimino.
+ * 
+ * @param t Le tétrimino à tourner.
+ */
+void ask_turn_tetromino(tetromino t) {
+    int choice;
+    printf("Voulez-vous tourner le tétrimino ? (0: Non, 1: Oui) : ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        printf("Entrez le nombre de rotations (1, 2 ou 3) : ");
+        int rotations;
+        scanf("%d", &rotations);
+        for (int i = 0; i < rotations; i++) {
+            rotate_tetromino(t);
+        }
+    }
+}
+
+/**
+ * @brief Sélectionne un tétrimino présent sur la grille.
+ * 
+ * @param b Le plateau de jeu.
+ * @return Le tétrimino sélectionné.
+ */
+tetromino select_tetromino_on_grid(board b) {
+    printf("Sélectionnez le tétrimino sur la grille (entrez les coordonnées de la cellule occupée par le tétrimino, format: ligne colonne): ");
+    int row, col;
+    scanf("%d %d", &row, &col);
+
+    while (!is_cell_occupied(b, row, col)) {
+        printf("Cellule vide. Essayez de nouveau (format: ligne colonne): ");
+        scanf("%d %d", &row, &col);
+    }
+
+    return get_tetromino_at(b, row, col);
+}
+
+/**
+ * @brief Demande au joueur s'il souhaite utiliser une carte spéciale.
+ * 
+ * @param b Le plateau de jeu.
+ */
+void ask_use_card(board *b) {
+    carte* list_cards = get_list_card(*b);
+    printf("\nVoulez-vous utiliser une carte spéciale ?\n");
+    printf("0 : Non / 1 : Oui\n");
+    int choice;
+    printf("\nEntrez votre choix : ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        printf("\n<< Liste des cartes disponibles >>\n\n");
+        for (int i = 0; i < 8; i++) {
+            if (list_cards[i] != NULL) {
+                printf("Carte spéciale n° : %d", i);
+                show_card(list_cards[i]);
+            }
+        }
+        printf("Entrez le numéro de carte que vous voulez utiliser :\n");
+        int card_num;
+        scanf("%d", &card_num);
+        use_card(b, card_num);
+    } else {
+        printf("\nVous n'avez pas utilisé de carte spéciale.\n");
+    }
+}
