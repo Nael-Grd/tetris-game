@@ -25,7 +25,7 @@ struct BoardStruct
      carte* list_card; // list of special cards 
 
 };
-/*Début des  foction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
+/*Début des  fonction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
 
 /**
  * @brief Checks if a tetromino is a special card.
@@ -259,7 +259,7 @@ carte* get_list_card(board b) {
 }
 
 
-/* FIN des  foction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
+/* FIN des  fonction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
 
 /**
  * Fonction `create_board`
