@@ -1,6 +1,8 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
+#include "../include/carte.h"
+
 #include <stddef.h>
 #include <stdio.h>
 
@@ -28,6 +30,7 @@ int main() {
                 break;
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
+                 ask_use_cart(&my_board ); /*Ask the user if she  want to use a card (TACHE E4 ) done by "ALI DAOUDI" */
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     int pr; int pc;
@@ -40,6 +43,12 @@ int main() {
                             vider_reserve=-1;
                             remove_tetromino_from_reserve(my_board);
                         }
+                    catre card=get_carte(my_board,tet1) ;ask_use_cart(&my_board ); /*(TACHE E4 ) done by "ALI DAOUDI" */
+                    /* (TACHE E4 ) done by "ALI DAOUDI" */
+                    if(card != NULL) 
+                    {
+                        add_card(&my_board,card);  /* (TACHE E4 ) done by "ALI DAOUDI" */
+                    }
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
                         if(!reserve_pleine){
