@@ -171,6 +171,7 @@ int main() {
                 break;
             default:
                 break;
+                //E.2 
         if (etat_action == 1) {
             if (!bag_is_empty(b)) {
                 tetromino t = get_tetromino_from_bag(b);
