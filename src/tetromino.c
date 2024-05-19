@@ -82,7 +82,7 @@ int get_type(tetromino tr) {
  * @param tr Le tétrimino.
  * @return L'identifiant unique du tétrimino, ou -10 si le tétrimino est NULL.
  */
-int get_unique_id(tetromino tr) {
+int get_id(tetromino tr) {
     if (tr != NULL)
         return tr->unique_id;
     else 
@@ -108,7 +108,7 @@ int get_points(tetromino tr) {
  * @param tr Le tétrimino.
  * @return Un tableau des cellules du tétrimino.
  */
-int* get_tetromino_cells(tetromino tr) {
+int* get_cells(tetromino tr) {
     int* cells = malloc(sizeof(int) * 8);
 
     if (tr->type == 0) {
