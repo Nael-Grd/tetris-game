@@ -80,6 +80,35 @@ void ask_turn_and_deplace_tetromino(board b, int *pr, int *pc, tetromino tr);
 */
 void ask_turn_tetromino(board b, int pr, int pc, tetromino tr);
 
+/* DEBUT TACHE E4*/
+/**
+ * @file cartes_operations.h
+ * @brief Functions for managing special cards on the board.
+ */
+
+/**
+ * @brief Displays information about a specific card.
+ * 
+ * @param cte The card to display.
+ */
+void show_card(carte cte);
+
+/**
+ * @brief Executes the necessary action based on the selected card.
+ * 
+ * @param b A pointer to the board structure.
+ * @param c The index of the card to use.
+ */
+void to_need_to_use_card(board* b, int c);
+
+/**
+ * @brief Asks the user if they want to use a special card and performs the action if chosen.
+ * 
+ * @param b A pointer to the board structure.
+ */
+void ask_use_card(board* b);
+
+/*FIN de TACHE:E4 */
 
 
 #endif // INTERFACE_H
