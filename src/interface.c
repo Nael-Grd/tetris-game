@@ -1,5 +1,7 @@
-#include "../include/interface.h"
+ #include "../include/interface.h"
 #include "../include/board.h"
+#include "../include/carte.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 // Fonction pour choisir l'action
@@ -25,7 +27,7 @@ void display_board(board my_board) {
     int n_C = nbColonnes(my_board);
     printf("Le nombre de lignes : %d \n", n_l);
     printf("Le nombre de colonnes : %d \n", n_C);
-    
+
     // Affichage du plateau de jeu
     printf("Plateau de jeu :\n");
     for (int i = 0; i < n_l; i++) {
@@ -45,14 +47,14 @@ void display_board(board my_board) {
     printf("\n");
 
     //tâche E2: affichage de la réserve
-    printf("\nRéxerve :\n");
-    tetromino* reserve=list_reserve(my_board);
+    printf("\nRéserve :\n");
+    tetromino reserve=list_reserve(my_board);
     if(reserve==NULL){
         printf("la réserve est vide.\n");
     }
     else{
-        printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve[0]), get_type(reserve[0]), get_nb_points(reserve[0]));
-        display_tetromino(reserve[0]);
+        printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve), get_type(reserve), get_nb_points(reserve));
+        display_tetromino(reserve);
     }
 
     // Affichage du score actuel
@@ -109,7 +111,7 @@ void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
         printf("Veuillez sélectionner une ligne et une colonne où placer le tetromino dans la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
         fgets(input, sizeof(input), stdin);
         if (sscanf(input, "%d %d", c, r) == 2 && *c >= 0 && *r >= 0) {
-            if (place_tetromino(board, *r, *c, tetromino)) {
+            if (check_place_tetromino(board, *r, *c, tetromino)) {
                 return;
             } else {
                 printf("Emplacement déjà occupé. Veuillez sélectionner un autre emplacement.\n");
@@ -158,7 +160,7 @@ void to_need_to_use_card(board* b, int c){
         if (!tetromino_in_board(*b)) printf("Plateau vide, impossibilité de supprimer un autre tetromino\n");
         remove_card(b, n);
     }
-    if (n==5){ 
+    if (n==5){
         if (reserve_is_empty(*b)){
             printf("\n Carte sans effet, résevoir vide ! \n");
 
@@ -179,7 +181,7 @@ void to_need_to_use_card(board* b, int c){
             remove_card(b, get_num(list_cte[c]));
         }
     }
-    if (n==7){            
+    if (n==7){
         printf("\n<< Séléction de 3 tétrominos à supprimer tant que le plateau n'est pas vide >>\n\n");
         int i=0;
         while(tetromino_in_board(*b) && i<3){
@@ -200,7 +202,7 @@ void to_need_to_use_card(board* b, int c){
     if (n==14){
         printf("<< Séléctionner un tétromino (n°) >>\n");
         int t;
-        scanf("%d", &t);  
+        scanf("%d", &t);
     }
     if(n==17){
         printf("<< Agrandissement de votre sac +1 >> \n");
