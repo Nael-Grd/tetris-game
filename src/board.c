@@ -22,6 +22,8 @@ struct BoardStruct
     int **grille;    // Grille du plateau de jeu
     int scoreActuel; // Score actuel
      carte* list_of_cards; // liste des cartes spéciales
+      int k; // taille du sac
+    int r; // taille de la réserv
 };
 
 /**
@@ -133,7 +135,59 @@ void free_board(board b)
     free(b->list_of_cards);
     free(b);
 }
+/* Start: Modification dans la reserve  a fin de l'adapter au cartes  (Tache E.4)*/
+// Modification tâche E.3, on s'adapte à la taille de la réserve
 
+void reserve_tetromino(board b, tetromino t) {
+    for (int i = 0; i < b->r; i++) { 
+            if (((b)->reserve)[i] == NULL){ 
+                ((b)->reserve)[i] = t;
+                break; 
+        }
+    }
+}
+
+void remove_from_reserve(board* b) {
+    //takes into account the case where the size is greater than one, the first tetromino to be added is the first to be deleted
+    for (int i = 0; i < (*b)->r; i++) {
+        if ((*b)->reserve[i] != NULL){
+            ((*b)->reserve)[i] = NULL;
+            break; 
+        }
+    }
+}
+
+bool reserve_is_empty(board b) {
+    //Teste si le reservoir est vide. Retourne true si c'est le cas, false sinon.
+    for (int i = 0; i < b->r; i++) {
+        if((b->reserve[i]) != NULL) 
+            return false;
+    }
+    return true;    
+}
+
+tetromino get_tetromino_from_reserve(board b) {
+    //Retourne le tetromino présent dans la reserve.
+        for (int i=0; i<b->r; i++){
+            if (b->reserve[i] != NULL){
+                return b->reserve[i];
+            }
+        }
+        return NULL;
+}
+
+bool tetromino_in_board(board b) {
+    //Teste si il y'a un tetromino dans le plateau. Retourn true si c'est le cas, false sinon
+    for(int j=0; j<b->n * b->m; j++) {
+        if(b->onboard[j] != NULL) {
+            return true;
+        }
+    }
+    return false;
+    
+}
+
+/*Fin Modification dans la Tache E3  pour l'adapter  tache E.4*/
 
 /* start : the TACHE:E4 done by ALI DAOUDI  to implemente somme functions to use cards   */
 
@@ -164,8 +218,8 @@ void show_reserve(board b) {
  * @param b A pointer to the board structure.
  * @param amount The amount to add to the score.
  */
-void add_to_score(board* b, int amount) {
-    b->score += amount;
+void add_to_score(board b, int amount) {
+    b->scoreActuel += amount;
 }
 
 /**
@@ -248,7 +302,7 @@ void add_card(board b, carte cte) {
     while (b->list_of_cards[i] != NULL) {
         i++;
     }
-    (*b)->list_of_cards[i] = cte;
+    (b)->list_of_cards[i] = cte;
 }
 
 /**
@@ -259,7 +313,7 @@ void add_card(board b, carte cte) {
 effect Thuy_Vo(board b) {
     int n;
     scanf("%d", &n);
-    remove_tetromino_from_bag(b, b->bag[n-1]);
+    remove_tetromino_from_bag(b, b->sac[n-1]);
     add_tetromino_to_bag(b, create_random_tetromino());
 }
 
@@ -345,8 +399,8 @@ effect Anne_Laure_Ligozat(board b, tetromino tr) {
  * @param b A pointer to the board structure.
  */
 effect Christophe_Mouilleron(board b) {
-    for (int i = 0; i < b->k; i++) {
-        remove_tetromino_from_bag(b, b->bag[i]);
+    for (int i = 0; i < 4; i++) {
+        remove_tetromino_from_bag(b, b->sac[i]);
         add_tetromino_to_bag(b, create_random_tetromino());
     }
 }
@@ -358,8 +412,8 @@ effect Christophe_Mouilleron(board b) {
  * @param n The index of the tetromino to change.
  */
 effect Cyril_Benezet(board b, int n) {
-    int type = get_type(b->bag[n-1]);
-    for (int i = 0; i < b->k; i++) {
+    int type = get_type(b->sac[n-1]);
+    for (int i = 0; i < b->4; i++) {
         remove_tetromino_from_bag(b, b->bag[i]);
         add_tetromino_to_bag(b, create_tetromino(type, rand(), rand() % 3 + 1));
     }
