@@ -188,12 +188,13 @@ int main() {
                     //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
                     display_board(b);
                 }
-                else if (etat_action == 4) {
+            case 4 :     
+                
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
                     gestion_tourner_deplacer(b, t, n);
                     //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
                     display_board(b);
-                } 
+                
                         break;
             default:
                 break;
