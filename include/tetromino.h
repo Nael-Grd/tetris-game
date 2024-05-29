@@ -51,6 +51,13 @@ int* get_cells(tetromino tet);
 void display_tetromino(tetromino t);
 
 
+/* E.2 */ 
+
+/* @ requires tetromino has type tetromino
+   @ assigns nothing
+   @ ensures increments the orientation of tr*/
+void turn(tetromino tr, int o);
+
 
 
 #endif
