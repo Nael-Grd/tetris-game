@@ -1,10 +1,9 @@
 #include "../include/tetromino.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct s_t {
-    int* forme; /* un tableau de 8 valeurs. chaque 2 valeurs sont 
-            les coordonnées (y descendant, x ascendant) d'une case du tetromino*/
     int type; /* les types indiquent la forme du tetromino:
                 0->I
                 1->O
@@ -13,6 +12,7 @@ struct s_t {
                 4->J
                 5->S
                 6->Z*/
+    int o; 
     int points; /* ce sont les points que placer le tetromino 
             ajoute au score */
     int id; // l'identifiant unique de chaque tetromino
@@ -34,11 +34,68 @@ tetromino create_tetromino(int t, int o, int p){
     tet->id=identifiant;
     identifiant++;
     tet->points=p;
-    tet->forme=calloc(8,sizeof(int));
-    if(tet==NULL){
-        printf("allocation du tableau du tetromino échouée\n");
-        exit(3);
+    tet->o=o;
+    return tet;    
+}
+tetromino create_random_tetromino(){ // on utilise la fonction rand() mais on suspecte qu'il y a mieux...
+    srand(time(NULL));
+    int p=(rand()%3)+1; // nb de points aléatoire entre 1 et 3
+    int t=rand()%7;  // type aléatoire entre 0 et 6
+    int o=rand()%4; // orientation aléatoire entre 0 et 3
+    return create_tetromino(t,o,p);
+}
+
+void free_tetromino(tetromino tet){ // puisque on alloue le tetromino et forme dynamiquement on les libère
+    if(tet!=NULL){
+        if(tet->forme!=NULL) free(tet->forme);
+        free(tet);
     }
+}
+
+int get_type(tetromino tet){ // ceci renvoi le composant "type" (un entier qui indique le type) de la structure tetromino
+    if(tet==NULL){
+        printf("pas possible de récupérer le type d'un tetromino null\n");
+        exit(4);
+    }
+    return tet->type;
+}
+
+int get_nb_points(tetromino tet){ /* ceci renvoi le composant "points" (un entier qui indique les points) 
+                                    de la structure tetromino*/
+    if(tet==NULL){
+        printf("pas possible de récupérer les points d'un tetromino null\n");
+        exit(5);
+    }
+    return tet->points;
+}
+
+int get_id(tetromino tet){ // ceci renvoi l'id du tetromino
+    if(tet==NULL){
+        printf("pas possible de récupérer l'id d'un tetromino null\n");
+        exit(6);
+    }
+    return tet->id;
+}
+
+
+
+
+
+
+/* E.2 */ 
+
+
+
+
+/* @ requires tetromino has type tetromino
+   @ assigns nothing
+   @ ensures return a list of coords of points of tetromino*/
+int* get_cells(tetromino tr) {
+    int* cells = (int*)malloc(8 * sizeof(int));
+    if (cells == NULL) {
+        return NULL;
+    }
+    int o=t->o;
     switch(t){
         /* ce n'est pas possible d'utiliser une boucle pr remplir le tableau "forme" 
         donc on fait un traitement cas par cas*/
@@ -158,54 +215,9 @@ tetromino create_tetromino(int t, int o, int p){
         }
         break;
     }
-    return tet;    
-}
-tetromino create_random_tetromino(){ // on utilise la fonction rand() mais on suspecte qu'il y a mieux...
-    int p=(rand()%3)+1; // nb de points aléatoire entre 1 et 3
-    int t=rand()%7;  // type aléatoire entre 0 et 6
-    int o=rand()%4; // orientation aléatoire entre 0 et 3
-    return create_tetromino(t,o,p);
+    return cells;
 }
 
-void free_tetromino(tetromino tet){ // puisque on alloue le tetromino et forme dynamiquement on les libère
-    if(tet!=NULL){
-        if(tet->forme!=NULL) free(tet->forme);
-        free(tet);
-    }
-}
-
-int get_type(tetromino tet){ // ceci renvoi le composant "type" (un entier qui indique le type) de la structure tetromino
-    if(tet==NULL){
-        printf("pas possible de récupérer le type d'un tetromino null\n");
-        exit(4);
-    }
-    return tet->type;
-}
-
-int get_nb_points(tetromino tet){ /* ceci renvoi le composant "points" (un entier qui indique les points) 
-                                    de la structure tetromino*/
-    if(tet==NULL){
-        printf("pas possible de récupérer les points d'un tetromino null\n");
-        exit(5);
-    }
-    return tet->points;
-}
-
-int get_id(tetromino tet){ // ceci renvoi l'id du tetromino
-    if(tet==NULL){
-        printf("pas possible de récupérer l'id d'un tetromino null\n");
-        exit(6);
-    }
-    return tet->id;
-}
-
-int* get_cells(tetromino tet){ // ceci renvoi le tableau des coordonnées des composants du tetromino
-    if(tet==NULL){
-        printf("pas possible de récupérer les cells d'un tetromino null\n");
-        exit(7);
-    }
-    return tet->forme;
-}
 
 void display_tetromino(tetromino t){ // ceci affiche le tetromino
     int taille=6;
@@ -250,3 +262,13 @@ void display_tetromino(tetromino t){ // ceci affiche le tetromino
     }
     free(mini_grille);
 }
+
+
+
+/* @ requires tetromino has type tetromino
+   @ assigns nothing
+   @ ensures increments the orientation of tr*/
+void turn(tetromino tr, int o) {
+    tr->o += o;
+}
+
