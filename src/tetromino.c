@@ -1,4 +1,6 @@
 #include "../include/tetromino.h"
+#include "../include/constantes.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
