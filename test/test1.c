@@ -1,9 +1,10 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
-#include "../include/cartes.h"
+#include "../include/carte.h"
 #include <stddef.h>
 #include <CUnit/Basic.h>
+#include <stdbool.h>
 
 
 //Rotation d'une pièce avant placement
@@ -75,12 +76,12 @@ void suppr_2_reserve() {
     free_tetromino(tet2);
 }
 //Récupération d'une carte sur le plateau
-void recup_cartes() {
+void recup_carte() {
     board b = create_board(8, 8, 4);
     tetromino t = create_random_tetromino();
     carte c = create_carte();    //on créé une carte
     add_card(b, c);        //ajout de la carte sur le plateau
-    CU_ASSERT_EQUAL(get_list_of_card()[0], c);
+    CU_ASSERT_EQUAL(get_list_of_card(b)[0], c);
     free_card(c);
     free_board(b);
     free_tetromino(t);
@@ -106,9 +107,9 @@ void test_cartes() {
     tetromino t1 = create_random_tetromino();
     reserve_tetromino(b, t);
     Laurence_Bourard(b, t1);         //echange une piece avec une autre de la reserve
-    CU_ASSERT_EQUAL(list_reserve(b)[0], t1);
+    CU_ASSERT_EQUAL(list_reserve(b), t1);
 
-    remove_tetromino_from_reserve(board b);
+    remove_tetromino_from_reserve(b);
     Massinissa_Merabet(b);
     CU_ASSERT_NOT_EQUAL(list_reserve(b), NULL);
 
@@ -130,9 +131,8 @@ int main() {
         (NULL == CU_add_test(pSuite, "Test d'affichage de rotation d'une pièce apres placement", rotation_apres_placement_aff)) ||
         (NULL == CU_add_test(pSuite, "Test placement d'une pièce dans la réserve", placement_reserve)) ||
         (NULL == CU_add_test(pSuite, "Test superession 2 placements", suppr_2_reserve)) ||
-        (NULL == CU_add_test(pSuite, "Test recupération d'une carte sur le plateau", recup_cartes_)) ||
-        (NULL == CU_add_test(pSuite, "Test recupération d'une carte sur le plateau (affichage)", recup_cartes_aff)) ||
-        (NULL == CU_add_test(pSuite, "Test des cartes David Roussel, Laurence Bourard, Massinissa Merabet", test_cartes)) ||)
+        (NULL == CU_add_test(pSuite, "Test recupération d'une carte sur le plateau", recup_carte)) ||
+        (NULL == CU_add_test(pSuite, "Test des cartes David Roussel, Laurence Bourard, Massinissa Merabet", test_cartes)) )
     {
     CU_cleanup_registry();
     return CU_get_error();
