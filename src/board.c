@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../include/board.h"
@@ -17,13 +17,13 @@ struct BoardStruct
     int nbColonnes;  // Nombre de colonnes du plateau
     int tailleSac;   // Taille du sac de tétromino
     tetromino *bd;   // Copie de tetromino dans le board
-    tetromino reserve[1]; //lot E.3: sac de tétrominos réservés
+    tetromino* reserve; //lot E.3: sac de tétrominos réservés
     tetromino *sac;  // Sac de tétromino
     int **grille;    // Grille du plateau de jeu
     int scoreActuel; // Score actuel
-     carte* list_of_cards; // liste des cartes spéciales
-      int k; // taille du sac
-    int r; // taille de la réserv
+    carte* list_of_cards; // liste des cartes spéciales
+    int k; // taille du sac
+    int r; // taille de la réserve
 };
 
 /**
@@ -53,10 +53,18 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
     newBoard->nbColonnes = nbColonnes;
     newBoard->tailleSac = tailleSac;
     newBoard->scoreActuel = 0;
+    newBoard->r=1;
+    newBoard->k=4;
 
     // Allouer la mémoire pour le sac de tétromino
     newBoard->sac = malloc(tailleSac * sizeof(tetromino));
     if (newBoard->sac == NULL)
+    {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        exit(MEMORY_ERROR);
+    }
+    newBoard->reserve= malloc(newBoard->k * sizeof(tetromino));
+    if (newBoard->reserve== NULL)
     {
         fprintf(stderr, "Erreur d'allocation mémoire.\n");
         exit(MEMORY_ERROR);
@@ -91,7 +99,7 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
         }
     }
     /* Ajout de ALi DAOUDI pour Tache E.4 dans la mesure de creer de la memoire pour la listes_des_cartes   */
-    
+
     newBoard->list_of_cards = malloc(8*sizeof(carte));     /* Ajout de ALi DAOUDI pour Tache E.4 dans la mesure de creer de la memoire pour la listes_des_cartes   */
 
 
@@ -135,65 +143,13 @@ void free_board(board b)
     free(b->list_of_cards);
     free(b);
 }
-/* Start: Modification dans la reserve  a fin de l'adapter au cartes  (Tache E.4)*/
-// Modification tâche E.3, on s'adapte à la taille de la réserve
 
-void reserve_tetromino(board b, tetromino t) {
-    for (int i = 0; i < b->r; i++) { 
-            if (((b)->reserve)[i] == NULL){ 
-                ((b)->reserve)[i] = t;
-                break; 
-        }
-    }
-}
-
-void remove_from_reserve(board* b) {
-    //takes into account the case where the size is greater than one, the first tetromino to be added is the first to be deleted
-    for (int i = 0; i < (*b)->r; i++) {
-        if ((*b)->reserve[i] != NULL){
-            ((*b)->reserve)[i] = NULL;
-            break; 
-        }
-    }
-}
-
-bool reserve_is_empty(board b) {
-    //Teste si le reservoir est vide. Retourne true si c'est le cas, false sinon.
-    for (int i = 0; i < b->r; i++) {
-        if((b->reserve[i]) != NULL) 
-            return false;
-    }
-    return true;    
-}
-
-tetromino get_tetromino_from_reserve(board b) {
-    //Retourne le tetromino présent dans la reserve.
-        for (int i=0; i<b->r; i++){
-            if (b->reserve[i] != NULL){
-                return b->reserve[i];
-            }
-        }
-        return NULL;
-}
-
-bool tetromino_in_board(board b) {
-    //Teste si il y'a un tetromino dans le plateau. Retourn true si c'est le cas, false sinon
-    for(int j=0; j<b->n * b->m; j++) {
-        if(b->onboard[j] != NULL) {
-            return true;
-        }
-    }
-    return false;
-    
-}
-
-/*Fin Modification dans la Tache E3  pour l'adapter  tache E.4*/
 
 /* start : the TACHE:E4 done by ALI DAOUDI  to implemente somme functions to use cards   */
 
 /**
  * @brief Checks if the reserve is full.
- * 
+ *
  * @param b The board structure.
  * @return true if the reserve is full, false otherwise.
  */
@@ -203,18 +159,18 @@ int reserve_is_full(board b) {
 
 /**
  * @brief Displays the contents of the reserve.
- * 
+ *
  * @param b The board structure.
  */
 void show_reserve(board b) {
-    int i=0;
     printf("\n\nDans la reserve il y a :\n");
-    printf("Tetromino %d : id: %d, type: %d, points: %d\n\n", i + 1, get_id(b->reserve[i]), get_type(b->reserve[i]), get_nb_points(b->reserve[i]));
+    for(int i=0;i<b->r;i++)
+        printf("Tetromino %d : id: %d, type: %d, points: %d\n\n", i + 1, get_id(b->reserve[i]), get_type(b->reserve[i]), get_nb_points(b->reserve[i]));
 }
 
 /**
  * @brief Adds an amount to the board's score.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param amount The amount to add to the score.
  */
@@ -224,45 +180,45 @@ void add_to_score(board b, int amount) {
 
 /**
  * @brief Gets the size of the bag.
- * 
+ *
  * @param b The board structure.
  * @return The size of the bag.
  */
 int get_size_bag(board b) {
-    return 4;
+    return b->k;
 }
 
 /**
  * @brief Gets the size of the reserve.
- * 
+ *
  * @param b The board structure.
  * @return The size of the reserve.
  */
 int get_size_reserve(board b) {
-    return 1;
+    return b->r;
 }
 
 /**
  * @brief Checks if a tetromino is present on the board.
- * 
+ *
  * @param b The board structure.
  * @param t The tetromino to check.
  * @return true if the tetromino is present, false otherwise.
  */
-int is_card(board b, tetromino t) {
+bool is_card(board b, tetromino t) {
     int spec_case[8] = {7, 1, 5, 3, 4, 2, 6, 0};
     for (int i = 0; i < 8; i++) {
         tetromino tetro = get_tetromino(b, i, spec_case[i]);
         if (tetro != NULL && get_id(tetro) == get_id(t)) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 /**
  * @brief Gets a card associated with a tetromino.
- * 
+ *
  * @param b The board structure.
  * @param t The tetromino.
  * @return The card if the tetromino is a card, otherwise NULL.
@@ -276,7 +232,7 @@ carte get_card(board b, tetromino t) {
 
 /**
  * @brief Removes a card from the board's list of cards.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param num The number of the card to remove.
  */
@@ -293,7 +249,7 @@ void remove_card(board b, int num) {
 
 /**
  * @brief Adds a card to the board's list of cards.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param cte The card to add.
  */
@@ -307,7 +263,7 @@ void add_card(board b, carte cte) {
 
 /**
  * @brief Applies the effect of the Thuy Vo card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Thuy_Vo(board b) {
@@ -319,7 +275,7 @@ effect Thuy_Vo(board b) {
 
 /**
  * @brief Applies the effect of the David Roussel card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect David_Roussel(board b) {
@@ -330,7 +286,7 @@ effect David_Roussel(board b) {
 
 /**
  * @brief Applies the effect of the Abass Sagna card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Abass_Sagna(board b) {
@@ -343,7 +299,7 @@ effect Abass_Sagna(board b) {
 
 /**
  * @brief Applies the effect of the Renaud Rioboo card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param tr The tetromino to remove.
  */
@@ -356,13 +312,13 @@ effect Renaud_Rioboo(board b, tetromino tr) {
 
 /**
  * @brief Applies the effect of the Laurence Bourard card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param t The tetromino to exchange with the reserve.
  */
 effect Laurence_Bourard(board b, tetromino t) {
     remove_tetromino_from_bag(b, t);
-    tetromino tetro_res = get_tetromino_from_reserve(*b);
+    tetromino tetro_res = get_tetromino_from_reserve(b);
     remove_tetromino_from_reserve(b);
     reserve_tetromino(b, t);
     add_tetromino_to_bag(b, tetro_res);
@@ -371,7 +327,7 @@ effect Laurence_Bourard(board b, tetromino t) {
 
 /**
  * @brief Applies the effect of the Massinissa Merabet card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Massinissa_Merabet(board b) {
@@ -382,7 +338,7 @@ effect Massinissa_Merabet(board b) {
 
 /**
  * @brief Applies the effect of the Anne Laure Ligozat card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param tr The tetromino to remove.
  */
@@ -395,7 +351,7 @@ effect Anne_Laure_Ligozat(board b, tetromino tr) {
 
 /**
  * @brief Applies the effect of the Christophe Mouilleron card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Christophe_Mouilleron(board b) {
@@ -407,21 +363,21 @@ effect Christophe_Mouilleron(board b) {
 
 /**
  * @brief Applies the effect of the Cyril Benezet card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param n The index of the tetromino to change.
  */
 effect Cyril_Benezet(board b, int n) {
     int type = get_type(b->sac[n-1]);
-    for (int i = 0; i < b->4; i++) {
-        remove_tetromino_from_bag(b, b->bag[i]);
+    for (int i = 0; i < b->k; i++) {
+        remove_tetromino_from_bag(b, b->sac[i]);
         add_tetromino_to_bag(b, create_tetromino(type, rand(), rand() % 3 + 1));
     }
 }
 
 /**
  * @brief Applies the effect of the Dimitri Watel card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Dimitri_Watel(board b) {
@@ -432,18 +388,18 @@ effect Dimitri_Watel(board b) {
 
 /**
  * @brief Applies the effect of the Marie Szafranski card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
 effect Marie_Szafranski(board b) {
     b->k = b->k + 1;
-    b->bag = realloc(b->bag, b->k * sizeof(tetromino));
-    b->bag[b->k - 1] = create_random_tetromino();
+    b->sac = realloc(b->sac, b->k * sizeof(tetromino));
+    b->sac[b->k - 1] = create_random_tetromino();
 }
 
 /**
  * @brief Uses a card on the board.
- * 
+ *
  * @param cte The card to use.
  * @param b A pointer to the board structure.
  * @param n An integer parameter for certain card effects.
@@ -468,7 +424,7 @@ void use_card(carte cte, board b, int n, tetromino tr) {
 
 /**
  * @brief Gets the list of cards on the board.
- * 
+ *
  * @param b The board structure.
  * @return An array of cards.
  */
@@ -621,7 +577,7 @@ void remove_tetromino(board b, int *r, int *c, tetromino t)
     {
         for (int j = 0; j < b->nbLignes * b->nbColonnes; j++)
         {
-            if (get_id(b->bd[j]) == get_id(t))
+            if (b->bd[j]!=NULL && get_id(b->bd[j]) == get_id(t))
                 b->bd[j] = NULL; // Enlever du bd
         }
     }
@@ -651,7 +607,7 @@ tetromino get_tetromino(board b, int r, int c)
             return b->bd[i];
         }
     }
-    return NULL; 
+    return NULL;
 }
 
 /**
@@ -781,6 +737,9 @@ int **grille(board b)
     return b->grille;
 }
 
+/* Start: Modification dans la reserve  a fin de l'adapter au cartes  (Tache E.4)*/
+// Modification tâche E.3, on s'adapte à la taille de la réserve
+
 /**
  * Tâche E3
  * Fonction 'reserve_tetromino'
@@ -789,17 +748,12 @@ int **grille(board b)
  * @return 1 si réservé, 0 sinon.
 */
 
-int reserve_tetromino(board b,tetromino t){
-    if(b->reserve[0]==NULL){
-        int c=0,h=0;
-        remove_tetromino(b,&c,&h,t);
-        b->reserve[0]=t;
-        b->scoreActuel-=get_nb_points(t);
-        return 1;
-    }
-    else{
-        printf("réserve pleine!\n");
-        return 0;
+void reserve_tetromino(board b, tetromino t) {
+    for (int i = 0; i < b->r; i++) {
+            if (((b)->reserve)[i] == NULL){
+                ((b)->reserve)[i] = t;
+                break;
+        }
     }
 }
 
@@ -807,29 +761,65 @@ int reserve_tetromino(board b,tetromino t){
  * Tâche E3
  * Fonction 'remove_tetromino'
  * @param b le plateau.
- * @return le tetromino réservé.
+ * @return rien.
 */
 
-tetromino remove_tetromino_from_reserve(board b){
-    if(b->reserve[0]==NULL){
-        printf("réserve vide!\n");
-        return NULL;
+void remove_tetromino_from_reserve(board b){
+    for (int i = 0; i < (b)->r; i++) {
+        if ((b)->reserve[i] != NULL){
+            ((b)->reserve)[i] = NULL;
+            break;
+        }
     }
-    tetromino t=b->reserve[0];
-    free(b->reserve[0]);
-    return t;
 }
 
 /**
  * Tâche E3
  * Fonction 'list_reserve'
  * @param b le plateau.
- * @return la réserve.
+ * @return le tetromino réservé.
 */
 
 tetromino* list_reserve(board b){
-    if(b->reserve[0]==NULL){
+    if(b->reserve==NULL){
         return NULL;
     }
     return b->reserve;
 }
+
+
+
+
+
+
+bool reserve_is_empty(board b) {
+    //Teste si le reservoir est vide. Retourne true si c'est le cas, false sinon.
+    for (int i = 0; i < b->r; i++) {
+        if((b->reserve[i]) != NULL)
+            return false;
+    }
+    return true;
+}
+//peut-être modifié au futur (ajouter id en paramètre)
+tetromino get_tetromino_from_reserve(board b) {
+    //Retourne le tetromino présent dans la reserve.
+        for (int i=0; i<b->r; i++){
+            if (b->reserve[i] != NULL){
+                return b->reserve[i];
+            }
+        }
+        return NULL;
+}
+
+bool tetromino_in_board(board b) {
+    //Teste si il y'a un tetromino dans le plateau. Retourn true si c'est le cas, false sinon
+    for(int j=0; j<b->nbColonnes*b->nbLignes; j++) {
+        if(b->bd[j] != NULL) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
+/*Fin Modification dans la Tache E3  pour l'adapter  tache E.4*/
