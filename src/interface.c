@@ -132,3 +132,120 @@ void display_message(char* message) {
     // Affiche le message donné en entrée
     printf("%s\n", message);
 }
+
+
+/* E.2 */
+
+/**
+ * @brief Demande à l'utilisateur de tourner et déplacer un tétromino.
+ *
+ * @param plateau Le plateau de jeu.
+ * @param ligne Pointeur vers la ligne de la cellule.
+ * @param colonne Pointeur vers la colonne de la cellule.
+ * @param tetromino Le tétromino à tourner et déplacer.
+ *
+ * @requires plateau est une adresse valide d'un plateau, ligne et colonne sont des adresses valides d'entiers, tetromino est une adresse valide d'un tétromino.
+ * @ensures Tourne et déplace le tétromino selon les choix de l'utilisateur et vérifie la validité de la nouvelle position.
+ */
+void ask_turn_and_move_tetromino(board plateau, int *ligne, int *colonne, tetromino tetromino)
+{
+    display_board(tetromino);
+
+    printf("Sélectionnez une action :\n");
+    printf("0 : Ne pas tourner\n");
+    printf("1 : Tourner de 90° dans le sens horaire\n");
+    printf("-1 : Tourner de 90° dans le sens antihoraire\n");
+    printf("2 : Tourner de 180° dans le sens horaire\n");
+
+    int orientation;
+    printf("Rotation : ");
+    scanf("%d", &orientation);
+
+    while (orientation != 0 && orientation != 1 && orientation != -1 && orientation != 2)
+    {
+        printf("Veuillez sélectionner une orientation valide. \n");
+        printf("Rotation : ");
+        scanf("%d", &orientation);
+    }
+
+    turn(tetromino, orientation);
+
+    printf("\n< État du plateau >\n");
+    show_board(&plateau);
+    printf("Détails tétromino : type: %c, points: %d\n", type_tr[get_type(tetromino)], get_nb_points(tetromino));
+    printf("\nSélectionnez une ligne et une colonne où placer votre tétromino :\n");
+
+    show_tetromino(tetromino);
+    printf("Ligne : ");
+    scanf("%d", ligne);
+    printf("Colonne : ");
+    scanf("%d", colonne);
+
+    while (check_place_tetromino(plateau, *ligne, *colonne, tetromino) == 0 || *ligne < 0 || *ligne > SIZE_BOARD - 1 || *colonne < 0 || *colonne > SIZE_BOARD - 1)
+    {
+        turn(tetromino, -orientation);
+
+        if (*ligne < 0 || *ligne > SIZE_BOARD - 1 || *colonne < 0 || *colonne > SIZE_BOARD - 1)
+        {
+            printf("Veuillez choisir des coordonnées comprises entre 0 et %d.\n", SIZE_BOARD - 1);
+        }
+        else
+        {
+            printf("Impossible de placer le tétromino à cet endroit, veuillez réessayer.\n");
+        }
+
+        printf("Sélectionnez une nouvelle orientation, une ligne et une colonne :\n");
+        printf("Orientation : ");
+        scanf("%d", &orientation);
+        printf("Ligne : ");
+        scanf("%d", ligne); // passage par adresse
+        printf("Colonne : ");
+        scanf("%d", colonne);
+    }
+}
+
+
+/**
+ * @brief Demande à l'utilisateur de tourner un tétromino.
+ *
+ * @param plateau Le plateau de jeu.
+ * @param ligne La ligne de la cellule.
+ * @param colonne La colonne de la cellule.
+ * @param tetromino Le tétromino à tourner.
+ *
+ * @requires plateau est une adresse valide d'un plateau, ligne et colonne sont des adresses valides d'entiers, tetromino est une adresse valide d'un tétromino.
+ * @ensures Tourne le tétromino selon l'orientation choisie et vérifie la validité de la nouvelle position.
+ */
+void ask_turn_tetromino(board plateau, int ligne, int colonne, tetromino tetromino)
+{
+    show_tetromino(tetromino);
+
+    printf("Sélectionnez une action :\n");
+    printf("0 : Ne pas tourner\n");
+    printf("1 : Tourner de 90° dans le sens horaire\n");
+    printf("-1 : Tourner de 90° dans le sens antihoraire\n");
+    printf("2 : Tourner de 180° dans le sens horaire\n");
+
+    int orientation;
+    printf("Rotation : ");
+    scanf("%d", &orientation);
+
+    while (orientation != 0 && orientation != 1 && orientation != -1 && orientation != 2)
+    {
+        printf("Veuillez sélectionner une orientation valide. \n");
+        printf("Rotation : ");
+        scanf("%d", &orientation);
+    }
+
+    turn(tetromino, orientation);
+
+    while (check_place_tetromino(plateau, ligne, colonne, tetromino) == 0)
+    {
+        turn(tetromino, -orientation);
+        printf("Impossible de tourner le tétromino comme voulu, veuillez réessayer.\n");
+        printf("Rotation : ");
+        scanf("%d", &orientation);
+    }
+}
+
+
