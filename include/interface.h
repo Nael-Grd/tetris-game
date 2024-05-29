@@ -64,4 +64,22 @@ void display_end_game(board board);
  */
 void display_message(char* message);
 
+
+/* E.2 */
+
+
+/* @requires : a valid tetromino
+   @assigns : nothing
+   @ensures : ask the player if he wants to turn the tetromino and deplace it
+*/
+void ask_turn_and_deplace_tetromino(board b, int *pr, int *pc, tetromino tr);
+
+/* @requires : a valid tetromino
+   @assigns : nothing
+   @ensures : ask the player if he wants to turn the tetromino
+*/
+void ask_turn_tetromino(board b, int pr, int pc, tetromino tr);
+
+
+
 #endif // INTERFACE_H
