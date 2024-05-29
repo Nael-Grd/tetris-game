@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/carte.h"
