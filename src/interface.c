@@ -1,6 +1,5 @@
 #include "../include/interface.h"
 #include "../include/board.h"
-#include "../include/constantes.h"
 #include <stdio.h>
 
 // Fonction pour choisir l'action
@@ -120,6 +119,131 @@ void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
         }
     }
 }
+/**/
+/* Start : TACHE:E4 done by "ALI DAOUDI"   */
+
+void show_card(carte cte){
+    printf("\n\n << Nom de la Carte : %s \n    Description : %s >>\n\n", get_name_card(cte), get_info_carte(cte));
+}
+
+void to_need_to_use_card(board* b, int c){
+    carte* list_cte = malloc(8*sizeof(carte));
+    list_cte = get_list_card(*b);
+    int n = get_num(list_cte[c]);
+    if (n==0){
+            printf("Séléctionner le tétromino que vous voulez supprimer\n");
+            use_card(list_cte[c], b, -1, NULL);
+            remove_card(b, get_num(list_cte[c]));
+    }
+    if ( n==1 || n==2){
+        if (reserve_is_empty(*b)){
+            printf("\n Carte sans effet, résevoir vide ! \n");
+        }else{
+            use_card(list_cte[c], b, n, NULL);
+            remove_card(b, get_num(list_cte[c]));
+        }
+    }
+    if (n==3){
+        printf("\n<< Séléction de tétrominos à supprimer, autant que vous voulez >>\n\n");
+        int o = 1;
+        while(tetromino_in_board(*b) && o==1){
+            tetromino tr = malloc(sizeof(tetromino));
+            tr = select_tetromino_on_grid(*b);
+            add_to_score(b, -1);
+            use_card(list_cte[c], b, -1, tr);
+            free(tr);
+            printf("Vous voulez supprimer un autre tétromino ? (0 : non; 1: oui\n");
+            scanf("%d", &o);
+        }
+        if (!tetromino_in_board(*b)) printf("Plateau vide, impossibilité de supprimer un autre tetromino\n");
+        remove_card(b, n);
+    }
+    if (n==5){ 
+        if (reserve_is_empty(*b)){
+            printf("\n Carte sans effet, résevoir vide ! \n");
+
+        }else{
+            printf("Séléctionner le tétromino que vous voulez échanger :\n");
+            int c;
+            scanf("%d", &c);
+            tetromino* sac = malloc(4 * sizeof(tetromino));
+            sac = list_tetrominos_in_bag(*b);
+            use_card(list_cte[c], b, -1, sac[c-1]);
+        }
+    }
+    if (n==6){
+        if (reserve_is_full(*b)){
+            printf("\n Carte sans effet, résevoir plein ! \n");
+        }else{
+            use_card(list_cte[c], b, n, NULL);
+            remove_card(b, get_num(list_cte[c]));
+        }
+    }
+    if (n==7){            
+        printf("\n<< Séléction de 3 tétrominos à supprimer tant que le plateau n'est pas vide >>\n\n");
+        int i=0;
+        while(tetromino_in_board(*b) && i<3){
+            tetromino tr = malloc(sizeof(tetromino));
+            tr = select_tetromino_on_grid(*b);
+            add_to_score(b, get_nb_points(tr));
+            use_card(list_cte[c], b, -1, tr);
+            free(tr);
+            i++;
+        }
+        if (i<3) printf("\n Plateau vide, impossibilité de supprimer un autre tetromino\n");
+        remove_card(b, n);
+    }
+    if (n==8 || n==16){
+        use_card(list_cte[c], b, -1, NULL);
+        remove_card(b, get_num(list_cte[c]));
+    }
+    if (n==14){
+        printf("<< Séléctionner un tétromino (n°) >>\n");
+        int t;
+        scanf("%d", &t);  
+    }
+    if(n==17){
+        printf("<< Agrandissement de votre sac +1 >> \n");
+        use_card(list_cte[c], b, -1, NULL);
+        remove_card(b, get_num(list_cte[c]));
+    }
+}
+
+void ask_use_card(board* b){
+    carte* list_cte = malloc(8*sizeof(carte));
+    list_cte = get_list_card(*b);
+    printf("\nVoulez - vous utiliser une carte spéciale ? \n");
+    printf("0 : Non / 1 : Oui \n");
+    int c;
+    printf("\nEntrez votre choix : ");
+    scanf("%d", &c);
+    int i =0; bool empty =false;
+    while (i<8 && empty == false){
+        if (list_cte[i] == NULL){
+            empty = false; i++;
+        }else empty=true;
+    }
+    if (c == 1 && empty == true){
+        printf("\n<< Liste des cartes disponibles >>\n\n");
+        for (int i=0; i<8; i++){
+            if (list_cte[i] != NULL){
+                printf("Carte spéciale n° : %d", i);show_card(list_cte[i]);
+            }
+        }
+        printf("Entrez le numéro de carte que vous voulez utiliser :\n");
+        int c;
+        scanf("%d", &c);
+        to_need_to_use_card(b, c);
+    }else if (empty == false){
+        printf("\nImpossible de choisir une carte spéciale, vous n'en avez aucune !\n\n");
+    }
+
+}
+
+/* End of (Tache E.4)  done by ALI DAOUDI */
+
+
+/**/
 
 // Fonction pour afficher la fin du jeu
 void display_end_game(board board) {
@@ -133,120 +257,3 @@ void display_message(char* message) {
     // Affiche le message donné en entrée
     printf("%s\n", message);
 }
-
-
-/* E.2 */
-
-/**
- * @brief Demande à l'utilisateur de tourner et déplacer un tétromino.
- *
- * @param plateau Le plateau de jeu.
- * @param ligne Pointeur vers la ligne de la cellule.
- * @param colonne Pointeur vers la colonne de la cellule.
- * @param tetromino Le tétromino à tourner et déplacer.
- *
- * @requires plateau est une adresse valide d'un plateau, ligne et colonne sont des adresses valides d'entiers, tetromino est une adresse valide d'un tétromino.
- * @ensures Tourne et déplace le tétromino selon les choix de l'utilisateur et vérifie la validité de la nouvelle position.
- */
-void ask_turn_and_move_tetromino(board plateau, int *ligne, int *colonne, tetromino tetromino)
-{
-    display_board(tetromino);
-
-    printf("Sélectionnez une action :\n");
-    printf("0 : Ne pas tourner\n");
-    printf("1 : Tourner de 90° dans le sens horaire\n");
-    printf("-1 : Tourner de 90° dans le sens antihoraire\n");
-    printf("2 : Tourner de 180° dans le sens horaire\n");
-
-    int orientation;
-    printf("Rotation : ");
-    scanf("%d", &orientation);
-
-    while (orientation != 0 && orientation != 1 && orientation != -1 && orientation != 2)
-    {
-        printf("Veuillez sélectionner une orientation valide. \n");
-        printf("Rotation : ");
-        scanf("%d", &orientation);
-    }
-
-    turn(tetromino, orientation);
-
-    printf("\n< État du plateau >\n");
-    show_board(&plateau);
-    printf("Détails tétromino : type: %c, points: %d\n", type_tr[get_type(tetromino)], get_nb_points(tetromino));
-    printf("\nSélectionnez une ligne et une colonne où placer votre tétromino :\n");
-
-    show_tetromino(tetromino);
-    printf("Ligne : ");
-    scanf("%d", ligne);
-    printf("Colonne : ");
-    scanf("%d", colonne);
-
-    while (check_place_tetromino(plateau, *ligne, *colonne, tetromino) == 0 || *ligne < 0 || *ligne > SIZE_BOARD - 1 || *colonne < 0 || *colonne > SIZE_BOARD - 1)
-    {
-        turn(tetromino, -orientation);
-
-        if (*ligne < 0 || *ligne > SIZE_BOARD - 1 || *colonne < 0 || *colonne > SIZE_BOARD - 1)
-        {
-            printf("Veuillez choisir des coordonnées comprises entre 0 et %d.\n", SIZE_BOARD - 1);
-        }
-        else
-        {
-            printf("Impossible de placer le tétromino à cet endroit, veuillez réessayer.\n");
-        }
-
-        printf("Sélectionnez une nouvelle orientation, une ligne et une colonne :\n");
-        printf("Orientation : ");
-        scanf("%d", &orientation);
-        printf("Ligne : ");
-        scanf("%d", ligne); // passage par adresse
-        printf("Colonne : ");
-        scanf("%d", colonne);
-    }
-}
-
-
-/**
- * @brief Demande à l'utilisateur de tourner un tétromino.
- *
- * @param plateau Le plateau de jeu.
- * @param ligne La ligne de la cellule.
- * @param colonne La colonne de la cellule.
- * @param tetromino Le tétromino à tourner.
- *
- * @requires plateau est une adresse valide d'un plateau, ligne et colonne sont des adresses valides d'entiers, tetromino est une adresse valide d'un tétromino.
- * @ensures Tourne le tétromino selon l'orientation choisie et vérifie la validité de la nouvelle position.
- */
-void ask_turn_tetromino(board plateau, int ligne, int colonne, tetromino tetromino)
-{
-    show_tetromino(tetromino);
-
-    printf("Sélectionnez une action :\n");
-    printf("0 : Ne pas tourner\n");
-    printf("1 : Tourner de 90° dans le sens horaire\n");
-    printf("-1 : Tourner de 90° dans le sens antihoraire\n");
-    printf("2 : Tourner de 180° dans le sens horaire\n");
-
-    int orientation;
-    printf("Rotation : ");
-    scanf("%d", &orientation);
-
-    while (orientation != 0 && orientation != 1 && orientation != -1 && orientation != 2)
-    {
-        printf("Veuillez sélectionner une orientation valide. \n");
-        printf("Rotation : ");
-        scanf("%d", &orientation);
-    }
-
-    turn(tetromino, orientation);
-
-    while (check_place_tetromino(plateau, ligne, colonne, tetromino) == 0)
-    {
-        turn(tetromino, -orientation);
-        printf("Impossible de tourner le tétromino comme voulu, veuillez réessayer.\n");
-        printf("Rotation : ");
-        scanf("%d", &orientation);
-    }
-}
-
-
