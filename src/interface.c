@@ -1,5 +1,6 @@
 #include "../include/interface.h"
 #include "../include/board.h"
+#include "../include/constantes.h"
 #include <stdio.h>
 
 // Fonction pour choisir l'action
