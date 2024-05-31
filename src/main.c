@@ -185,14 +185,14 @@ int main() {
                 /* E.2 */
 
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-                    gestion_tourner(b, t, n);
+        gestion_placement(my_board, tet1, n);
                     //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
                     display_board(b);
                 
             case 4 :     
                 
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-                    gestion_tourner_deplacer(b, t, n);
+        gestion_placement(my_board, tet1, n);
                     //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
                     display_board(b);
                 
