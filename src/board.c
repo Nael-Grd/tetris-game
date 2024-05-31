@@ -748,13 +748,14 @@ int **grille(board b)
  * @return 1 si réservé, 0 sinon.
 */
 
-void reserve_tetromino(board b, tetromino t) {
+int  reserve_tetromino(board b, tetromino t) {
     for (int i = 0; i < b->r; i++) {
             if (((b)->reserve)[i] == NULL){
                 ((b)->reserve)[i] = t;
-                break;
+                return 1 ;
         }
     }
+    return 0 ; 
 }
 
 /**

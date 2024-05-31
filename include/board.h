@@ -129,7 +129,7 @@ int **grille(board b);
  * @return 1 si réservé, 0 sinon.
 */
 
-void  reserve_tetromino(board b,tetromino t);
+int   reserve_tetromino(board b,tetromino t);
 
 /**
  * Tâche E3
