@@ -113,6 +113,8 @@ int main() {
 
     /* Boucle du jeu  */
     int end = 0;
+    int vider_reserve=-1;
+    int reserve_pleine=0;
     while (end == 0) {
         display_board(my_board);      //on affiche le plateau
 truc:
