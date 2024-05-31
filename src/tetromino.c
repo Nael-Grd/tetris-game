@@ -49,7 +49,6 @@ tetromino create_random_tetromino(){ // on utilise la fonction rand() mais on su
 
 void free_tetromino(tetromino tet){ // puisque on alloue le tetromino et forme dynamiquement on les libère
     if(tet!=NULL){
-        if(tet->forme!=NULL) free(tet->forme);
         free(tet);
     }
 }
@@ -92,127 +91,128 @@ int get_id(tetromino tet){ // ceci renvoi l'id du tetromino
 /* @ requires tetromino has type tetromino
    @ assigns nothing
    @ ensures return a list of coords of points of tetromino*/
-int* get_cells(tetromino tr) {
+int* get_cells(tetromino tet) {
     int* cells = (int*)malloc(8 * sizeof(int));
     if (cells == NULL) {
         return NULL;
     }
-    int o=t->o;
+    int o=tet->o;
+    int t=tet->type;
     switch(t){
         /* ce n'est pas possible d'utiliser une boucle pr remplir le tableau "forme" 
         donc on fait un traitement cas par cas*/
         case 0:{ // I
             if(o%2==0){ // debout
                 for (int j=1; j<4;j++){
-                    tet->forme[2*j]=tet->forme[2*j-2]-1;
+                    cells[2*j]=cells[2*j-2]-1;
                 }
             }
             else{ // allongé
                 for (int j=1; j<4;j++){
-                    tet->forme[2*j+1]=tet->forme[2*j-1]+1;
+                    cells[2*j+1]=cells[2*j-1]+1;
                 }
             }
         }
         break;
         case 1:{// O
-            tet->forme[2]=-1;
-            tet->forme[5]=1;
-            tet->forme[6]=-1;
-            tet->forme[7]=1;
+            cells[2]=-1;
+            cells[5]=1;
+            cells[6]=-1;
+            cells[7]=1;
         }
         break;
         case 2:{ // T
             if(o%4==0){ // debout 
-                tet->forme[2]=-1;tet->forme[3]=-1;
-                tet->forme[4]=-1;
-                tet->forme[6]=-1;tet->forme[7]=1;
+                cells[2]=-1;cells[3]=-1;
+                cells[4]=-1;
+                cells[6]=-1;cells[7]=1;
             }
             else if(o%4==1){ // tourné à 90 degrés
-                tet->forme[2]=-1;tet->forme[3]=-1;
-                tet->forme[4]=-1;
-                tet->forme[6]=-2;
+                cells[2]=-1;cells[3]=-1;
+                cells[4]=-1;
+                cells[6]=-2;
             }
             else if(o%4==2){ // tourné à 180 degrés
-                tet->forme[3]=1;
-                tet->forme[4]=-1;tet->forme[5]=1;
-                tet->forme[7]=2;
+                cells[3]=1;
+                cells[4]=-1;cells[5]=1;
+                cells[7]=2;
             }
             else{ // tourné à 270 degrés
-                tet->forme[2]=-1;tet->forme[3]=1;
-                tet->forme[4]=-1;
-                tet->forme[6]=-2;
+                cells[2]=-1;cells[3]=1;
+                cells[4]=-1;
+                cells[6]=-2;
             }
         }
         break;
         case 3:{ // L
             if(o%4==1){ // tourné à 90 degrés
-                tet->forme[2]=-1;
-                tet->forme[4]=-1;tet->forme[5]=1;
-                tet->forme[6]=-1;tet->forme[7]=2;
+                cells[2]=-1;
+                cells[4]=-1;cells[5]=1;
+                cells[6]=-1;cells[7]=2;
             }
             else if(o%4==2){ // tourné à 180 degrés
-                tet->forme[2]=-1;
-                tet->forme[4]=-2;
-                tet->forme[6]=-2;tet->forme[7]=-1;
+                cells[2]=-1;
+                cells[4]=-2;
+                cells[6]=-2;cells[7]=-1;
             }
             else if(o%4==3){ // tourné à 270 degrés
-                tet->forme[3]=1;
-                tet->forme[5]=2;
-                tet->forme[7]=2;tet->forme[6]=-1;
+                cells[3]=1;
+                cells[5]=2;
+                cells[7]=2;cells[6]=-1;
             }
             else{ // debout
-                tet->forme[3]=1;
-                tet->forme[4]=-1;
-                tet->forme[6]=-2;
+                cells[3]=1;
+                cells[4]=-1;
+                cells[6]=-2;
             }
         }
         break;
         case 4:{ // J
             if(o%4==3){ // tourné à 270 degrés
-                tet->forme[2]=-1;
-                tet->forme[4]=-1;tet->forme[5]=-1;
-                tet->forme[6]=-1;tet->forme[7]=-2;
+                cells[2]=-1;
+                cells[4]=-1;cells[5]=-1;
+                cells[6]=-1;cells[7]=-2;
             }
             else if(o%4==0){ // debout
-                tet->forme[3]=1;
-                tet->forme[4]=-1;tet->forme[5]=1;
-                tet->forme[6]=-2;tet->forme[7]=1;
+                cells[3]=1;
+                cells[4]=-1;cells[5]=1;
+                cells[6]=-2;cells[7]=1;
             }
             else if(o%4==1){ // tourné à 90 degrés
-                tet->forme[2]=-1;
-                tet->forme[5]=1;
-                tet->forme[7]=2;
+                cells[2]=-1;
+                cells[5]=1;
+                cells[7]=2;
             }
             else{ // tourné à 180 degrés
-                tet->forme[2]=-1;
-                tet->forme[4]=-2;
-                tet->forme[7]=1;tet->forme[6]=-2;
+                cells[2]=-1;
+                cells[4]=-2;
+                cells[7]=1;cells[6]=-2;
             }
         }
         break;
         case 5:{ // S
             if(o%2==0){ // debout
-                tet->forme[3]=1;
-                tet->forme[4]=-1;tet->forme[5]=1;
-                tet->forme[6]=-1;tet->forme[7]=2;
+                cells[3]=1;
+                cells[4]=-1;cells[5]=1;
+                cells[6]=-1;cells[7]=2;
             }
             else if(o%2==1){ // tourné
-                tet->forme[2]=-1;
-                tet->forme[4]=-1;tet->forme[5]=-1;
-                tet->forme[6]=-2;tet->forme[7]=-1;
+                cells[2]=-1;
+                cells[4]=-1;cells[5]=-1;
+                cells[6]=-2;cells[7]=-1;
             }
         }
         break;
         case 6:{ // Z
             if(o%2==0){ // debout
-                tet->forme[3]=1;
-                tet->forme[4]=-1;
-                tet->forme[6]=-1;tet->forme[7]=-1;
+                cells[3]=1;
+                cells[4]=-1;
+                cells[6]=-1;cells[7]=-1;
             }
             else if(o%2==1){ // tourné
-                tet->forme[2]=-1;
-                tet->forme[4]=-1;tet->forme[5]=1;
-                tet->forme[6]=-2;tet->forme[7]=1;
+                cells[2]=-1;
+                cells[4]=-1;cells[5]=1;
+                cells[6]=-2;cells[7]=1;
             }
         }
         break;

@@ -359,7 +359,7 @@ effect Christophe_Mouilleron(board b) {
         remove_tetromino_from_bag(b, b->sac[i]);
         add_tetromino_to_bag(b, create_random_tetromino());
     }
-}
+    }
 
 /**
  * @brief Applies the effect of the Cyril Benezet card.

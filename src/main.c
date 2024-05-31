@@ -169,7 +169,8 @@ int main() {
                 }
                 break;
             case 3: //Tâche E3: ajouté l'option de la réserve.
-                tetromino tet3=remove_tetromino_from_reserve(my_board);
+                tetromino tet3=list_reserve(my_board);
+                remove_tetromino_from_reserve(my_board);
                 if(tet3!=NULL){
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
@@ -187,7 +188,7 @@ int main() {
                     gestion_tourner(b, t, n);
                     //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
                     display_board(b);
-                }
+                
             case 4 :     
                 
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
@@ -199,8 +200,8 @@ int main() {
             default:
                 break;
         }
+    
     }
-
     /* Fin du jeu */
     display_end_game(my_board);    //fin de jeu
     printf("Score final : %d\n", get_score(my_board));

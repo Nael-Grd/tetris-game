@@ -1,7 +1,8 @@
 #ifndef __board_h__
 #define __board_h__
 #include "tetromino.h"
-
+#include "carte.h"
+#include <stdbool.h>
 typedef struct BoardStruct *board;
 
 /**
@@ -128,7 +129,7 @@ int **grille(board b);
  * @return 1 si réservé, 0 sinon.
 */
 
-int reserve_tetromino(board b,tetromino t);
+void  reserve_tetromino(board b,tetromino t);
 
 /**
  * Tâche E3
@@ -137,7 +138,7 @@ int reserve_tetromino(board b,tetromino t);
  * @return le tetromino réservé.
 */
 
-tetromino remove_tetromino_from_reserve(board b);
+void  remove_tetromino_from_reserve(board b);
 
 /**
  * Tâche E3
@@ -153,34 +154,35 @@ tetromino* list_reserve(board b);
 
 /*TACHE:E4 done by ALI DAOUDI */
 
-typedef void (*effect)(board*); ///< Type definition for card effect functions
+typedef void effect; // Assuming effect is a function pointer type
 
+// Function prototypes
 /**
  * @brief Checks if the reserve is full.
- * 
+ *
  * @param b The board structure.
  * @return true if the reserve is full, false otherwise.
  */
-bool reserve_is_full(board b);
+int reserve_is_full(board b);
 
 /**
  * @brief Displays the contents of the reserve.
- * 
+ *
  * @param b The board structure.
  */
 void show_reserve(board b);
 
 /**
  * @brief Adds an amount to the board's score.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param amount The amount to add to the score.
  */
-void add_to_score(board* b, int amount);
+void add_to_score(board b, int amount);
 
 /**
  * @brief Gets the size of the bag.
- * 
+ *
  * @param b The board structure.
  * @return The size of the bag.
  */
@@ -188,7 +190,7 @@ int get_size_bag(board b);
 
 /**
  * @brief Gets the size of the reserve.
- * 
+ *
  * @param b The board structure.
  * @return The size of the reserve.
  */
@@ -196,7 +198,7 @@ int get_size_reserve(board b);
 
 /**
  * @brief Checks if a tetromino is present on the board.
- * 
+ *
  * @param b The board structure.
  * @param t The tetromino to check.
  * @return true if the tetromino is present, false otherwise.
@@ -205,7 +207,7 @@ bool is_card(board b, tetromino t);
 
 /**
  * @brief Gets a card associated with a tetromino.
- * 
+ *
  * @param b The board structure.
  * @param t The tetromino.
  * @return The card if the tetromino is a card, otherwise NULL.
@@ -214,119 +216,106 @@ carte get_card(board b, tetromino t);
 
 /**
  * @brief Removes a card from the board's list of cards.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param num The number of the card to remove.
  */
-void remove_card(board* b, int num);
+void remove_card(board b, int num);
 
 /**
  * @brief Adds a card to the board's list of cards.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param cte The card to add.
  */
-void add_card(board* b, carte cte);
+void add_card(board b, carte cte);
 
 /**
  * @brief Applies the effect of the Thuy Vo card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Thuy_Vo(board* b);
+effect Thuy_Vo(board b);
 
 /**
  * @brief Applies the effect of the David Roussel card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect David_Roussel(board* b);
+effect David_Roussel(board b);
 
 /**
  * @brief Applies the effect of the Abass Sagna card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Abass_Sagna(board* b);
+effect Abass_Sagna(board b);
 
 /**
  * @brief Applies the effect of the Renaud Rioboo card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param tr The tetromino to remove.
  */
-effect Renaud_Rioboo(board* b, tetromino tr);
+effect  Renaud_Rioboo(board b, tetromino tr);
 
 /**
  * @brief Applies the effect of the Laurence Bourard card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param t The tetromino to exchange with the reserve.
  */
-effect Laurence_Bourard(board* b, tetromino t);
+effect Laurence_Bourard(board b, tetromino t);
 
 /**
  * @brief Applies the effect of the Massinissa Merabet card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Massinissa_Merabet(board* b);
+effect Massinissa_Merabet(board b);
 
 /**
  * @brief Applies the effect of the Anne Laure Ligozat card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param tr The tetromino to remove.
  */
-effect Anne_Laure_Ligozat(board* b, tetromino tr);
+effect Anne_Laure_Ligozat(board b, tetromino tr);
 
 /**
  * @brief Applies the effect of the Christophe Mouilleron card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Christophe_Mouilleron(board *b);
+effect Christophe_Mouilleron(board b);
 
 /**
  * @brief Applies the effect of the Cyril Benezet card.
- * 
+ *
  * @param b A pointer to the board structure.
  * @param n The index of the tetromino to change.
  */
-effect Cyril_Benezet(board* b, int n);
+effect Cyril_Benezet(board b, int n);
 
 /**
  * @brief Applies the effect of the Dimitri Watel card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Dimitri_Watel(board* b);
+effect Dimitri_Watel(board b);
 
 /**
  * @brief Applies the effect of the Marie Szafranski card.
- * 
+ *
  * @param b A pointer to the board structure.
  */
-effect Marie_Szafranski(board* b);
+effect Marie_Szafranski(board b);
 
-/**
- * @brief Uses a card on the board.
- * 
- * @param cte The card to use.
- * @param b A pointer to the board structure.
- * @param n An integer parameter for certain card effects.
- * @param tr A tetromino parameter for certain card effects.
- */
-void use_card(carte cte, board* b, int n, tetromino tr);
 
-/**
- * @brief Gets the list of cards on the board.
- * 
- * @param b The board structure.
- * @return An array of cards.
- */
-carte* get_list_of_card(board b);
+bool reserve_is_empty(board b);
 
+
+tetromino get_tetromino_from_reserve(board b);
 
 /*TACHE:E4 done by ALI DAOUDI*/
 #endif
