@@ -122,7 +122,7 @@ int main() {
                 break;
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
-                gestion_placement(b, t, n);
+                gestion_placement(my_board, tet1, n);
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     int pr; int pc;
@@ -153,7 +153,7 @@ int main() {
                 break;
             case 2:
                 tetromino tet2 = select_tetromino_on_grid(my_board);  //selection d'un tetro sur la grille
-            gestion_deplacement(b, t, n);
+                gestion_placement(my_board, tet1, n);
                 
                 if (tet2 != NULL) {
                     int r; int c;                          //on supprime le tetro du plateau
