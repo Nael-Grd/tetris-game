@@ -122,11 +122,6 @@ truc:
                 }
                 break;
 
-                /* E.2 */
-
-                    tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-
-                    display_board(b);
                 
             case 4 :     
                 
