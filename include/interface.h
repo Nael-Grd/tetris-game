@@ -68,17 +68,21 @@ void display_message(char* message);
 /* E.2 */
 
 
-/* @requires : a valid tetromino
-   @assigns : nothing
-   @ensures : ask the player if he wants to turn the tetromino and deplace it
-*/
-void ask_turn_and_deplace_tetromino(board b, int *pr, int *pc, tetromino tr);
+/**
+ * @brief Demande à l'utilisateur de spécifier une rotation pour le tétrimino.
+ *
+ * Cette fonction affiche les options de rotation disponibles et invite l'utilisateur
+ * à entrer un choix. Ensuite, elle applique la rotation choisie au tétrimino.
+ *
+ * @param tetromino Le tétrimino à faire pivoter.
+ */
+void ask_rotate_tetromino(tetromino tetromino);
 
-/* @requires : a valid tetromino
-   @assigns : nothing
-   @ensures : ask the player if he wants to turn the tetromino
-*/
-void ask_turn_tetromino(board b, int pr, int pc, tetromino tr);
+
+
+
+
+
 
 /* DEBUT TACHE E4*/
 /**
