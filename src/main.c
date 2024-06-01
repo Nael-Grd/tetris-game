@@ -5,102 +5,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-/* E.2 */
-
-/*  @requires: b a valid adress of a board, t a valid adress of a tetromino, n a positive integer
-    @assigns: modification of the board b because of the movement of tetromino t
-    @ensures: If possible, the procedure moves the tetromino t in board b. If not, the procedure leaves the tetromino to its original position.
-*/
-void gestion_tourner(board b, tetromino t, int n) {
-    int pr;
-    int pc;
-    int row_t;
-    int column_t;
-    remove_tetromino(&b, &row_t, &column_t, t); //On retire le tetromino de la position à laquelle il était
-    ask_turn_tetromino(b, pr, pc, t); //Demande à la joueuse comment tourner le tetromino
-    int* tab = calloc(n*n-2, sizeof(int*)); //Allocation d'un tableau qui va permettre de stocker toute les positions qui ont été selectionné et qui sont mauvaise hormis la position dans laquelle il était à l'origine
-    int i=0;
-    //Gestion du cas où on ne peut pas déplacer le tetromino
-    //Soit parce que il n'y a plus aucune place possible en dehors de la place dans laquelle il était et dans ce cas on repositionne le tetromino dans sa position initiale, soit parce que la joueuse a mal choisi
-    while(place_tetromino(&b, pr, pc, t)!=0) {
-        //Ici les pr et pc ne peuvent pas correspondre à la position que le tetromino avait avant de le déplacer car sinon place_tetromino serait égal à 1
-        
-        if(i==n*n-2) {
-            //Dans le cas où la joueuse a essayé de déplacer le tetromino dans toute les positions possible (en dehors de sa position de base) sans succès
-            //On décide finalement de déplacer le tetromino dans la position où il était à l'origine
-            pr=row_t;
-            pc=column_t;
-            continue;
-        }
-
-        //On stock petit à petit les positions pour lesquelles la joueuse ne peut pas déplacer le tetromino 
-        //jusqu'à arriver au cas ci dessus ou alors jusqu'à que la joueuse trouve une bonne position
-        tab[i]=pr;
-        tab[i+1]=pc;
-        i=i+2;
-        for(int j=0; j<i; j+=2) {
-            if(pr==tab[j] && pc==tab[j+1]) {
-                tab[i-1]=0;
-                tab[i-2]=0;
-                i=i-2;
-                break;
-            }
-        }
-        //A chaque itération on redemande de placer le tetromino en affichant les informations du jeu pour que la joueuse comprenne que la position précédente ne fonctionne pas
-        display_board(b);
-        ask_turn_tetromino(b, pr, pc, t);
-    }
-    free(tab);
-}
-
-
-
-/*  @requires: b a valid adress of a board, t a valid adress of a tetromino, n a positive integer
-    @assigns: modification of the board b because of the movement of tetromino t
-    @ensures: If possible, the procedure moves the tetromino t in board b. If not, the procedure leaves the tetromino to its original position.
-*/
-void gestion_tourner_deplacer(board b, tetromino t, int n) {
-    int pr;
-    int pc;
-    int row_t;
-    int column_t;
-    remove_tetromino(&b, &row_t, &column_t, t); //On retire le tetromino de la position à laquelle il était
-    ask_turn_and_deplace_tetromino(b, &pr, &pc, t); //Demande l'endroit où la joueuse souhaite déplacer le tetromino
-    int* tab = calloc(n*n-2, sizeof(int*)); //Allocation d'un tableau qui va permettre de stocker toute les positions qui ont été selectionné et qui sont mauvaise hormis la position dans laquelle il était à l'origine
-    int i=0;
-    //Gestion du cas où on ne peut pas déplacer le tetromino
-    //Soit parce que il n'y a plus aucune place possible en dehors de la place dans laquelle il était et dans ce cas on repositionne le tetromino dans sa position initiale, soit parce que la joueuse a mal choisi
-    while(place_tetromino(&b, pr, pc, t)!=0) {
-        //Ici les pr et pc ne peuvent pas correspondre à la position que le tetromino avait avant de le déplacer car sinon place_tetromino serait égal à 1
-        
-        if(i==n*n-2) {
-            //Dans le cas où la joueuse a essayé de déplacer le tetromino dans toute les positions possible (en dehors de sa position de base) sans succès
-            //On décide finalement de déplacer le tetromino dans la position où il était à l'origine
-            pr=row_t;
-            pc=column_t;
-            continue;
-        }
-
-        //On stock petit à petit les positions pour lesquelles la joueuse ne peut pas déplacer le tetromino 
-        //jusqu'à arriver au cas ci dessus ou alors jusqu'à que la joueuse trouve une bonne position
-        tab[i]=pr;
-        tab[i+1]=pc;
-        i=i+2;
-        for(int j=0; j<i; j+=2) {
-            if(pr==tab[j] && pc==tab[j+1]) {
-                tab[i-1]=0;
-                tab[i-2]=0;
-                i=i-2;
-                break;
-            }
-        }
-        //A chaque itération on redemande de placer le tetromino en affichant les informations du jeu pour que la joueuse comprenne que la position précédente ne fonctionne pas
-        display_board(b);
-        ask_turn_and_deplace_tetromino(b, &pr, &pc, t);
-    }
-    free(tab);
-}
-
 
 
 int main() {
@@ -127,6 +31,13 @@ truc:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
+
+
+
+                    /* E.2 */ 
+                    ask_rotate_tetromino(tet1);
+                    
+                    
                     
                     display_tetromino(tet1);
                     int pr; int pc;
@@ -185,6 +96,14 @@ truc:
             case 3: //Tâche E3: ajouté l'option de la réserve.
                 tetromino tet3=list_reserve(my_board);
                 if(tet3!=NULL){
+
+
+                    
+                    /* E.2 */ 
+                    ask_rotate_tetromino(tet3);
+
+
+
                     display_tetromino(tet3);
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
