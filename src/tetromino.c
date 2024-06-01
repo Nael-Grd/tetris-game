@@ -205,6 +205,58 @@ int get_id(tetromino tet) {
     return tet->id;
 }
 
+void display_tetromino(tetromino t){ // ceci affiche le tetromino
+    int taille=6;
+    // créer la mini grille qui est de 6 lignes et 6 colonnes
+    char** mini_grille=malloc(taille*sizeof(char*));
+    if(mini_grille==NULL){
+        printf("erreur d'allocation de la mini grille\n");
+        exit(8);
+    }
+    for (int i=0;i<taille;i++){
+        mini_grille[i]=malloc(taille*sizeof(char));
+        if(mini_grille[i]==NULL){
+            printf("erreur d'allocation de la mini grille %d\n",i);
+            exit(9+i);
+        }
+    }
+    for(int h=0; h<taille;h++){
+        for(int k=0; k<taille; k++){
+            mini_grille[h][k]='-';
+        }
+    }
+    // la remplir par le tetromino: on commence par la case à la 5eme ligne et la 3ème colonne
+    int* cells=get_cells(t);
+    int l=4;
+    int c=2;
+    for (int j=0;j<8;j+=2){
+        if(cells[j]==0 && cells[j+1]==0){
+            mini_grille[l+cells[j]][c+cells[j+1]]='X';
+        }
+        else{
+            mini_grille[l+cells[j]][c+cells[j+1]]='O';
+        }
+    }
+    for (int m=0;m<taille;m++){
+        for(int n=0;n<taille;n++){
+            if(mini_grille[m][n]=='-'){
+                printf(BGWHITE "  " RESET);
+            }
+            else if(mini_grille[m][n]=='X'){
+                printf("\x1b[%dm" GRID_BORDER RESET, 91);
+            }
+            else{
+                printf("\x1b[%dm" GRID_BORDER RESET, 31+(get_id(t)%6));
+            }
+        }
+        printf("\n");
+    }
+    for(int z=0;z<taille;z++){
+        free(mini_grille[z]);
+    }
+    free(mini_grille);
+}
+
 
 
 
@@ -214,17 +266,6 @@ int get_id(tetromino tet) {
 
 
 
-
-
-/**
- * @brief Tourne le tétrimino d'un nombre spécifié d'incréments.
- *
- * @param tr Pointeur vers le tétrimino à tourner.
- * @param o Nombre d'incréments de rotation. Chaque incrément représente un quart de tour (90 degrés).
- */
-void turn(tetromino tr, int o) {
-    tr->orientation += o;
-}
 
 
 
