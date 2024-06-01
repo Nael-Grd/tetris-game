@@ -455,6 +455,7 @@ void Christophe_Mouilleron(board b){
     for(int i=0;i<4;i++){
         if(b->sac[i]!=NULL)
             free_tetromino(b->sac[i]);
+            b->sac[i]=NULL;
     }
     for(int i=0;i<4;i++)
         add_tetromino_to_bag(b,create_random_tetromino());
