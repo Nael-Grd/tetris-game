@@ -50,39 +50,9 @@ int* get_cells(tetromino tet);
   @ensures displaying said tetromino*/
 void display_tetromino(tetromino t);
 
+void rotate_tetromino(tetromino tet,int inc);
 
-
-
-/* E.2 */ 
-
-
-
-/* @ requires tetromino has type tetromino
-   @ assigns nothing
-   @ ensures increments the orientation of tr*/
-void turn(tetromino tr, int o);
-
-/**
- * @brief Faire pivoter le tétrimino donné d'un incrément spécifié.
- *
- * Cette fonction modifie l'orientation du tétrimino en ajoutant un incrément à 
- * sa valeur actuelle d'orientation.
- *
- * @param tet Le tétrimino à faire pivoter.
- * @param inc La valeur d'incrémentation de la rotation du tétrimino.
- */
-void rotate_tetromino(tetromino tet, int inc);
-
-/**
- * @brief Obtenir l'orientation actuelle du tétrimino.
- *
- * Cette fonction retourne l'orientation actuelle du tétrimino, une valeur entre 0 et 3.
- *
- * @param tet Le tétrimino dont on veut obtenir l'orientation.
- * @return L'orientation actuelle du tétrimino (entre 0 et 3).
- */
 int get_rotation(tetromino tet);
-
 
 
 #endif
