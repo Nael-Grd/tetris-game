@@ -42,7 +42,7 @@ int generate_random_num_excluding(int excluded[], int excluded_size) {
  * @return carte Pointeur vers la nouvelle carte créée.
  */
 carte create_carte() {
-    int excluded_nums[] = {4, 9, 10, 11, 12, 13, 15};
+    int excluded_nums[] = {3,4,6,7,9,10,11,12,13,14,15,16,17};
     int excluded_size = sizeof(excluded_nums) / sizeof(excluded_nums[0]);
     int num = generate_random_num_excluding(excluded_nums, excluded_size);
 
@@ -145,3 +145,4 @@ char* get_info_carte(carte cte) {
 void free_card(carte cte) {
     free(cte);
 }
+
