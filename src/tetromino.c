@@ -216,6 +216,16 @@ int get_id(tetromino tet) {
 
 
 
+/**
+ * @brief Tourne le tétrimino d'un nombre spécifié d'incréments.
+ *
+ * @param tr Pointeur vers le tétrimino à tourner.
+ * @param o Nombre d'incréments de rotation. Chaque incrément représente un quart de tour (90 degrés).
+ */
+void turn(tetromino tr, int o) {
+    tr->orientation += o;
+}
+
 
 
 
