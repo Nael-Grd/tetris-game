@@ -1,13 +1,44 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
-#include "../include/constantes.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 
+double cpu_time;
+
+int tetrominos_placeables(board b){
+    tetromino* sac=list_tetrominos_in_bag(b);
+    int total=0;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<get_nbLignes(b);j++){
+            for(int h=0;h<nbColonnes(b);h++){
+                total+=check_place_tetromino(b,j,h,sac[i]);
+            }
+        }
+    }
+    tetromino res=list_reserve(b);
+    if(res!=NULL){
+        for(int j=0;j<get_nbLignes(b);j++){
+            for(int h=0;h<nbColonnes(b);h++){
+                total+=check_place_tetromino(b,j,h,res);
+            }
+        }
+    }
+    
+    return total;
+}
 
 int main() {
+
+    srand(time(NULL));
+    // Initialisation du temps CPU
+    
+    clock_t start_time, end_time;
+    double cpu_time;
+    start_time = clock();
     
     /* Initialisation du jeu */
     board my_board = create_board(8,8,4);
@@ -31,14 +62,7 @@ truc:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
-
-
-
-                    /* E.2 */ 
                     ask_rotate_tetromino(tet1);
-                    
-                    
-                    
                     display_tetromino(tet1);
                     int pr; int pc;
                     ask_place_tetromino(my_board, &pr, &pc, tet1);     //placer le tetro
@@ -68,6 +92,9 @@ truc:
                                     reserve_pleine=1;
                                 }
                             }
+                            else{
+                                ask_use_carte(my_board);
+                            }
                         }
                     }
                     else {
@@ -78,7 +105,6 @@ truc:
                 break;
             case 2:
                 tetromino tet2 = select_tetromino_on_grid(my_board);  //selection d'un tetro sur la grille
-                
                 if (tet2 != NULL) {
                     int r; int c;                          //on supprime le tetro du plateau
                     remove_tetromino(my_board, &r, &c, tet2);
@@ -95,14 +121,7 @@ truc:
             case 3: //Tâche E3: ajouté l'option de la réserve.
                 tetromino tet3=list_reserve(my_board);
                 if(tet3!=NULL){
-
-
-                    
-                    /* E.2 */ 
                     ask_rotate_tetromino(tet3);
-
-
-
                     display_tetromino(tet3);
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
@@ -110,6 +129,7 @@ truc:
                         remove_tetromino_from_reserve(my_board);
                         reserve_pleine=0;
                         vider_reserve=-1;
+                        ask_use_carte(my_board);
                         break;                        //si on l'a placé fin du tour
                     }
                     else {
@@ -121,24 +141,20 @@ truc:
                     goto truc;
                 }
                 break;
-
-                
-            case 4 :     
-                
-                    tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-
-                    display_board(my_board);
-                
-                        break;
             default:
                 break;
         }
-    
+        if(tetrominos_placeables(my_board)==0) end=1;
     }
+
     /* Fin du jeu */
     display_end_game(my_board);    //fin de jeu
     printf("Score final : %d\n", get_score(my_board));
     free_board(my_board);
+
+    end_time = clock();
+    cpu_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("Temps CPU utilisé : %f secondes\n", cpu_time);
     
     return 0;
 }
