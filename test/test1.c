@@ -89,7 +89,7 @@ void recup_cartes_aff() {
     carte c = create_carte();   
     add_card(b, c);    
     show_card(c);
-    free_card(c)
+    free_card(c);
 }
 
 
