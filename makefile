@@ -6,7 +6,7 @@ BIN_DIR = bin
 INC_DIR = include
 EXPERIMENT_DIR=research_33/experiments
 
-$(BIN_DIR)/tetris: $(OBJ_DIR)/board.o $(OBJ_DIR)/tetromino.o $(OBJ_DIR)/interface.o $(OBJ_DIR)/main.o
+$(BIN_DIR)/tetris: $(OBJ_DIR)/board.o $(OBJ_DIR)/tetromino.o $(OBJ_DIR)/interface.o $(OBJ_DIR)/main.o $(OBJ_DIR)/carte.o
 	$(CC) $(CFLAGS)  $^ -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/%.h
