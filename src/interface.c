@@ -1,9 +1,14 @@
- #include "../include/interface.h"
+#include "../include/interface.h"
 #include "../include/board.h"
+#include "../include/tetromino.h"
 #include "../include/carte.h"
-#include "../include/constantes.h"
-#include <stdbool.h>
 #include <stdio.h>
+
+
+#define RESET       "\x1b[0m"  // Réinitialise les attributs de couleur et de style
+#define BGWHITE     "\x1b[47m" // Définit le fond du texte à blanc
+#define GRID_BORDER "██"
+
 
 // Fonction pour choisir l'action
 int choose_action() {
@@ -28,21 +33,33 @@ void display_board(board my_board) {
     int n_C = nbColonnes(my_board);
     printf("Le nombre de lignes : %d \n", n_l);
     printf("Le nombre de colonnes : %d \n", n_C);
-
+    
     // Affichage du plateau de jeu
     printf("Plateau de jeu :\n");
+    printf("   ");
+    for(int truc=0;truc<n_l;truc++)
+        printf("%d  ",truc);
+    printf("\n");
     for (int i = 0; i < n_l; i++) {
+        printf("\n");
+        printf("%d ",i);
         for (int j = 0; j < n_C; j++) {
-            printf("%4d ", p[i][j]);
+            if (p[i][j]== 0) {
+                printf(BGWHITE "  " RESET); // Case vide avec fond blanc
+                printf(" ");
+            } else {
+                printf("\x1b[%dm" GRID_BORDER RESET, 31+(p[i][j]%6)); // Case colorée avec le code de couleur dynamique
+                printf(" ");
+            }
         }
         printf("\n");
     }
 
-    // Affichage du sac de tétriminos
-    printf("\nSac de tétriminos :\n");
+    // Affichage du sac de tétrominos
+    printf("\nSac de tétrominos :\n");
     tetromino *tetrominos = list_tetrominos_in_bag(my_board);
     for (int i = 0; i < 4; i++) {
-        printf("Tétrimino %d : Type %d, Points %d\n", get_id(tetrominos[i]), get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
+        printf("Tétromino %d : Type %d, Points %d\n", get_id(tetrominos[i]), get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
         display_tetromino(tetrominos[i]);
     }
     printf("\n");
@@ -54,7 +71,7 @@ void display_board(board my_board) {
         printf("la réserve est vide.\n");
     }
     else{
-        printf("Tétrimino %d : Type %d, Points %d\n", get_id(reserve), get_type(reserve), get_nb_points(reserve));
+        printf("Tétromino %d : Type %d, Points %d\n", get_id(reserve), get_type(reserve), get_nb_points(reserve));
         display_tetromino(reserve);
     }
 
@@ -122,155 +139,6 @@ void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
         }
     }
 }
-/**/
-/* Start : TACHE:E4 done by "ALI DAOUDI"   */
-
-void show_card(carte cte){
-    printf("\n\n << Nom de la Carte : %s \n    Description : %s >>\n\n", get_name_card(cte), get_info_carte(cte));
-}
-
-void to_need_to_use_card(board* b, int c){
-    carte* list_cte = malloc(8*sizeof(carte));
-    list_cte = get_list_card(*b);
-    int n = get_num(list_cte[c]);
-    if (n==0){
-            printf("Séléctionner le tétromino que vous voulez supprimer\n");
-            use_card(list_cte[c], b, -1, NULL);
-            remove_card(b, get_num(list_cte[c]));
-    }
-    if ( n==1 || n==2){
-        if (reserve_is_empty(*b)){
-            printf("\n Carte sans effet, résevoir vide ! \n");
-        }else{
-            use_card(list_cte[c], b, n, NULL);
-            remove_card(b, get_num(list_cte[c]));
-        }
-    }
-    if (n==3){
-        printf("\n<< Séléction de tétrominos à supprimer, autant que vous voulez >>\n\n");
-        int o = 1;
-        while(tetromino_in_board(*b) && o==1){
-            tetromino tr = malloc(sizeof(tetromino));
-            tr = select_tetromino_on_grid(*b);
-            add_to_score(b, -1);
-            use_card(list_cte[c], b, -1, tr);
-            free(tr);
-            printf("Vous voulez supprimer un autre tétromino ? (0 : non; 1: oui\n");
-            scanf("%d", &o);
-        }
-        if (!tetromino_in_board(*b)) printf("Plateau vide, impossibilité de supprimer un autre tetromino\n");
-        remove_card(b, n);
-    }
-    if (n==5){
-        if (reserve_is_empty(*b)){
-            printf("\n Carte sans effet, résevoir vide ! \n");
-
-        }else{
-            printf("Séléctionner le tétromino que vous voulez échanger :\n");
-            int c;
-            scanf("%d", &c);
-            tetromino* sac = malloc(4 * sizeof(tetromino));
-            sac = list_tetrominos_in_bag(*b);
-            use_card(list_cte[c], b, -1, sac[c-1]);
-        }
-    }
-    if (n==6){
-        if (reserve_is_full(*b)){
-            printf("\n Carte sans effet, résevoir plein ! \n");
-        }else{
-            use_card(list_cte[c], b, n, NULL);
-            remove_card(b, get_num(list_cte[c]));
-        }
-    }
-    if (n==7){
-        printf("\n<< Séléction de 3 tétrominos à supprimer tant que le plateau n'est pas vide >>\n\n");
-        int i=0;
-        while(tetromino_in_board(*b) && i<3){
-            tetromino tr = malloc(sizeof(tetromino));
-            tr = select_tetromino_on_grid(*b);
-            add_to_score(b, get_nb_points(tr));
-            use_card(list_cte[c], b, -1, tr);
-            free(tr);
-            i++;
-        }
-        if (i<3) printf("\n Plateau vide, impossibilité de supprimer un autre tetromino\n");
-        remove_card(b, n);
-    }
-    if (n==8 || n==16){
-        use_card(list_cte[c], b, -1, NULL);
-        remove_card(b, get_num(list_cte[c]));
-    }
-    if (n==14){
-        printf("<< Séléctionner un tétromino (n°) >>\n");
-        int t;
-        scanf("%d", &t);
-    }
-    if(n==17){
-        printf("<< Agrandissement de votre sac +1 >> \n");
-        use_card(list_cte[c], b, -1, NULL);
-        remove_card(b, get_num(list_cte[c]));
-    }
-}
-
-void ask_use_card(board* b){
-    carte* list_cte = malloc(8*sizeof(carte));
-    list_cte = get_list_card(*b);
-    printf("\nVoulez - vous utiliser une carte spéciale ? \n");
-    printf("0 : Non / 1 : Oui \n");
-    int c;
-    printf("\nEntrez votre choix : ");
-    scanf("%d", &c);
-    int i =0; bool empty =false;
-    while (i<8 && empty == false){
-        if (list_cte[i] == NULL){
-            empty = false; i++;
-        }else empty=true;
-    }
-    if (c == 1 && empty == true){
-        printf("\n<< Liste des cartes disponibles >>\n\n");
-        for (int i=0; i<8; i++){
-            if (list_cte[i] != NULL){
-                printf("Carte spéciale n° : %d", i);show_card(list_cte[i]);
-            }
-        }
-        printf("Entrez le numéro de carte que vous voulez utiliser :\n");
-        int c;
-        scanf("%d", &c);
-        to_need_to_use_card(b, c);
-    }else if (empty == false){
-        printf("\nImpossible de choisir une carte spéciale, vous n'en avez aucune !\n\n");
-    }
-
-}
-
-/* End of (Tache E.4)  done by ALI DAOUDI */
-
-
-/**/
-
-// Fonction pour afficher la fin du jeu
-void display_end_game(board board) {
-    // Affiche un message de fin de jeu avec les informations associées
-    printf("Fin du jeu\n");
-    display_board(board);
-}
-
-// Fonction pour afficher un message
-void display_message(char* message) {
-    // Affiche le message donné en entrée
-    printf("%s\n", message);
-}
-
-
-
-
-
-
-
-
-/* @note: cette partie est pour la gestion de la tache E.2 */ 
-
-
 
 void ask_rotate_tetromino(tetromino tetromino) {
     char input[100];
@@ -288,4 +156,64 @@ void ask_rotate_tetromino(tetromino tetromino) {
     }
 }
 
+// Fonction pour afficher la fin du jeu
+void display_end_game(board board) {
+    // Affiche un message de fin de jeu avec les informations associées
+    printf("Fin du jeu\n");
+    display_board(board);
+}
 
+// Fonction pour afficher un message
+void display_message(char* message) {
+    // Affiche le message donné en entrée
+    printf("%s\n", message);
+}
+
+
+void display_carte(carte c){
+    printf("Nom:%s\nEffet:%s\n",get_name_card(c),get_info_carte(c));
+}
+
+void ask_use_carte(board b){
+    int act; char in[100];
+    int truc=1;
+    while(truc){
+        printf("voulez-vous générer une carte? Oui(1) ou non(2)\n");
+        fgets(in,sizeof(in),stdin);
+        if(sscanf(in,"%d",&act)==1 && (act==1 || act==2)) truc =0;
+        else printf("Entrée invalide. Veuillez saisir 1 ou 2\n");
+    }
+    if(act==1){
+        carte c=create_carte();
+        display_carte(c);
+        int act2; char in2[100];
+        int truc2=1;
+        while(truc2){
+            printf("voulez-vous utiliser la carte? Oui(1) ou non(2)\n");
+            fgets(in2,sizeof(in2),stdin);
+            if(sscanf(in2,"%d",&act2)==1 && (act2==1 || act2==2)) truc2 =0;
+            else printf("Entrée invalide. Veuillez saisir 1 ou 2\n");
+        }
+        if(act2==1){
+            switch(get_num(c)){
+                case 8:
+                    Christophe_Mouilleron(b);
+                    break;
+                case 0:
+                    Thuy_Vo(b);
+                    break;
+                case 1:
+                    David_Roussel(b);
+                    break;
+                case 2:
+                    Abass_Sagna(b);
+                    break;
+                case 5:
+                    Laurence_Bourard(b);
+                    break;
+
+            }
+        }
+
+    }
+}
