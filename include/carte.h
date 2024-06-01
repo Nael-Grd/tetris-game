@@ -1,47 +1,57 @@
-#ifndef CARTE_H
-#define CARTE_H
+#ifndef __CART_H_
+#define __CART_H_
 
 /**
- * @brief Structure représentant une carte.
+ * @brief A structure representing a card.
  */
 typedef struct s_carte* carte;
 
 /**
- * @brief Crée une nouvelle carte avec des attributs aléatoires.
- * 
- * @return carte Pointeur vers la nouvelle carte créée.
+ * @brief Creates a new card randomly.
+ *
+ * @return A new card.
+ * @pre A non-null card must be created.
+ * @post A new card is created randomly.
  */
-carte create_carte(void);
+carte create_carte();
 
 /**
- * @brief Récupère le numéro d'une carte.
- * 
- * @param cte La carte dont on veut obtenir le numéro.
- * @return int Le numéro de la carte.
+ * @brief Gets the card's number.
+ *
+ * @param cte A non-null card.
+ * @return The card's number.
+ * @pre The card must be non-null.
+ * @post Returns the card's number.
  */
 int get_num(carte cte);
 
 /**
- * @brief Récupère le nom d'une carte.
- * 
- * @param cte La carte dont on veut obtenir le nom.
- * @return char* Le nom de la carte.
+ * @brief Gets the card's name.
+ *
+ * @param cte A non-null card.
+ * @return The card's name.
+ * @pre The card must be non-null.
+ * @post Returns the card's name.
  */
 char* get_name_card(carte cte);
 
 /**
- * @brief Récupère la description d'une carte.
- * 
- * @param cte La carte dont on veut obtenir la description.
- * @return char* La description de la carte.
+ * @brief Retrieves the card's description or name.
+ *
+ * @param cte A non-null card.
+ * @return The card's description or name.
+ * @pre The card must be non-null.
+ * @post Returns the card's description or name.
  */
 char* get_info_carte(carte cte);
 
 /**
- * @brief Libère la mémoire allouée pour une carte.
- * 
- * @param cte La carte à libérer.
+ * @brief Frees the card.
+ *
+ * @param cte A valid card address.
+ * @pre The card address must be valid.
+ * @post Frees the memory allocated to the card.
  */
 void free_card(carte cte);
 
-#endif /* CARTE_H */
+#endif

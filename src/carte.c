@@ -1,52 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../include/carte.h"
 
-
-/**
- * @struct s_carte
- * @brief Structure représentant une carte.
- */
+// Defining the structure for a card, which contains a number, a name, and a description.
 struct s_carte {
-    int num;           /**< Numéro de la carte */
-    char* name;        /**< Nom de la carte */
-    char* description; /**< Description de la carte */
+    int num;
+    char* name;
+    char* description;
 };
 
-/**
- * @brief Génère un nombre aléatoire excluant certains numéros.
- * 
- * @param excluded Tableau des numéros à exclure.
- * @param excluded_size Taille du tableau des numéros à exclure.
- * @return int Nombre aléatoire généré qui n'est pas dans le tableau des exclus.
- */
-int generate_random_num_excluding(int excluded[], int excluded_size) {
+carte create_carte() {
+    // Initialize random number generator
+    srand(time(NULL));
+
+    // Generate a random number between 0 and 17, excluding specific numbers
     int num;
-    int is_excluded;
     do {
         num = rand() % 18;
-        is_excluded = 0;
-        for (int i = 0; i < excluded_size; i++) {
-            if (num == excluded[i]) {
-                is_excluded = 1;
-                break;
-            }
-        }
-    } while (is_excluded);
-    return num;
-}
+    } while (num == 4 || num == 9 || num == 10 || num == 11 || num == 12 || num == 13 || num == 15);
 
-/**
- * @brief Crée une nouvelle carte avec des attributs aléatoires.
- * 
- * @return carte Pointeur vers la nouvelle carte créée.
- */
-carte create_carte() {
-    int excluded_nums[] = {4, 9, 10, 11, 12, 13, 15};
-    int excluded_size = sizeof(excluded_nums) / sizeof(excluded_nums[0]);
-    int num = generate_random_num_excluding(excluded_nums, excluded_size);
-
+    // Allocate memory for the new card
     carte cte = malloc(sizeof(struct s_carte));
+    if (cte == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Initialize the card based on the random number
     switch (num) {
         case 0:
             cte->num = 0;
@@ -71,7 +52,7 @@ carte create_carte() {
         case 5:
             cte->num = 5;
             cte->name = "Laurence Bourard";
-            cte->description = "Choisissez une pièce du sac et une pièce de la réserve et échangez les. La carte n'a pas d'effet si la réserve est vide.";
+            cte->description = "Choisissez une pièce du sac et une pièce de la réserve et échangez-les. La carte n'a pas d'effet si la réserve est vide.";
             break;
         case 6:
             cte->num = 6;
@@ -81,7 +62,7 @@ carte create_carte() {
         case 7:
             cte->num = 7;
             cte->name = "Anne-Laure Ligozat";
-            cte->description = "Supprimez 3 pièces du plateau. Vous ne perdez aucun points.";
+            cte->description = "Supprimez 3 pièces du plateau. Vous ne perdez aucun point.";
             break;
         case 8:
             cte->num = 8;
@@ -103,45 +84,26 @@ carte create_carte() {
             cte->name = "Marie Szafranski";
             cte->description = "Votre sac peut maintenant contenir une pièce de plus. Une nouvelle pièce choisie aléatoirement est ajoutée à votre sac.";
             break;
+        default:
+            free(cte);
+            fprintf(stderr, "Unexpected card number: %d\n", num);
+            exit(EXIT_FAILURE);
     }
     return cte;
 }
 
-/**
- * @brief Récupère le numéro d'une carte.
- * 
- * @param cte La carte dont on veut obtenir le numéro.
- * @return int Le numéro de la carte.
- */
 int get_num(carte cte) {
     return cte->num;
 }
 
-/**
- * @brief Récupère le nom d'une carte.
- * 
- * @param cte La carte dont on veut obtenir le nom.
- * @return char* Le nom de la carte.
- */
 char* get_name_card(carte cte) {
     return cte->name;
 }
 
-/**
- * @brief Récupère la description d'une carte.
- * 
- * @param cte La carte dont on veut obtenir la description.
- * @return char* La description de la carte.
- */
 char* get_info_carte(carte cte) {
     return cte->description;
 }
 
-/**
- * @brief Libère la mémoire allouée pour une carte.
- * 
- * @param cte La carte à libérer.
- */
 void free_card(carte cte) {
     free(cte);
 }

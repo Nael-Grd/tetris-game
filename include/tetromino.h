@@ -1,11 +1,13 @@
 #ifndef __TETROMINO__
 #define __TETROMINO__
 
-/*the s_t structure includes:
+/*
+  the s_t structure includes:
   an integer table "forme"
   an integer "type"
   an integer "points"
-  an integer "id"*/
+  an integer "id"
+*/
 typedef struct s_t* tetromino;
 
 /*@requires nothing
@@ -50,6 +52,55 @@ int* get_cells(tetromino tet);
   @ensures displaying said tetromino*/
 void display_tetromino(tetromino t);
 
+
+
+
+/*
+ *@note This part is implemented to address task E.2./**
+*/
+
+
+
+
+ * @brief Choose the action to be taken by the player.
+ * 
+ * @param b The game board.
+ * @return The action chosen by the player.
+ */
+int choose_action(board b);
+
+/**
+ * @brief Ask the player where to place the tetromino.
+ * 
+ * @param b The game board.
+ * @param row The chosen row.
+ * @param col The chosen column.
+ * @param t The tetromino to place.
+ * @param state The current state of the game.
+ */
+void ask_place_tetromino(board b, int *row, int *col, tetromino t, int state);
+
+/**
+ * @brief Ask the player if they want to rotate the tetromino.
+ * 
+ * @param t The tetromino to rotate.
+ */
+void ask_turn_tetromino(tetromino t);
+
+/**
+ * @brief Select a tetromino present on the grid.
+ * 
+ * @param b The game board.
+ * @return The selected tetromino.
+ */
+tetromino select_tetromino_on_grid(board b);
+
+/**
+ * @brief Ask the player if they want to use a special card.
+ * 
+ * @param b The game board.
+ */
+void ask_use_card(board *b);
 
 
 

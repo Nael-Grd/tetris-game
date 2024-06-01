@@ -1,108 +1,60 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
-#include "../include/constantes.h"
+#include "../include/carte.h"
+#include <stdlib.h>
+#include <time.h>
+
 #include <stddef.h>
 #include <stdio.h>
-
-/* E.2 */
-
-/*  @requires: b a valid adress of a board, t a valid adress of a tetromino, n a positive integer
-    @assigns: modification of the board b because of the movement of tetromino t
-    @ensures: If possible, the procedure moves the tetromino t in board b. If not, the procedure leaves the tetromino to its original position.
-*/
-void gestion_tourner(board b, tetromino t, int n) {
-    int pr;
-    int pc;
-    int row_t;
-    int column_t;
-    remove_tetromino(&b, &row_t, &column_t, t); //On retire le tetromino de la position à laquelle il était
-    ask_turn_tetromino(b, pr, pc, t); //Demande à la joueuse comment tourner le tetromino
-    int* tab = calloc(n*n-2, sizeof(int*)); //Allocation d'un tableau qui va permettre de stocker toute les positions qui ont été selectionné et qui sont mauvaise hormis la position dans laquelle il était à l'origine
-    int i=0;
-    //Gestion du cas où on ne peut pas déplacer le tetromino
-    //Soit parce que il n'y a plus aucune place possible en dehors de la place dans laquelle il était et dans ce cas on repositionne le tetromino dans sa position initiale, soit parce que la joueuse a mal choisi
-    while(place_tetromino(&b, pr, pc, t)!=0) {
-        //Ici les pr et pc ne peuvent pas correspondre à la position que le tetromino avait avant de le déplacer car sinon place_tetromino serait égal à 1
-        
-        if(i==n*n-2) {
-            //Dans le cas où la joueuse a essayé de déplacer le tetromino dans toute les positions possible (en dehors de sa position de base) sans succès
-            //On décide finalement de déplacer le tetromino dans la position où il était à l'origine
-            pr=row_t;
-            pc=column_t;
-            continue;
-        }
-
-        //On stock petit à petit les positions pour lesquelles la joueuse ne peut pas déplacer le tetromino 
-        //jusqu'à arriver au cas ci dessus ou alors jusqu'à que la joueuse trouve une bonne position
-        tab[i]=pr;
-        tab[i+1]=pc;
-        i=i+2;
-        for(int j=0; j<i; j+=2) {
-            if(pr==tab[j] && pc==tab[j+1]) {
-                tab[i-1]=0;
-                tab[i-2]=0;
-                i=i-2;
-                break;
-            }
-        }
-        //A chaque itération on redemande de placer le tetromino en affichant les informations du jeu pour que la joueuse comprenne que la position précédente ne fonctionne pas
-        display_board(b);
-        ask_turn_tetromino(b, pr, pc, t);
+/**
+ * @brief Initialise le jeu avec un plateau et un sac de tétriminos.
+ * 
+ * @param n Le nombre de lignes et de colonnes du plateau.
+ * @param k Le nombre de tétriminos dans le sac.
+ * @return Le plateau de jeu initialisé.
+ */
+board init_jeu(int n, int k) {
+    board b = create_board(n, n, k);
+    for (int i = 0; i < 4; i++) {
+        tetromino t_init = create_random_tetromino();
+        add_tetromino_to_bag(&b, t_init);
     }
-    free(tab);
+    return b;
 }
 
-
-
-/*  @requires: b a valid adress of a board, t a valid adress of a tetromino, n a positive integer
-    @assigns: modification of the board b because of the movement of tetromino t
-    @ensures: If possible, the procedure moves the tetromino t in board b. If not, the procedure leaves the tetromino to its original position.
-*/
-void gestion_tourner_deplacer(board b, tetromino t, int n) {
-    int pr;
-    int pc;
-    int row_t;
-    int column_t;
-    remove_tetromino(&b, &row_t, &column_t, t); //On retire le tetromino de la position à laquelle il était
-    ask_turn_and_deplace_tetromino(b, &pr, &pc, t); //Demande l'endroit où la joueuse souhaite déplacer le tetromino
-    int* tab = calloc(n*n-2, sizeof(int*)); //Allocation d'un tableau qui va permettre de stocker toute les positions qui ont été selectionné et qui sont mauvaise hormis la position dans laquelle il était à l'origine
-    int i=0;
-    //Gestion du cas où on ne peut pas déplacer le tetromino
-    //Soit parce que il n'y a plus aucune place possible en dehors de la place dans laquelle il était et dans ce cas on repositionne le tetromino dans sa position initiale, soit parce que la joueuse a mal choisi
-    while(place_tetromino(&b, pr, pc, t)!=0) {
-        //Ici les pr et pc ne peuvent pas correspondre à la position que le tetromino avait avant de le déplacer car sinon place_tetromino serait égal à 1
-        
-        if(i==n*n-2) {
-            //Dans le cas où la joueuse a essayé de déplacer le tetromino dans toute les positions possible (en dehors de sa position de base) sans succès
-            //On décide finalement de déplacer le tetromino dans la position où il était à l'origine
-            pr=row_t;
-            pc=column_t;
-            continue;
-        }
-
-        //On stock petit à petit les positions pour lesquelles la joueuse ne peut pas déplacer le tetromino 
-        //jusqu'à arriver au cas ci dessus ou alors jusqu'à que la joueuse trouve une bonne position
-        tab[i]=pr;
-        tab[i+1]=pc;
-        i=i+2;
-        for(int j=0; j<i; j+=2) {
-            if(pr==tab[j] && pc==tab[j+1]) {
-                tab[i-1]=0;
-                tab[i-2]=0;
-                i=i-2;
-                break;
-            }
-        }
-        //A chaque itération on redemande de placer le tetromino en affichant les informations du jeu pour que la joueuse comprenne que la position précédente ne fonctionne pas
-        display_board(b);
-        ask_turn_and_deplace_tetromino(b, &pr, &pc, t);
-    }
-    free(tab);
+/**
+ * @brief Gère le placement d'un tétrimino sur le plateau.
+ * 
+ * @param b L'adresse du plateau.
+ * @param t L'adresse du tétrimino.
+ * @param etat L'état actuel du jeu.
+ */
+void gestion_placement(board b, tetromino t, int etat) {
+    int row;
+    int col;
+    ask_turn_tetromino(t);
+    ask_place_tetromino(b, &row, &col, t, etat);
+    place_tetromino(&b, row, col, t);
 }
 
+/**
+ * @brief Gère le sac après un mouvement de tétrimino sur le plateau.
+ * 
+ * @param b L'adresse du plateau.
+ * @param t L'adresse du tétrimino.
+ */
+void gestion_du_sac_apres_mouvement(board b, tetromino t) {
+    remove_tetromino_from_bag(&b, t);
+    tetromino new_tetromino = create_random_tetromino();
+    add_tetromino_to_bag(&b, new_tetromino);
+}
 
-
+/**
+ * @brief Fonction principale qui lance le jeu.
+ * 
+ * @return 0 si le jeu se termine correctement.
+ */
 int main() {
     
     /* Initialisation du jeu */
@@ -110,11 +62,25 @@ int main() {
     for (int i=0; i<4; i++) {
         add_tetromino_to_bag(my_board, create_random_tetromino());
     }
+    srand(time(NULL));
+
+    int taille_plateau;
+    int taille_sac;
+    printf("Entrez la taille du plateau (nxn): ");
+    scanf("%d", &taille_plateau);
+    printf("Entrez la taille du sac de tétriminos: ");
+    scanf("%d", &taille_sac);
 
     /* Boucle du jeu  */
+    board b = init_jeu(taille_plateau, taille_sac);
+    display_board(b);
 
     int vider_reserve=-1;
     int reserve_pleine=0;
+    int etat_action;
+    while (1) {
+        printf("Choisissez une action (1: Placer un nouveau tétrimino, 2: Déplacer un tétrimino, 3: Tourner un tétrimino, 4: Placer un tétrimino dans la réserve): ");
+        scanf("%d", &etat_action);
 
     int end = 0;
     while (end == 0) {
@@ -126,7 +92,7 @@ int main() {
                 break;
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
-                gestion_placement(b, t, n);
+                 ask_use_cart(&my_board ); /*Ask the user if she  want to use a card (TACHE E4 ) done by "ALI DAOUDI" */
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     int pr; int pc;
@@ -139,6 +105,12 @@ int main() {
                             vider_reserve=-1;
                             remove_tetromino_from_reserve(my_board);
                         }
+                    catre card=get_carte(my_board,tet1) ;ask_use_cart(&my_board ); /*(TACHE E4 ) done by "ALI DAOUDI" */
+                    /* (TACHE E4 ) done by "ALI DAOUDI" */
+                    if(card != NULL) 
+                    {
+                        add_card(&my_board,card);  /* add the choosen carte (TACHE E4 ) done by "ALI DAOUDI" */
+                    }
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
                         if(!reserve_pleine){
@@ -215,6 +187,41 @@ int main() {
                         break;
             default:
                 break;
+                //E.2 
+        if (etat_action == 1) {
+            if (!bag_is_empty(b)) {
+                tetromino t = get_tetromino_from_bag(b);
+                gestion_placement(b, t, etat_action);
+                display_board(b);
+            } else {
+                printf("Le sac est vide.\n");
+            }
+        } else if (etat_action == 2 && tetromino_in_board(b)) {
+            tetromino t = select_tetromino_on_grid(b);
+            int old_row;
+            int old_col;
+            remove_tetromino(&b, &old_row, &old_col, t);
+            gestion_placement(b, t, etat_action);
+            if (!tetromino_in_board(b)) {
+                place_tetromino(&b, old_row, old_col, t);
+                display_board(b);
+            }
+        } else if (etat_action == 3 && tetromino_in_board(b)) {
+            tetromino t = select_tetromino_on_grid(b);
+            int row;
+            int col;
+            remove_tetromino(&b, &row, &col, t);
+            ask_turn_tetromino(t);
+            place_tetromino(&b, row, col, t);
+            display_board(b);
+        } else if (etat_action == 4 && reserve_is_empty(b)) {
+            tetromino t = select_tetromino_on_grid(b);
+            gestion_placement_grille_vers_reserve(b, t);
+        } else if ((etat_action == 4 && !reserve_is_empty(b)) || (etat_action == 2 && !tetromino_in_board(b))) {
+            tetromino t = get_tetromino_from_reserve(b);
+            gestion_placement_reserve_vers_grille(b, t, etat_action);
+        } else {
+            printf("Action invalide ou impossible.\n");
         }
     }
 
@@ -223,5 +230,6 @@ int main() {
     printf("Score final : %d\n", get_score(my_board));
     free_board(my_board);
     
+    free_board(&b);
     return 0;
 }

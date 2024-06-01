@@ -4,6 +4,8 @@
 #include "../include/tetromino.h"
 #include "../include/carte.h"
 
+
+
 #define MEMORY_ERROR 1
 #define INVALID_PARAMETERS_ERROR 2
 #define PLACEMENT_POSSIBLE 1
@@ -20,8 +22,244 @@ struct BoardStruct
     tetromino *sac;  // Sac de tétromino
     int **grille;    // Grille du plateau de jeu
     int scoreActuel; // Score actuel
-     carte* list_of_cards; // liste des cartes spéciales
+     carte* list_card; // list of special cards 
+
 };
+/*Début des  fonction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
+
+/**
+ * @brief Checks if a tetromino is a special card.
+ * 
+ * @param b The game board.
+ * @param t The tetromino to check.
+ * @return true if the tetromino is a special card, false otherwise.
+ */
+bool is_card(board b, tetromino t) {
+    int spec_case[8] = {7, 1, 5, 3, 4, 2, 6, 0};
+    for (int i = 0; i < 8; i++) {
+        tetromino tetro = get_tetromino(b, i, spec_case[i]);
+        if (tetro != NULL && get_id(tetro) == get_id(t)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Gets a special card if the tetromino is a special card.
+ * 
+ * @param b The game board.
+ * @param t The tetromino to check.
+ * @return A new special card if the tetromino is a special card, NULL otherwise.
+ */
+carte get_card(board b, tetromino t) {
+    if (is_card(b, t)) {
+        return create_carte();
+    }
+    return NULL;
+}
+
+/**
+ * @brief Removes a card from the board's list of special cards.
+ * 
+ * @param b The game board.
+ * @param num The number of the card to remove.
+ */
+void remove_card(board* b, int num) {
+    for (int i = 0; i < 8 && (*b)->list_card[i] != NULL; i++) {
+        if (get_num((*b)->list_card[i]) == num) {
+            (*b)->list_card[i] = NULL;
+            break;
+        }
+    }
+}
+
+/**
+ * @brief Adds a card to the board's list of special cards.
+ * 
+ * @param b The game board.
+ * @param cte The card to add.
+ */
+void add_card(board* b, carte cte) {
+    for (int i = 0; i < 8; i++) {
+        if ((*b)->list_card[i] == NULL) {
+            (*b)->list_card[i] = cte;
+            break;
+        }
+    }
+}
+
+/**
+ * @brief Effect of the Thuy Vo card.
+ * 
+ * @param b The game board.
+ */
+void Thuy_Vo(board* b) {
+    int n;
+    scanf("%d", &n);
+    remove_tetromino_from_bag(b, (*b)->bag[n - 1]);
+    add_tetromino_to_bag(b, create_random_tetromino());
+}
+
+/**
+ * @brief Effect of the David Roussel card.
+ * 
+ * @param b The game board.
+ */
+void David_Roussel(board* b) {
+    if (!reserve_is_empty(*b)) {
+        remove_from_reserve(b);
+    }
+}
+
+/**
+ * @brief Effect of the Abass Sagna card.
+ * 
+ * @param b The game board.
+ */
+void Abass_Sagna(board* b) {
+    if (!reserve_is_empty(*b)) {
+        remove_from_reserve(b);
+        add_tetromino_in_reserve(b, create_random_tetromino());
+    }
+    show_reserve(*b);
+}
+
+/**
+ * @brief Effect of the Renaud Rioboo card.
+ * 
+ * @param b The game board.
+ * @param tr The tetromino to remove.
+ */
+void Renaud_Rioboo(board* b, tetromino tr) {
+    int p, c;
+    remove_tetromino(b, &p, &c, tr);
+    display_board(*b);
+}
+
+/**
+ * @brief Effect of the Laurence Bourard card.
+ * 
+ * @param b The game board.
+ * @param t The tetromino to exchange.
+ */
+void Laurence_Bourard(board* b, tetromino t) {
+    remove_tetromino_from_bag(b, t);
+    tetromino tetro_res = get_tetromino_from_reserve(*b);
+    remove_from_reserve(b);
+    add_tetromino_in_reserve(b, t);
+    add_tetromino_to_bag(b, tetro_res);
+    show_reserve(*b);
+}
+
+/**
+ * @brief Effect of the Massinissa Merabet card.
+ * 
+ * @param b The game board.
+ */
+void Massinissa_Merabet(board* b) {
+    tetromino tr = select_tetromino_on_grid(*b);
+    add_tetromino_in_reserve(b, tr);
+    show_reserve(*b);
+}
+
+/**
+ * @brief Effect of the Anne Laure Ligozat card.
+ * 
+ * @param b The game board.
+ * @param tr The tetromino to remove.
+ */
+void Anne_Laure_Ligozat(board* b, tetromino tr) {
+    int p, c;
+    remove_tetromino(b, &p, &c, tr);
+    display_board(*b);
+}
+
+/**
+ * @brief Effect of the Christophe Mouilleron card.
+ * 
+ * @param b The game board.
+ */
+void Christophe_Mouilleron(board *b) {
+    for (int i = 0; i < (*b)->k; i++) {
+        remove_tetromino_from_bag(b, (*b)->bag[i]);
+        add_tetromino_to_bag(b, create_random_tetromino());
+    }
+}
+
+/**
+ * @brief Effect of the Cyril Benezet card.
+ * 
+ * @param b The game board.
+ * @param n The index of the tetromino in the bag.
+ */
+void Cyril_Benezet(board* b, int n) {
+    int type = get_type((*b)->bag[n - 1]);
+    for (int i = 0; i < (*b)->k; i++) {
+        remove_tetromino_from_bag(b, (*b)->bag[i]);
+        add_tetromino_to_bag(b, create_tetromino(type, rand(), rand() % 3 + 1));
+    }
+}
+
+/**
+ * @brief Effect of the Dimitri Watel card.
+ * 
+ * @param b The game board.
+ */
+void Dimitri_Watel(board* b) {
+    (*b)->r++;
+    (*b)->reserve = realloc((*b)->reserve, (*b)->r * sizeof(tetromino));
+    show_reserve(*b);
+}
+
+/**
+ * @brief Effect of the Marie Szafranski card.
+ * 
+ * @param b The game board.
+ */
+void Marie_Szafranski(board* b) {
+    (*b)->k++;
+    (*b)->bag = realloc((*b)->bag, (*b)->k * sizeof(tetromino));
+    (*b)->bag[(*b)->k - 1] = create_random_tetromino();
+}
+
+/**
+ * @brief Uses a special card's effect on the board.
+ * 
+ * @param cte The special card.
+ * @param b The game board.
+ * @param n An additional parameter for some effects.
+ * @param tr A tetromino parameter for some effects.
+ */
+void use_card(carte cte, board* b, int n, tetromino tr) {
+    int numero = get_num(cte);
+    switch (numero) {
+        case 0: Thuy_Vo(b); break;
+        case 1: David_Roussel(b); break;
+        case 2: Abass_Sagna(b); break;
+        case 3: Renaud_Rioboo(b, tr); break;
+        case 5: Laurence_Bourard(b, tr); break;
+        case 6: Massinissa_Merabet(b); break;
+        case 7: Anne_Laure_Ligozat(b, tr); break;
+        case 8: Christophe_Mouilleron(b); break;
+        case 14: Cyril_Benezet(b, n); break;
+        case 16: Dimitri_Watel(b); break;
+        case 17: Marie_Szafranski(b); break;
+    }
+}
+
+/**
+ * @brief Gets the list of special cards from the board.
+ * 
+ * @param b The game board.
+ * @return The list of special cards.
+ */
+carte* get_list_card(board b) {
+    return b->list_card;
+}
+
+
+/* FIN des  fonction a ajouter pour les carte de Tache E4 faite par "ALI DAOUDI " */
 
 /**
  * Fonction `create_board`
@@ -87,10 +325,10 @@ board create_board(int nbLignes, int nbColonnes, int tailleSac)
             exit(MEMORY_ERROR);
         }
     }
-    /* Ajout de ALi DAOUDI pour Tache E.4 dans la mesure de creer de la memoire pour la listes_des_cartes   */
-    
-    b->list_of_cards = malloc(8*sizeof(carte));     /* Ajout de ALi DAOUDI pour Tache E.4 dans la mesure de creer de la memoire pour la listes_des_cartes   */
 
+    /*ajout de la tache E.4 par "ALI DAOUDI " */
+    b->reserve = malloc(b->r * sizeof(tetromino)); // Allocate memory for the reserve
+b->list_card = malloc(8 * sizeof(carte)); // Allocate memory for the special card list
 
     return newBoard;
 }
@@ -782,11 +1020,3 @@ void remove_tetromino_from_reserve(board b){
 tetromino list_reserve(board b){
     return b->reserve[0];
 }
-=======
-tetromino* list_reserve(board b){
-    if(b->reserve[0]==NULL){
-        return NULL;
-    }
-    return b->reserve;
-}
->>>>>>> lot_e
