@@ -78,7 +78,6 @@ truc:
                 break;
             case 2:
                 tetromino tet2 = select_tetromino_on_grid(my_board);  //selection d'un tetro sur la grille
-                gestion_placement(my_board, tet1, n);
                 
                 if (tet2 != NULL) {
                     int r; int c;                          //on supprime le tetro du plateau
@@ -126,15 +125,13 @@ truc:
                 /* E.2 */
 
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-        gestion_placement(my_board, tet1, n);
-                    //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
+
                     display_board(b);
                 
             case 4 :     
                 
                     tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-        gestion_placement(my_board, tet1, n);
-                    //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
+
                     display_board(my_board);
                 
                         break;
