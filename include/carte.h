@@ -45,3 +45,4 @@ char* get_info_carte(carte cte);
 void free_card(carte cte);
 
 #endif /* CARTE_H */
+
