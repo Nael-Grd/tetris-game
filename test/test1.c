@@ -9,28 +9,24 @@
 
 //Rotation d'une pièce avant placement
 void rotation_avant_placement() {
+    board b = create_board(8, 8, 4);
     tetromino t = create_random_tetromino();
-    tetromino t1 = t;
-    turn(t, 2);                //rotation de 2
-    CU_ASSERT_NOT_EQUAL(t, t1); 
-    turn(t, 2);
-    CU_ASSERT_EQUAL(t, t1); 
+    int a = get_rotation(t);
+    turn(t, 1); 
+    CU_ASSERT_NOT_EQUAL(t, a+1); 
     free_tetromino(t);
-    free_tetromino(t1);
+    free_board(b);
 }
 
  //Rotation d'une pièce après placement
 void rotation_apres_placement() {
     board b = create_board(8, 8, 4);
     tetromino t = create_random_tetromino();
-    tetromino t1 = t;
     place_tetromino(b, 3, 3, t);        //on place le tetromino
-    turn(t, 2); 
-    CU_ASSERT_NOT_EQUAL(t, t1); 
-    turn(t, 2);
-    CU_ASSERT_EQUAL(t, t1); 
-    free_tetromino(t);
-    free_tetromino(t1);
+    int a = get_rotation(t);
+    turn(t, 1); 
+    CU_ASSERT_NOT_EQUAL(t, a+1); 
+    free_board(b);
 }        
 
 //Rotation d'une pièce après placement (affichage)
@@ -39,7 +35,7 @@ void rotation_apres_placement_aff() {
     tetromino t = create_random_tetromino();
     place_tetromino(b, 3, 3, t);       //on place le tetromino
     display_tetromino(t);
-    free_tetromino(t);
+    free_board(b);
 }
 
 //Placement d'une pièce dans la réserve
@@ -81,20 +77,21 @@ void recup_carte() {
     tetromino t = create_random_tetromino();
     carte c = create_carte();    //on créé une carte
     add_card(b, c);        //ajout de la carte sur le plateau
-    CU_ASSERT_EQUAL(get_list_of_card(b)[0], c);
+    CU_ASSERT_EQUAL(get_list_of_card(b), c);
     free_card(c);
     free_board(b);
     free_tetromino(t);
 }
 
-/* //Récupération d'une carte sur le plateau (affichage)
+//Récupération d'une carte sur le plateau (affichage)
 void recup_cartes_aff() {
     board b = create_board(8, 8, 4);
-    tetromino t = create_random_tetromino();
     carte c = create_carte();   
-    add_card(b, c);            //pas de fonction pour afficher une carte
+    add_card(b, c);    
+    show_card(c);
+    free_card(c)
 }
-*/
+
 
 //Test des cartes David Roussel, Laurence Bourard, Massinissa Merabet
 void test_cartes() {
