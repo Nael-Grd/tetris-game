@@ -1,16 +1,6 @@
-#include <stdlib.h>
-<<<<<<< HEAD
 #include "../include/tetromino.h"
-
-/**
- * @brief Structure représentant un tétrimino.
- */
-struct tetromino { 
-    int unique_id; /**< Un nombre unique qui définit le tétrimino */
-    int type; /**< Le type du tétrimino */
-    int orientation; /**< L'orientation du tétrimino */
-    int points; /**< Le nombre de points du tétrimino */
-=======
+#include <stdio.h>
+#include <stdlib.h>
 
 
 #define RESET       "\x1b[0m"  // Réinitialise les attributs de couleur et de style
@@ -31,122 +21,10 @@ struct s_t {
             ajoute au score */
     int orientation;
     int id; // l'identifiant unique de chaque tetromino
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
 };
 
-int total_tetrominos = 0;
+int identifiant=1;
 
-<<<<<<< HEAD
-/**
- * @brief Génère un nouvel identifiant unique.
- *
- * @return Un nouvel identifiant unique.
- */
-int generate_unique_id() {
-    total_tetrominos += 1;
-    return total_tetrominos;
-}
-
-/**
- * @brief Crée un tétrimino aléatoire.
- *
- * @return Un nouveau tétrimino.
- */
-tetromino create_random_tetromino() {
-    tetromino new_tetromino = malloc(sizeof(tetromino));
-    new_tetromino->unique_id = generate_unique_id();
-    new_tetromino->type = rand() % 7;
-    new_tetromino->orientation = 0;
-    new_tetromino->points = rand() % 3 + 1;
-    return new_tetromino;
-}
-
-/**
- * @brief Crée un tétrimino avec des paramètres spécifiques.
- *
- * @param type Le type du tétrimino.
- * @param orientation L'orientation du tétrimino.
- * @param points Le nombre de points du tétrimino.
- * @return Un nouveau tétrimino.
- */
-tetromino create_tetromino(int type, int orientation, int points) {
-    tetromino new_tetromino = malloc(sizeof(tetromino));
-    new_tetromino->unique_id = generate_unique_id();
-    new_tetromino->type = type;
-    new_tetromino->orientation = orientation;
-    new_tetromino->points = points;
-    return new_tetromino;
-}
-
-/**
- * @brief Libère la mémoire allouée pour un tétrimino.
- *
- * @param tr Le tétrimino à libérer.
- */
-void free_tetromino(tetromino tr) {
-    free(tr);
-}
-
-/**
- * @brief Obtient le type d'un tétrimino.
- *
- * @param tr Le tétrimino.
- * @return Le type du tétrimino, ou -10 si le tétrimino est NULL.
- */
-int get_type(tetromino tr) {
-    if (tr != NULL)
-        return tr->type;
-    else
-        return -10; // -10 comme valeur absurde, permet d'éviter un segfault, pourra être enlevé lorsque les cas seront mieux gérés
-}
-
-/**
- * @brief Obtient l'identifiant unique d'un tétrimino.
- *
- * @param tr Le tétrimino.
- * @return L'identifiant unique du tétrimino, ou -10 si le tétrimino est NULL.
- */
-int get_id(tetromino tr) {
-    if (tr != NULL)
-        return tr->unique_id;
-    else 
-        return -10;
-}
-
-/**
- * @brief Obtient le nombre de points d'un tétrimino.
- *
- * @param tr Le tétrimino.
- * @return Le nombre de points du tétrimino, ou -10 si le tétrimino est NULL.
- */
-int get_points(tetromino tr) {
-    if (tr != NULL)
-        return tr->points;
-    else 
-        return -10;
-}
-
-/**
- * @brief Retourne un tableau contenant les cellules du tétrimino selon les coordonnées.
- *
- * @param tr Le tétrimino.
- * @return Un tableau des cellules du tétrimino.
- */
-int* get_cells(tetromino tr) {
-    int* cells = malloc(sizeof(int) * 8);
-
-    if (tr->type == 0) {
-        if (tr->orientation % 2 == 0) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = -1;
-            cells[4] = 0; cells[5] = -2;
-            cells[6] = 0; cells[7] = -3;
-        } else {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = 0;
-            cells[4] = -2; cells[5] = 0;
-            cells[6] = -3; cells[7] = 0;
-=======
 tetromino create_tetromino(int t, int o, int p){
     if(t<0 || t>6 || p<1 || p>3){
         printf("erreur: paramètres pour création de tetromino non valides");
@@ -177,82 +55,111 @@ tetromino create_tetromino(int t, int o, int p){
                     tet->forme[2*j+1]=tet->forme[2*j-1]+1;
                 }
             }
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
         }
-    } else if (tr->type == 1) {
-        cells[0] = 0; cells[1] = 0;
-        cells[2] = 0; cells[3] = -1;
-        cells[4] = -1; cells[5] = -1;
-        cells[6] = -1; cells[7] = 0;
-    } else if (tr->type == 2) {
-        cells[0] = 0; cells[1] = 0;
-        cells[2] = 0; cells[3] = 1;
-        cells[4] = -1; cells[5] = 1;
-        cells[6] = -1; cells[7] = 0;
-    } else if (tr->type == 3) {
-        if (tr->orientation % 4 == 0) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = 0;
-            cells[4] = -1; cells[5] = 1;
-            cells[6] = -1; cells[7] = 2;
-        } else if (tr->orientation % 4 == 1) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = 1;
-            cells[4] = -1; cells[5] = 0;
-            cells[6] = -2; cells[7] = 0;
-        } else if (tr->orientation % 4 == 2) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = 0;
-            cells[4] = -1; cells[5] = -1;
-            cells[6] = -1; cells[7] = -2;
-        } else {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = -1;
-            cells[4] = -1; cells[5] = 0;
-            cells[6] = -2; cells[7] = 0;
+        break;
+        case 1:{// O
+            tet->forme[2]=-1;
+            tet->forme[5]=1;
+            tet->forme[6]=-1;
+            tet->forme[7]=1;
         }
-    } else if (tr->type == 4) {
-        if (tr->orientation % 2 == 0) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = -2;
-            cells[4] = -1; cells[5] = -1;
-            cells[6] = -1; cells[7] = 0;
-        } else {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = -1;
-            cells[4] = -1; cells[5] = -1;
-            cells[6] = -2; cells[7] = -1;
+        break;
+        case 2:{ // T
+            if(o%4==0){ // debout 
+                tet->forme[2]=-1;tet->forme[3]=-1;
+                tet->forme[4]=-1;
+                tet->forme[6]=-1;tet->forme[7]=1;
+            }
+            else if(o%4==1){ // tourné à 90 degrés
+                tet->forme[2]=-1;tet->forme[3]=-1;
+                tet->forme[4]=-1;
+                tet->forme[6]=-2;
+            }
+            else if(o%4==2){ // tourné à 180 degrés
+                tet->forme[3]=1;
+                tet->forme[4]=-1;tet->forme[5]=1;
+                tet->forme[7]=2;
+            }
+            else{ // tourné à 270 degrés
+                tet->forme[2]=-1;tet->forme[3]=1;
+                tet->forme[4]=-1;
+                tet->forme[6]=-2;
+            }
         }
-    } else if (tr->type == 5) {
-        if (tr->orientation % 2 == 0) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = 1;
-            cells[4] = -1; cells[5] = 1;
-            cells[6] = -1; cells[7] = 2;
-        } else {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = -1;
-            cells[4] = -1; cells[5] = 0;
-            cells[6] = -2; cells[7] = -1;
+        break;
+        case 3:{ // L
+            if(o%4==1){ // tourné à 90 degrés
+                tet->forme[2]=-1;
+                tet->forme[4]=-1;tet->forme[5]=1;
+                tet->forme[6]=-1;tet->forme[7]=2;
+            }
+            else if(o%4==2){ // tourné à 180 degrés
+                tet->forme[2]=-1;
+                tet->forme[4]=-2;
+                tet->forme[6]=-2;tet->forme[7]=-1;
+            }
+            else if(o%4==3){ // tourné à 270 degrés
+                tet->forme[3]=1;
+                tet->forme[5]=2;
+                tet->forme[7]=2;tet->forme[6]=-1;
+            }
+            else{ // debout
+                tet->forme[3]=1;
+                tet->forme[4]=-1;
+                tet->forme[6]=-2;
+            }
         }
-    } else {
-        if (tr->orientation % 2 == 0) {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = 0; cells[3] = 1;
-            cells[4] = -1; cells[5] = -1;
-            cells[6] = -1; cells[7] = 0;
-        } else {
-            cells[0] = 0; cells[1] = 0;
-            cells[2] = -1; cells[3] = 0;
-            cells[4] = -1; cells[5] = 1;
-            cells[6] = -2; cells[7] = 1;
+        break;
+        case 4:{ // J
+            if(o%4==3){ // tourné à 270 degrés
+                tet->forme[2]=-1;
+                tet->forme[4]=-1;tet->forme[5]=-1;
+                tet->forme[6]=-1;tet->forme[7]=-2;
+            }
+            else if(o%4==0){ // debout
+                tet->forme[3]=1;
+                tet->forme[4]=-1;tet->forme[5]=1;
+                tet->forme[6]=-2;tet->forme[7]=1;
+            }
+            else if(o%4==1){ // tourné à 90 degrés
+                tet->forme[2]=-1;
+                tet->forme[5]=1;
+                tet->forme[7]=2;
+            }
+            else{ // tourné à 180 degrés
+                tet->forme[2]=-1;
+                tet->forme[4]=-2;
+                tet->forme[7]=1;tet->forme[6]=-2;
+            }
         }
+        break;
+        case 5:{ // S
+            if(o%2==0){ // debout
+                tet->forme[3]=1;
+                tet->forme[4]=-1;tet->forme[5]=1;
+                tet->forme[6]=-1;tet->forme[7]=2;
+            }
+            else if(o%2==1){ // tourné
+                tet->forme[2]=-1;
+                tet->forme[4]=-1;tet->forme[5]=-1;
+                tet->forme[6]=-2;tet->forme[7]=-1;
+            }
+        }
+        break;
+        case 6:{ // Z
+            if(o%2==0){ // debout
+                tet->forme[3]=1;
+                tet->forme[4]=-1;
+                tet->forme[6]=-1;tet->forme[7]=-1;
+            }
+            else if(o%2==1){ // tourné
+                tet->forme[2]=-1;
+                tet->forme[4]=-1;tet->forme[5]=1;
+                tet->forme[6]=-2;tet->forme[7]=1;
+            }
+        }
+        break;
     }
-<<<<<<< HEAD
-    return cells;
-
-    void display_tetromino(tetromino t){ // ceci affiche le tetromino
-=======
     return tet;    
 }
 
@@ -432,7 +339,6 @@ int* get_cells(tetromino tet){ // ceci renvoi le tableau des coordonnées des co
 }
 
 void display_tetromino(tetromino t){ // ceci affiche le tetromino
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
     int taille=6;
     // créer la mini grille qui est de 6 lignes et 6 colonnes
     char** mini_grille=malloc(taille*sizeof(char*));
@@ -482,7 +388,6 @@ void display_tetromino(tetromino t){ // ceci affiche le tetromino
         free(mini_grille[z]);
     }
     free(mini_grille);
-
 }
 
 int get_orientation(tetromino tet){
