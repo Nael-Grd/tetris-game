@@ -18,7 +18,30 @@ carte create_carte() {
     int num;
     do {
         num = rand() % 18;
+<<<<<<< HEAD
     } while (num == 4 || num == 9 || num == 10 || num == 11 || num == 12 || num == 13 || num == 15);
+=======
+        is_excluded = 0;
+        for (int i = 0; i < excluded_size; i++) {
+            if (num == excluded[i]) {
+                is_excluded = 1;
+                break;
+            }
+        }
+    } while (is_excluded);
+    return num;
+}
+
+/**
+ * @brief Crée une nouvelle carte avec des attributs aléatoires.
+ * 
+ * @return carte Pointeur vers la nouvelle carte créée.
+ */
+carte create_carte() {
+    int excluded_nums[] = {3,4,6,7,9,10,11,12,13,14,15,16,17};
+    int excluded_size = sizeof(excluded_nums) / sizeof(excluded_nums[0]);
+    int num = generate_random_num_excluding(excluded_nums, excluded_size);
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
 
     // Allocate memory for the new card
     carte cte = malloc(sizeof(struct s_carte));
@@ -107,3 +130,4 @@ char* get_info_carte(carte cte) {
 void free_card(carte cte) {
     free(cte);
 }
+

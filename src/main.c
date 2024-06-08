@@ -1,6 +1,7 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
+<<<<<<< HEAD
 #include "../include/carte.h"
 #include <stdlib.h>
 #include <time.h>
@@ -55,7 +56,46 @@ void gestion_du_sac_apres_mouvement(board b, tetromino t) {
  * 
  * @return 0 si le jeu se termine correctement.
  */
+=======
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+double cpu_time;
+
+int tetrominos_placeables(board b){
+    tetromino* sac=list_tetrominos_in_bag(b);
+    int total=0;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<get_nbLignes(b);j++){
+            for(int h=0;h<nbColonnes(b);h++){
+                total+=check_place_tetromino(b,j,h,sac[i]);
+            }
+        }
+    }
+    tetromino res=list_reserve(b);
+    if(res!=NULL){
+        for(int j=0;j<get_nbLignes(b);j++){
+            for(int h=0;h<nbColonnes(b);h++){
+                total+=check_place_tetromino(b,j,h,res);
+            }
+        }
+    }
+    
+    return total;
+}
+
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
 int main() {
+
+    srand(time(NULL));
+    // Initialisation du temps CPU
+    
+    clock_t start_time, end_time;
+    double cpu_time;
+    start_time = clock();
     
     /* Initialisation du jeu */
     board my_board = create_board(8,8,4);
@@ -83,8 +123,11 @@ int main() {
         scanf("%d", &etat_action);
 
     int end = 0;
+    int vider_reserve=-1;
+    int reserve_pleine=0;
     while (end == 0) {
         display_board(my_board);      //on affiche le plateau
+truc:
         int action = choose_action();
         switch (action) {
             case 0:
@@ -92,9 +135,14 @@ int main() {
                 break;
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
+<<<<<<< HEAD
                  ask_use_cart(&my_board ); /*Ask the user if she  want to use a card (TACHE E4 ) done by "ALI DAOUDI" */
+=======
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
+                    ask_rotate_tetromino(tet1);
+                    display_tetromino(tet1);
                     int pr; int pc;
                     ask_place_tetromino(my_board, &pr, &pc, tet1);     //placer le tetro
                     if (check_place_tetromino(my_board, pr, pc, tet1)==1) {
@@ -105,12 +153,15 @@ int main() {
                             vider_reserve=-1;
                             remove_tetromino_from_reserve(my_board);
                         }
+<<<<<<< HEAD
                     catre card=get_carte(my_board,tet1) ;ask_use_cart(&my_board ); /*(TACHE E4 ) done by "ALI DAOUDI" */
                     /* (TACHE E4 ) done by "ALI DAOUDI" */
                     if(card != NULL) 
                     {
                         add_card(&my_board,card);  /* add the choosen carte (TACHE E4 ) done by "ALI DAOUDI" */
                     }
+=======
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
                         if(!reserve_pleine){
@@ -128,6 +179,12 @@ int main() {
                                     vider_reserve=0;
                                     reserve_pleine=1;
                                 }
+<<<<<<< HEAD
+=======
+                            }
+                            else{
+                                ask_use_carte(my_board);
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                             }
                         }
                     }
@@ -139,8 +196,6 @@ int main() {
                 break;
             case 2:
                 tetromino tet2 = select_tetromino_on_grid(my_board);  //selection d'un tetro sur la grille
-            gestion_deplacement(b, t, n);
-                
                 if (tet2 != NULL) {
                     int r; int c;                          //on supprime le tetro du plateau
                     remove_tetromino(my_board, &r, &c, tet2);
@@ -156,35 +211,34 @@ int main() {
                 break;
             case 3: //Tâche E3: ajouté l'option de la réserve.
                 tetromino tet3=list_reserve(my_board);
+<<<<<<< HEAD
                 printf("récup tet3\n");
+=======
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                 if(tet3!=NULL){
+                    ask_rotate_tetromino(tet3);
+                    display_tetromino(tet3);
                     int pr;int pc;
                     ask_place_tetromino(my_board,&pr,&pc,tet3);
                     if (place_tetromino(my_board, pr, pc, tet3) == 1) {
                         remove_tetromino_from_reserve(my_board);
                         reserve_pleine=0;
                         vider_reserve=-1;
+<<<<<<< HEAD
+=======
+                        ask_use_carte(my_board);
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                         break;                        //si on l'a placé fin du tour
                     }
                     else {
                         place_tetromino(my_board, pr, pc, tet3); //sinon on remet le tetro ou il etait       
                     }
                 }
-
-                /* E.2 */
-
-                    tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-                    gestion_tourner(b, t, n);
-                    //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
-                    display_board(b);
+                else{
+                    printf("la réserve est vide!!\n");
+                    goto truc;
                 }
-                else if (etat_action == 4) {
-                    tetromino t = select_tetromino_on_grid(b); //Sélection du tetromino que la joueuse souhaite déplacer
-                    gestion_tourner_deplacer(b, t, n);
-                    //Apres gestion_deplacement, soit le tetromino a été deplacé soit il est resté à la meme position si aucun déplacement n'est possible
-                    display_board(b);
-                } 
-                        break;
+                break;
             default:
                 break;
                 //E.2 
@@ -223,12 +277,17 @@ int main() {
         } else {
             printf("Action invalide ou impossible.\n");
         }
+        if(tetrominos_placeables(my_board)==0) end=1;
     }
 
     /* Fin du jeu */
     display_end_game(my_board);    //fin de jeu
     printf("Score final : %d\n", get_score(my_board));
     free_board(my_board);
+
+    end_time = clock();
+    cpu_time = ((double) (end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("Temps CPU utilisé : %f secondes\n", cpu_time);
     
     free_board(&b);
     return 0;

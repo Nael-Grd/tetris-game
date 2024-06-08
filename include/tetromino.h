@@ -52,7 +52,9 @@ int* get_cells(tetromino tet);
   @ensures displaying said tetromino*/
 void display_tetromino(tetromino t);
 
+void rotate_tetromino(tetromino tet,int inc);
 
+int get_rotation(tetromino tet);
 
 
 /*

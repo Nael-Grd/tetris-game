@@ -54,4 +54,9 @@ char* get_info_carte(carte cte);
  */
 void free_card(carte cte);
 
+<<<<<<< HEAD
 #endif
+=======
+#endif /* CARTE_H */
+
+>>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091

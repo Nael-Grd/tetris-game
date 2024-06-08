@@ -3,6 +3,7 @@
 // Inclusion du fichier board.h pour utiliser le type de données 'board' et 'tetromino'
 #include "board.h"  
 #include "tetromino.h"
+#include "carte.h"
 /**
  * @brief Demande à la joueuse quelle action effectuer et renvoie un chiffre correspondant.
  * 
@@ -63,5 +64,11 @@ void display_end_game(board board);
  * @param message - Le message à afficher.
  */
 void display_message(char* message);
+
+void ask_rotate_tetromino(tetromino tetromino) ;
+
+void display_carte(carte c);
+
+void ask_use_carte(board b);
 
 #endif // INTERFACE_H
