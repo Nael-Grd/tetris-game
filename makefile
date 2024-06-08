@@ -6,13 +6,9 @@ BIN_DIR = bin
 INC_DIR = include
 TEST_DIR = test
 
-<<<<<<< HEAD
-$(BIN_DIR)/tetris: $(OBJ_DIR)/board.o $(OBJ_DIR)/tetromino.o $(OBJ_DIR)/interface.o $(OBJ_DIR)/main.o
-	$(CC) $(CFLAGS) $^ -o $@
-=======
+
 $(BIN_DIR)/tetris: $(OBJ_DIR)/board.o $(OBJ_DIR)/tetromino.o $(OBJ_DIR)/interface.o $(OBJ_DIR)/main.o $(OBJ_DIR)/carte.o
 	$(CC) $(CFLAGS)  $^ -o $@
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
