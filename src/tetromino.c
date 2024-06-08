@@ -390,7 +390,7 @@ void display_tetromino(tetromino t){ // ceci affiche le tetromino
     free(mini_grille);
 }
 
-int get_orientation(tetromino tet){
+int get_rotation(tetromino tet){
     if(tet==NULL){
         printf("peut pas avoir la rotation d'un tetromino null\n");
         exit(10);
