@@ -1,7 +1,6 @@
 #include "../include/board.h"
 #include "../include/tetromino.h"
 #include "../include/interface.h"
-<<<<<<< HEAD
 #include "../include/carte.h"
 #include <stdlib.h>
 #include <time.h>
@@ -56,38 +55,6 @@ void gestion_du_sac_apres_mouvement(board b, tetromino t) {
  * 
  * @return 0 si le jeu se termine correctement.
  */
-=======
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-
-double cpu_time;
-
-int tetrominos_placeables(board b){
-    tetromino* sac=list_tetrominos_in_bag(b);
-    int total=0;
-    for(int i=0;i<4;i++){
-        for(int j=0;j<get_nbLignes(b);j++){
-            for(int h=0;h<nbColonnes(b);h++){
-                total+=check_place_tetromino(b,j,h,sac[i]);
-            }
-        }
-    }
-    tetromino res=list_reserve(b);
-    if(res!=NULL){
-        for(int j=0;j<get_nbLignes(b);j++){
-            for(int h=0;h<nbColonnes(b);h++){
-                total+=check_place_tetromino(b,j,h,res);
-            }
-        }
-    }
-    
-    return total;
-}
-
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
 int main() {
 
     srand(time(NULL));
@@ -135,10 +102,7 @@ truc:
                 break;
             case 1:
                 tetromino tet1 = select_tetromino_in_bag(my_board);    //selection d'un tetro
-<<<<<<< HEAD
                  ask_use_cart(&my_board ); /*Ask the user if she  want to use a card (TACHE E4 ) done by "ALI DAOUDI" */
-=======
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                 if (tet1 != NULL) {
                     remove_tetromino_from_bag(my_board, tet1);              //on le retire du sac
                     ask_rotate_tetromino(tet1);
@@ -153,15 +117,12 @@ truc:
                             vider_reserve=-1;
                             remove_tetromino_from_reserve(my_board);
                         }
-<<<<<<< HEAD
                     catre card=get_carte(my_board,tet1) ;ask_use_cart(&my_board ); /*(TACHE E4 ) done by "ALI DAOUDI" */
                     /* (TACHE E4 ) done by "ALI DAOUDI" */
                     if(card != NULL) 
                     {
                         add_card(&my_board,card);  /* add the choosen carte (TACHE E4 ) done by "ALI DAOUDI" */
                     }
-=======
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                         add_tetromino_to_bag(my_board, create_random_tetromino());    //si on l'a placé on complete le sac
                         //Tahce E3: ajouter l'option de réserver le tetromino
                         if(!reserve_pleine){
@@ -179,12 +140,6 @@ truc:
                                     vider_reserve=0;
                                     reserve_pleine=1;
                                 }
-<<<<<<< HEAD
-=======
-                            }
-                            else{
-                                ask_use_carte(my_board);
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                             }
                         }
                     }
@@ -211,10 +166,7 @@ truc:
                 break;
             case 3: //Tâche E3: ajouté l'option de la réserve.
                 tetromino tet3=list_reserve(my_board);
-<<<<<<< HEAD
                 printf("récup tet3\n");
-=======
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                 if(tet3!=NULL){
                     ask_rotate_tetromino(tet3);
                     display_tetromino(tet3);
@@ -224,10 +176,6 @@ truc:
                         remove_tetromino_from_reserve(my_board);
                         reserve_pleine=0;
                         vider_reserve=-1;
-<<<<<<< HEAD
-=======
-                        ask_use_carte(my_board);
->>>>>>> 63faeef75d99873448f1cdd402e62befa0e83091
                         break;                        //si on l'a placé fin du tour
                     }
                     else {

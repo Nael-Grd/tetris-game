@@ -26,6 +26,7 @@ void rotation_apres_placement() {
     int a = get_rotation(t);
     rotate_tetromino(t, 1); 
     CU_ASSERT_NOT_EQUAL(t, a+1); 
+    free_tetromino(t);
     free_board(b);
 }        
 
@@ -35,6 +36,7 @@ void rotation_apres_placement_aff() {
     tetromino t = create_random_tetromino();
     place_tetromino(b, 3, 3, t);       //on place le tetromino
     display_tetromino(t);
+    free_tetromino(t);
     free_board(b);
 }
 
@@ -91,6 +93,7 @@ void recup_cartes_aff() {
     carte c = create_carte();      
     display_carte(c);
     free_card(c);
+    free_board(b);
 }
 
 
@@ -110,7 +113,9 @@ void test_cartes() {
    /* remove_tetromino_from_reserve(b);
     Massinissa_Merabet(b);
     CU_ASSERT_NOT_EQUAL(list_reserve(b), NULL); */
-
+    free_tetromino(t);
+    free_tetromino(t1);
+    free_board(b);
 }
 
 
