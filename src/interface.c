@@ -55,14 +55,57 @@ void display_board(board my_board) {
         printf("\n");
     }
 
-    // Affichage du sac de tétrominos
+    // Affichage du sac de tétrominos en ligne
     printf("\nSac de tétrominos :\n");
     tetromino *tetrominos = list_tetrominos_in_bag(my_board);
+    
+    // Afficher les en-têtes
     for (int i = 0; i < 4; i++) {
-        printf("Tétromino %d : Type %d, Points %d\n", get_id(tetrominos[i]), get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
-        display_tetromino(tetrominos[i]);
+        printf("Tétromino %d : Type %d, Points %d       ", 
+               get_id(tetrominos[i]), get_type(tetrominos[i]), get_nb_points(tetrominos[i]));
     }
     printf("\n");
+    
+    // Afficher les 4 tétromino côte à côte (6 lignes de hauteur)
+    for (int ligne = 0; ligne < 6; ligne++) {
+        for (int i = 0; i < 4; i++) {
+            // Créer et initialiser mini grille pour ce tétrimino
+            char mini_grille[6][6];
+            int taille = 6;
+            
+            for(int h = 0; h < taille; h++) {
+                for(int k = 0; k < taille; k++) {
+                    mini_grille[h][k] = '-';
+                }
+            }
+            
+            // Remplir avec le tétromino (même logique que display_tetromino)
+            int* cells = get_cells(tetrominos[i]);
+            int l = 4, c = 2;
+            for (int j = 0; j < 8; j += 2) {
+                if(cells[j] == 0 && cells[j+1] == 0) {
+                    mini_grille[l + cells[j]][c + cells[j+1]] = 'X';
+                } else {
+                    mini_grille[l + cells[j]][c + cells[j+1]] = 'O';
+                }
+            }
+            
+            // Afficher cette ligne du tétromino avec les MÊMES couleurs
+            for(int n = 0; n < taille; n++) {
+                if(mini_grille[ligne][n] == '-') {
+                    printf(BGWHITE "  " RESET);
+                } else if(mini_grille[ligne][n] == 'X') {
+                    printf("\x1b[%dm" GRID_BORDER RESET, 91);
+                } else {
+                    printf("\x1b[%dm" GRID_BORDER RESET, 31+(get_id(tetrominos[i])%6));
+                }
+            }
+            printf("                         "); // Espace entre tétrominos
+        }
+        printf("\n"); // Nouvelle ligne après chaque rangée
+    }
+    printf("\n");
+    
 
     //tâche E2: affichage de la réserve
     printf("\nRéserve :\n");
@@ -76,7 +119,9 @@ void display_board(board my_board) {
     }
 
     // Affichage du score actuel
+    printf("\n");
     printf("Score actuel : %d\n", get_score(my_board));
+    printf("\n");
 }
 
 // Fonction pour sélectionner un tetromino sur la grille
@@ -84,14 +129,14 @@ tetromino select_tetromino_on_grid(board my_board) {
     char input[100];
     int c = -1, r = -1;
     while (1) {
-        printf("Veuillez choisir un tetromino de la grille. Veuillez saisir un entier naturel pour le numéro de la colonne suivi par le numéro de ligne : \n");
+        printf("Veuillez choisir un tétromino de la grille. Veuillez saisir un entier naturel pour le numéro de la colonne suivi par le numéro de ligne : \n");
         fgets(input, sizeof(input), stdin);
         if (sscanf(input, "%d %d", &c, &r) == 2 && c >= 0 && r >= 0) {
             tetromino tet = get_tetromino(my_board, r, c);
             if (tet != NULL) {
                 return tet;
             } else {
-                printf("Aucun tetromino trouvé à cet emplacement. Veuillez réessayer.\n");
+                printf("Aucun tétromino trouvé à cet emplacement. Veuillez réessayer.\n");
             }
         } else {
             printf("Entrée invalide. Veuillez saisir deux entiers positifs séparés par un espace.\n");
@@ -114,7 +159,7 @@ tetromino select_tetromino_in_bag(board board) {
                     return tet[i];
                 }
             }
-            printf("tetromino avec cet identifiant non trouvé dans le sac. Veuillez réessayer.\n");
+            printf("identifiant de tétromino non trouvé dans le sac. Veuillez réessayer.\n");
         } else {
             printf("Entrée invalide. Veuillez saisir un entier positif.\n");
         }
@@ -126,7 +171,7 @@ tetromino select_tetromino_in_bag(board board) {
 void ask_place_tetromino(board board, int* r, int* c, tetromino tetromino) {
     char input[100];
     while (1) {
-        printf("Veuillez sélectionner une ligne et une colonne où placer le tetromino dans la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
+        printf("Veuillez sélectionner une colonne et une ligne où placer le tétromino sur la grille. Veuillez saisir un entier naturel pour le numéro de colonne suivi par le numéro de ligne : \n");
         fgets(input, sizeof(input), stdin);
         if (sscanf(input, "%d %d", c, r) == 2 && *c >= 0 && *r >= 0) {
             if (check_place_tetromino(board, *r, *c, tetromino)) {

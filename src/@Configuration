@@ -1,0 +1,24 @@
+@Configuration
+[RestClientPropertie]
+
+Configuration {
+  
+  @Primary
+  FolderService → RestFolderClient
+
+  @Primary
+  LoginHistoryService → RestLoginHistoryClient
+
+  ...
+}
+
+
+
+
+
+
+
+
+
+
+
