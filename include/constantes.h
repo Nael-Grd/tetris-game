@@ -1,0 +1,14 @@
+#ifndef CONSTANTES_H
+#define CONSTANTES_H
+
+#define SIZE_BOARD 8
+#define END_GAME 0
+#define PLACE_TETROMINO 1
+#define MOVE_TETROMINO 2
+#define ROTATE_TETROMINO 3
+#define ROTATE_AND_MOVE_TETROMINO 4
+#define NUM_ACTIONS 5
+#define TETROMINO_SIZE 5
+#define SIZE_BAG 4
+
+#endif
