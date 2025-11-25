@@ -1,4 +1,6 @@
 # Jeu deTétris
+<img width="1353" height="679" alt="image" src="https://github.com/user-attachments/assets/b3f47e31-7a2c-41fd-a092-af343eb3aad6" />
+
 
 Ce projet est une implémentation en langage C d'un jeu de Tétris utilisant un Makefile pour la gestion de la compilation.
 
