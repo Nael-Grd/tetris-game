@@ -6,7 +6,7 @@ Ce projet est une implémentation en langage C d'un jeu de Tétris utilisant un 
 
 ---
 
-## 🇫🇷 Documentation du Projet (Français)
+## 🇫🇷 Documentation du Projet (english bellow)
 
 ### À Propos du Projet
 
@@ -59,7 +59,7 @@ Toutes les commandes s'exécutent depuis le répertoire racine du projet.
 
 ---
 
-## 🇺🇸 Project Documentation (English)
+## 🇺🇸 Project Documentation 
 
 ### About the Project
 
