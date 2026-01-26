@@ -6,7 +6,7 @@ Ce projet est une implémentation en langage C d'un jeu de Tétris utilisant un 
 
 ---
 
-## 🇫🇷 Documentation du Projet (english bellow)
+## 🇫🇷 Documentation du Projet (english below)
 
 ### À Propos du Projet
 
