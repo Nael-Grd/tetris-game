@@ -6,7 +6,7 @@ Ce projet est une implémentation en langage C d'un jeu de Tétris utilisant un 
 
 ---
 
-## 🇫🇷 Documentation du Projet (english below)
+## *FR* Documentation du Projet (English below)
 
 ### À Propos du Projet
 
@@ -30,7 +30,7 @@ Toutes les commandes s'exécutent depuis le répertoire racine du projet.
     ```bash
     make
     ```
-    *Ceci génère l'exécutable principal dans le dossier `bin/` (Exemple : `bin/tetris`).*
+    *Ceci génère l'exécutable principal dans le dossier `bin/` (`bin/tetris`).*
 
 2.  **Exécuter le programme :**
     Lancez l'exécutable principal :
@@ -59,7 +59,7 @@ Toutes les commandes s'exécutent depuis le répertoire racine du projet.
 
 ---
 
-## 🇺🇸 Project Documentation 
+## *ENG* Project Documentation 
 
 ### About the Project
 
